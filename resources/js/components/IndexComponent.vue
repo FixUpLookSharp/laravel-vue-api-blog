@@ -8,6 +8,7 @@
                         <h2 class="mb-4">Latest Posts</h2>
                     </div>
                 </div>
+                <!-- sidebar -->
                 <div class="row blog-entries">
                     <posts-component></posts-component>
                     <div class="col-md-12 col-lg-4 sidebar">

@@ -1,7 +1,7 @@
 <template>
     <div>
         <nav class="mb-1 navbar navbar-expand-lg navbar-dark info-color nav-info-color">
-            <router-link class="navbar-brand" to="/"> Блог обовсем</router-link>
+            <router-link class="navbar-brand" to="/"> Блог обо всем</router-link>
             <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
                 <auth-component v-if="getAuthStatus"></auth-component>
                 <guest-component v-else></guest-component>

@@ -1,50 +1,62 @@
 <template>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header ">Логин</div>
-                    <div v-if="getErrorLogin.error" class="alert alert-danger">
-                        {{ getErrorLogin.error }}
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-right">E-Mail Адрес</label>
-                            <div class="col-md-6">
-                                <input type="email" class="form-control" :class="[getErrorLogin.email ? 'is-invalid' : '']" v-model="email"  required autocomplete="email">
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ getErrorLogin.email }}</strong>
-                                    </span>
-                            </div>
+            <div class="limiter">
+                <div class="container-login100">
+                    <div class="wrap-login100">
+                        <div class="login100-pic js-tilt" data-tilt>
+                            <img src="images/img-01.png" alt="IMG">
                         </div>
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-right">Пароль</label>
 
-                            <div class="col-md-6">
-                                <input type="password" class="form-control" :class="[getErrorLogin.password ? 'is-invalid' : '']" v-model="password" required autocomplete="current-password">
+                        <form class="login100-form" onclick="return false">
+                            <span class="login100-form-title">
+                                Авторизация
+                            </span>
+                            <div v-if="getErrorLogin.error" class="alert alert-danger">
+                                {{ getErrorLogin.error }}
+                            </div>
+                            <div class="wrap-input100">
+                                <input type="email" class="input100" :class="[getErrorLogin.email ? 'is-invalid' : '']" v-model="email"  placeholder="Email">
+                                <span class="focus-input100"></span>
+                                <span class="symbol-input100">
+                                    <i v-if="!getErrorLogin.email" class="fa fa-envelope" aria-hidden="true"></i>
+                                    <i v-else class="fa fa-envelope" style="padding-bottom: 42px" aria-hidden="true"></i>
+                                </span>
                                 <span class="invalid-feedback" role="alert">
-                                        <strong>{{ getErrorLogin.password }}</strong>
-                                    </span>
+                                    <strong>{{ getErrorLogin.email }}</strong>
+                                </span>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox"  v-model="remember">
-                                    <label class="form-check-label">Запомнить</label>
-                                </div>
+                            <div class="wrap-input100 validate-input" data-validate = "Password is required">
+                                <input type="password" class="input100" :class="[getErrorLogin.password ? 'is-invalid' : '']" v-model="password" placeholder="Password">
+                                <span class="focus-input100"></span>
+                                <span class="symbol-input100">
+                                    <i v-if="!getErrorLogin.password" class="fa fa-lock" aria-hidden="true"></i>
+                                    <i v-else style="padding-bottom: 22px" class="fa fa-lock" aria-hidden="true"></i>
+                                </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ getErrorLogin.password }}</strong>
+                                </span>
                             </div>
-                        </div>
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button @click="loginSubmit({email: email, password: password, remember: remember})" type="submit" class="btn btn-primary">
+                            <div class="container-login100-form-btn">
+                                <button @click="loginSubmit({email: email, password: password, remember: remember})" type="submit" class="login100-form-btn">
                                     Войти
                                 </button>
-                                <a class="btn btn-link">
-                                    Забыли пороль?
+                            </div>
+                            <div class="text-center p-t-12">
+                                <span class="txt1">
+                                    Забыли
+                                </span>
+                                <a class="txt2" href="#">
+                                    имя пользователя или пароль?
                                 </a>
                             </div>
-                        </div>
+                            <div class="text-center p-t-136">
+                                <a class="txt2" href="#">
+                                    Создать новый аккаунт
+                                    <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

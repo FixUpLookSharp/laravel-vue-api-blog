@@ -5,7 +5,6 @@ export default {
                 method: 'get',
                 url: 'api/V1/category'
             }).then((response) => {
-                console.log(response.data)
                 ctx.commit('SET_CATEGORY', response.data)
             })
         }

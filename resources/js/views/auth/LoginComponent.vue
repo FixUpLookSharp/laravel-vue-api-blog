@@ -8,7 +8,7 @@
                             <img src="images/img-01.png" alt="IMG">
                         </div>
 
-                        <form class="login100-form" onclick="return false">
+                        <div class="login100-form">
                             <span class="login100-form-title">
                                 Авторизация
                             </span>
@@ -26,7 +26,7 @@
                                     <strong>{{ getErrorLogin.email }}</strong>
                                 </span>
                             </div>
-                            <div class="wrap-input100 validate-input" data-validate = "Password is required">
+                            <div class="wrap-input100">
                                 <input type="password" class="input100" :class="[getErrorLogin.password ? 'is-invalid' : '']" v-model="password" placeholder="Password">
                                 <span class="focus-input100"></span>
                                 <span class="symbol-input100">
@@ -37,7 +37,15 @@
                                     <strong>{{ getErrorLogin.password }}</strong>
                                 </span>
                             </div>
-                            <div class="container-login100-form-btn">
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox"  v-model="remember">
+                                        <label class="form-check-label">Запомнить</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-login100-form-btn btn-padding">
                                 <button @click="loginSubmit({email: email, password: password, remember: remember})" type="submit" class="login100-form-btn">
                                     Войти
                                 </button>
@@ -51,12 +59,12 @@
                                 </a>
                             </div>
                             <div class="text-center p-t-136">
-                                <a class="txt2" href="#">
+                                <router-link class="txt2" :to="{name: 'register'}">
                                     Создать новый аккаунт
                                     <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
-                                </a>
+                                </router-link>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -91,6 +99,3 @@
     }
 </script>
 
-<style scoped>
-
-</style>

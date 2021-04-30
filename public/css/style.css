@@ -1724,6 +1724,10 @@ iframe {
     padding-top: 20px;
 }
 
+.btn-padding {
+    padding-top: 0;
+}
+
 .login100-form-btn {
     font-family: Montserrat-Bold;
     font-size: 15px;

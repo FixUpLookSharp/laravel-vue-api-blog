@@ -7,6 +7,7 @@ import store from './store'
 import LoginComponent from "./views/auth/LoginComponent";
 import RegisterComponent from "./views/auth/RegisterComponent";
 import IndexComponent from "./components/IndexComponent";
+import CreatePostComponent from "./views/posts/CreatePostComponent";
 export default new VueRouter({
     mode: 'history',
     routes: [
@@ -27,6 +28,19 @@ export default new VueRouter({
             path: '/register',
             name: 'register',
             component: RegisterComponent,
+            beforeEnter: (to, from, next) => {
+                if (store.getters.getAuth) {
+                    return next({
+                        name: 'index'
+                    })
+                }
+                next()
+            }
+        },
+        {
+            path: '/create/post',
+            name: 'createPost',
+            component: CreatePostComponent,
             beforeEnter: (to, from, next) => {
                 if (store.getters.getAuth) {
                     return next({

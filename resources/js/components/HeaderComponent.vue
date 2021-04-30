@@ -2,6 +2,10 @@
     <div>
         <nav class="mb-1 navbar navbar-expand-lg navbar-dark info-color nav-info-color">
             <router-link class="navbar-brand" to="/"> Блог обо всем</router-link>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"
+                    aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
                 <auth-component v-if="getAuthStatus"></auth-component>
                 <guest-component v-else></guest-component>
@@ -11,6 +15,8 @@
             <div class="container logo-wrap">
                 <div class="row pt-5">
                     <div class="col-12 text-center">
+                        <a style="padding-top: 15px" class="absolute-toggle d-block d-md-none" data-toggle="collapse" href="#navbarMenu" role="button" aria-expanded="false" aria-controls="navbarMenu"><span class="burger-lines"></span></a>
+
                         <h1 class="site-logo"><router-link style="text-decoration: none;" to="/">Блог обо Всем!</router-link></h1>
                     </div>
                 </div>
@@ -46,6 +52,9 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="contact.html">Contact</a>
+                            </li>
+                            <li v-if="getAuthStatus" class="nav-item">
+                                <a class="nav-link" href="contact.html">Написать пост</a>
                             </li>
                         </ul>
                     </div>

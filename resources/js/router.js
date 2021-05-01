@@ -8,9 +8,15 @@ import LoginComponent from "./views/auth/LoginComponent";
 import RegisterComponent from "./views/auth/RegisterComponent";
 import IndexComponent from "./components/IndexComponent";
 import CreatePostComponent from "./views/posts/CreatePostComponent";
+import NotFoundComponent from "./views/NotFoundComponent";
+import PostComponent from "./views/posts/PostComponent";
 export default new VueRouter({
     mode: 'history',
     routes: [
+        {
+            path: '*',
+            component: NotFoundComponent
+        },
         {
             path: '/login',
             name: 'login',
@@ -38,16 +44,16 @@ export default new VueRouter({
             }
         },
         {
-            path: '/create/post',
+            path: '/post/create',
             name: 'createPost',
             component: CreatePostComponent,
             beforeEnter: (to, from, next) => {
-                if (store.getters.getAuth) {
+                if (!store.getters.getAuth) {
                     return next({
                         name: 'index'
                     })
                 }
-                next()
+                return next()
             }
         },
         {
@@ -55,6 +61,7 @@ export default new VueRouter({
             name: 'index',
             component: IndexComponent
         },
+
 
 
     ],

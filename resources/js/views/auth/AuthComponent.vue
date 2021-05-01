@@ -34,6 +34,7 @@
             })
         },
         mounted() {
+
         },
         methods: {
             ...mapActions({

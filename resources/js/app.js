@@ -4,7 +4,13 @@ require('./bootstrap');
 import Vue from 'vue';
 import store from './store'
 import router from "./router";
+// markdown
+import 'v-markdown-editor/dist/v-markdown-editor.css';
+import Editor from 'v-markdown-editor'
+Vue.use(Editor);
 
+
+//carousel
 import { Swiper as SwiperClass, Pagination, Mousewheel, Autoplay, Navigation } from 'swiper/swiper.esm'
 import getAwesomeSwiper from 'vue-awesome-swiper/dist/exporter'
 SwiperClass.use([Pagination, Mousewheel, Autoplay, Navigation])
@@ -12,9 +18,10 @@ Vue.use(getAwesomeSwiper(SwiperClass))
 const { Swiper, SwiperSlide } = getAwesomeSwiper(SwiperClass)
 import 'swiper/swiper-bundle.css'
 
+//lang
 import i18n from './i18n'
 
-require('./store/subscriber') //импорт подписчика
+require('./store/subscriber')
 axios.default.baseURL = 'http://newblog.test/';
 
 

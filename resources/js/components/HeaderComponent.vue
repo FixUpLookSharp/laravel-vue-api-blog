@@ -54,7 +54,7 @@
                                 <a class="nav-link" href="contact.html">Contact</a>
                             </li>
                             <li v-if="getAuthStatus" class="nav-item">
-                                <a class="nav-link" href="contact.html">Написать пост</a>
+                                <router-link class="nav-link" :to="{name: 'createPost'}">Написать пост</router-link>
                             </li>
                         </ul>
                     </div>
@@ -70,7 +70,7 @@
     import GuestComponent from "../views/auth/GuestComponent";
     import { mapGetters, mapActions } from "vuex"
     export default {
-        components: {AuthComponent, GuestComponent},
+        components: {AuthComponent, GuestComponent,},
         data: function () {
           return {
               test: ''

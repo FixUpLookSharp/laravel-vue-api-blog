@@ -7,7 +7,7 @@ export default {
           await ctx.commit("updateLoginErrors", errors)
             await axios({
                 method: 'post',
-                url: 'api/auth/login',
+                url: '/api/auth/login',
                 data: {
                     email: data.email,
                     password: data.password,

@@ -11,7 +11,7 @@ export default {
             try {
                await axios({  // Get an authorized user
                     method: 'get',
-                    url: 'api/auth/profile'
+                    url: '/api/auth/profile'
                 }).then((response) => {
                     ctx.commit('SET_USER', response.data) // User commit
                 })
@@ -24,7 +24,7 @@ export default {
         async logout(ctx) {
           await axios({
               method: 'post',
-              url: 'api/auth/logout',
+              url: '/api/auth/logout',
           }).then((response) => {
               axios.defaults.headers.common['Authorization'] = null
               localStorage.removeItem('token')

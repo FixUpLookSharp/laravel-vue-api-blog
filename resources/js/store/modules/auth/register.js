@@ -6,7 +6,7 @@ export default {
            await ctx.commit("updateRegisterErrors", errors)
            await  axios({
                 method: 'post',
-                url: 'api/auth/register',
+                url: '/api/auth/register',
                 data: {
                     name: data.name,
                     email: data.email,

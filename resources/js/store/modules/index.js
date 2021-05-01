@@ -3,7 +3,7 @@ export default {
         async categoryAll(ctx) {
             await axios({
                 method: 'get',
-                url: 'api/V1/category'
+                url: '/api/V1/category'
             }).then((response) => {
                 ctx.commit('SET_CATEGORY', response.data)
             })

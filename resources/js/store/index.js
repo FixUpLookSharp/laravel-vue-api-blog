@@ -5,6 +5,7 @@ import register from "./modules/auth/register";
 import helpers from "./modules/helpers";
 import login from "./modules/auth/login";
 import index from "./modules";
+import createPost from "./modules/posts/createPost";
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -13,6 +14,7 @@ export default new Vuex.Store({
         register,
         helpers,
         login,
-        index
+        index,
+        createPost
     }
 })

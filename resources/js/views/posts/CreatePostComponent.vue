@@ -6,7 +6,7 @@
                     <div>
                         <div class="form-group has-error">
                             <label>Заголовок</label>
-                            <input type="text" class="form-control" name="title" />
+                            <input type="text" class="form-control" v-model="title" />
                         </div>
                         <div class="form-group">
                             <label>Выберите категорию</label>
@@ -20,7 +20,7 @@
                         </div>
                         <div class="form-group">
                             <label>Описание</label>
-                            <markdown-editor v-model="description"></markdown-editor>
+                            <vue-simplemde v-model="description" ref="markdownEditor" />
                         </div>
                         <div class="form-group">
                             <b-form-file
@@ -33,7 +33,6 @@
                         <div class="form-group">
                             <button @click="sendPost({
                             title: title,
-                            creator_id: creator_id,
                             category_id: category_id,
                             description: description,
                             short_description: short_description,
@@ -50,11 +49,13 @@
 
 <script>
     import {mapActions, mapGetters} from "vuex"
+    import VueSimplemde from 'vue-simplemde'
+
     export default {
+        components: {VueSimplemde},
         data: function () {
             return {
                 title: '',
-                creator_id: this.getAuth.id,
                 category_id: null,
                 description: '',
                 short_description: '',
@@ -67,13 +68,15 @@
                 getAuth: 'getAuth',
             })
         },
-
+        methods: {
+            ...mapActions({
+                sendPost: 'sendPost'
+            }),
+        }
 
     }
 </script>
 
 <style scoped>
-.mr-5 {
-    margin-right: 0 !important;
-}
+    @import '~simplemde/dist/simplemde.min.css';
 </style>

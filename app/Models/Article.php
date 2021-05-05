@@ -9,7 +9,7 @@ class Article extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'short_description', 'description', 'photo'];
+    protected $fillable = ['title', 'short_description', 'description', 'photo', 'path'];
 
     public function creator()
     {

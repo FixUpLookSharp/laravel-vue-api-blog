@@ -28,7 +28,7 @@ class ArticleCreateRequest extends FormRequest
             'category_id' => 'required|exists:article_categories,id',
             'short_description' => 'required|min:3|max:80',
             'description' => 'required|min:10',
-            'photo' => 'mimes:jpeg,bmp,png,jpg'
+            'photo' => 'required|mimes:jpg,jpeg,png|max:2048'
         ];
     }
 }

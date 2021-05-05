@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleCreateRequest;
 use Illuminate\Http\Request;
+use App\Models\Article;
+use App\helpers\MyHelper;
 
 
 class ArticleController extends Controller
@@ -17,15 +19,31 @@ class ArticleController extends Controller
 
     public function store(ArticleCreateRequest $request)
     {
+        $article = new Article();
 
-        $validated = $request->validated();
-        $res = [];
-        if ($validated) {
-            $res = ['dasd' => 'das'];
+        $creator_id = $request->input('creator_id');
+        $title = $request->input('title');
+        $category_id = $request->input('category_id');
+        $short_description = $request->input('short_description');
+        $description = $request->input('description');
+
+        if ($request->file()) {
+            $photo = $request->file('photo')->store('post', 'public');
         }
 
-        return response()->json(['val' => $validated, 'res' => $res, $request->all()]);
-//        return response()->json(['res' => 'store']);
+        $dir = MyHelper::translit_file($request->input('title'));
+
+        $article->category_id = $category_id;
+        $article->creator_id = $creator_id;
+        $article->title = $title;
+        $article->short_description = $short_description;
+        $article->description = $description;
+        $article->photo = $photo;
+        $article->dir = $dir;
+        $article->save();
+
+
+        return response()->json($article, 200);
 
     }
 

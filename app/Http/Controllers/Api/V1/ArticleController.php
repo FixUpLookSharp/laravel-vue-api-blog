@@ -18,6 +18,12 @@ class ArticleController extends Controller
         return response()->json(Article::paginate(10));
     }
 
+    public function show($title)
+    {
+        $article = Article::query()->where('dir', '=', $title)->first();
+        return response()->json($article);
+    }
+
     public function store(ArticleCreateRequest $request)
     {
         $article = new Article();

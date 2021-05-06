@@ -18,6 +18,11 @@ export default new VueRouter({
             component: NotFoundComponent
         },
         {
+            path: '/',
+            name: 'index',
+            component: IndexComponent
+        },
+        {
             path: '/login',
             name: 'login',
             component: LoginComponent,
@@ -57,10 +62,13 @@ export default new VueRouter({
             }
         },
         {
-            path: '/',
-            name: 'index',
-            component: IndexComponent
+            path: '/post/:id',
+            name: 'post',
+            component: PostComponent,
+
         },
+
+
 
 
 

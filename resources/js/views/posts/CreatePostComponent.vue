@@ -64,7 +64,7 @@
         </div>
 </template>
 <script>
-    import {mapActions, mapGetters, } from "vuex"
+    import {mapActions, mapGetters, mapMutations} from "vuex"
     import VueSimplemde from 'vue-simplemde'
 
     export default {
@@ -93,8 +93,32 @@
             ...mapActions({
                 sendPost: 'sendPost'
             }),
+            ...mapMutations({
+                updateErrorTitle: 'updateErrorTitle',
+                updateErrorShortDescription: 'updateErrorShortDescription',
+                updateErrorPhoto: 'updateErrorPhoto',
+                updateErrorCategoryId: 'updateErrorCategoryId',
+                updateErrorDescription: 'updateErrorDescription'
+            })
         },
 
+        watch: {
+            title: function (e) {
+                this.updateErrorTitle(null)
+            },
+            category_id: function (e) {
+                this.updateErrorCategoryId(null)
+            },
+            description: function (e) {
+                this.updateErrorDescription(null)
+            },
+            short_description: function (e) {
+                this.updateErrorShortDescription(null)
+            },
+            photo: function (e) {
+                this.updateErrorPhoto(null)
+            }
+        }
     }
 </script>
 

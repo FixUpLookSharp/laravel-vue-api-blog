@@ -38,7 +38,7 @@ Route::group(
     ],
 
     function () {
-        Route::get('category', 'IndexController@showCategory');
+        Route::get('category', 'ArticleCategoryController@show');
         Route::resource('article', 'ArticleController', [
             'except' => ['edit', 'show', 'create']
         ]);

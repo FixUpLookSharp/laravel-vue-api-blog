@@ -7,6 +7,7 @@ use App\Http\Requests\ArticleCreateRequest;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use App\helpers\MyHelper;
+use Illuminate\Support\Facades\Auth;
 
 
 class ArticleController extends Controller
@@ -14,7 +15,7 @@ class ArticleController extends Controller
 
     public function index()
     {
-        return response()->json(['res' => 'index']);
+        return response()->json(Article::paginate(10));
     }
 
     public function store(ArticleCreateRequest $request)
@@ -42,8 +43,7 @@ class ArticleController extends Controller
         $article->dir = $dir;
         $article->save();
 
-
-        return response()->json($article, 200);
+        return response()->json(Auth::user(), 200);
 
     }
 

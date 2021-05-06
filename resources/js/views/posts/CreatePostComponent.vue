@@ -5,30 +5,47 @@
                     <h1>Написать пост</h1>
                     <div>
                         <div class="form-group has-error">
-                            <label>Заголовок</label>
-                            <input type="text" class="form-control" v-model="title" />
+                            <label>Наименование</label>
+                            <input  :class="[getErrorTitle ? 'is-invalid' : '']" type="text" class="form-control" v-model="title"/>
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ getErrorTitle }}</strong>
+                            </span>
                         </div>
                         <div class="form-group">
                             <label>Выберите категорию</label>
-                            <select v-model="category_id" class="form-control">
+                            <select :class="[getErrorCategoryId ? 'is-invalid' : '']" v-model="category_id" class="form-control">
                                 <option v-for="categories in getCategories" :value="categories.id" >{{ $t(categories.name) }}</option>
                             </select>
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{$t(getErrorCategoryId)}}</strong>
+                            </span>
                         </div>
                         <div class="form-group">
                             <label>Краткое описание</label>
-                            <textarea rows="3" class="form-control" v-model="short_description" ></textarea>
+                            <textarea :class="[getErrorShortDescription ? 'is-invalid' : '']" rows="3" class="form-control" v-model="short_description" ></textarea>
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{$t(getErrorShortDescription)}}</strong>
+                            </span>
                         </div>
                         <div class="form-group">
                             <label>Описание</label>
-                            <vue-simplemde v-model="description" ref="markdownEditor" />
+                            <vue-simplemde :class="[getErrorDescription ? 'is-invalid' : '']" v-model="description" ref="markdownEditor" />
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ getErrorDescription }}</strong>
+                            </span>
                         </div>
                         <div class="form-group">
+                            <label>Изображение поста</label>
                             <b-form-file
+                                :class="[getErrorPhoto ? 'is-invalid' : '']"
                                 v-model="photo"
                                 :state="Boolean(photo)"
                                 placeholder="Выберите файл или перетащите сюда ..."
                                 drop-placeholder="Перетащите файл сюда ..."
                             ></b-form-file>
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{$t(getErrorPhoto)}}</strong>
+                            </span>
                         </div>
                         <div class="form-group">
                             <button @click="sendPost({
@@ -47,7 +64,7 @@
         </div>
 </template>
 <script>
-    import {mapActions, mapGetters} from "vuex"
+    import {mapActions, mapGetters, } from "vuex"
     import VueSimplemde from 'vue-simplemde'
 
     export default {
@@ -65,13 +82,18 @@
             ...mapGetters({
                 getCategories: 'getCategories',
                 getAuth: 'getAuth',
-            })
+                getErrorShortDescription: 'getErrorShortDescription',
+                getErrorCategoryId: 'getErrorCategoryId',
+                getErrorPhoto: 'getErrorPhoto',
+                getErrorTitle: 'getErrorTitle',
+                getErrorDescription: "getErrorDescription"
+            }),
         },
         methods: {
             ...mapActions({
                 sendPost: 'sendPost'
             }),
-        }
+        },
 
     }
 </script>

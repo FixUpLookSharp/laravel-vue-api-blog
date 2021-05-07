@@ -27,6 +27,7 @@
     "dependencies": {
         "@kangc/v-md-editor": "^1.6.2",
         "bootstrap-vue": "^2.21.2",
+        "moment": "^2.29.1",
         "simplemde-theme-base": "^0.2.1",
         "swiper": "^6.5.7",
         "v-markdown-editor": "^1.2.6",

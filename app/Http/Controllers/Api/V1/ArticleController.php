@@ -15,7 +15,7 @@ class ArticleController extends Controller
 
     public function index()
     {
-        return response()->json(Article::paginate(10));
+        return response()->json(Article::paginate(1));
     }
 
     public function show($title)
@@ -36,7 +36,6 @@ class ArticleController extends Controller
         $creator_id = $request->input('creator_id');
         $title = $request->input('title');
         $category_id = $request->input('category_id');
-        $short_description = $request->input('short_description');
         $description = $request->input('description');
 
         if ($request->file()) {
@@ -48,13 +47,12 @@ class ArticleController extends Controller
         $article->category_id = $category_id;
         $article->creator_id = $creator_id;
         $article->title = $title;
-        $article->short_description = $short_description;
         $article->description = $description;
         $article->photo = $photo;
         $article->dir = $dir;
         $article->save();
 
-        return response()->json(Auth::user(), 200);
+        return response()->json($article, 200);
 
     }
 

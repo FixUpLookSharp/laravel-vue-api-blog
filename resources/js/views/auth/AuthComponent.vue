@@ -1,9 +1,5 @@
 <template>
     <ul class="navbar-nav ml-auto">
-<!--        <li class="nav-item">-->
-<!--            <a v-if="getAuth.is_admin" class="nav-link" href="#">-->
-<!--                <i class="fab fa-instagram"></i> Админ панель</a>-->
-<!--        </li>-->
         <li class="nav-item avatar">
             <a class="nav-link p-0" href="#">
                 <img :src="getPrefixUrlPhoto + getAuth.photo" class="rounded-circle z-depth-0"

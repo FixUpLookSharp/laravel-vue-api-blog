@@ -22,18 +22,15 @@ export default {
                     console.log(res.data);
                 })
                 .catch(function (err) {
-                    let short_description = {}
                     let title = {}
                     let category_id = {}
                     let description = {}
                     let photo = {}
                     title = err.response.data.errors.title ? err.response.data.errors.title[0] : null
                     category_id = err.response.data.errors.category_id ? 'errors.' + 'category' : null
-                    short_description = err.response.data.errors.short_description ? 'errors.' + 'short_description' : null
                     description = err.response.data.errors.description ? err.response.data.errors.description[0] : null
                     photo = err.response.data.errors.photo ? 'errors.' + 'photo' : null
 
-                    ctx.commit("updateErrorShortDescription", short_description)
                     ctx.commit("updateErrorCategoryId", category_id)
                     ctx.commit("updateErrorPhoto", photo)
                     ctx.commit("updateErrorTitle", title)
@@ -43,9 +40,6 @@ export default {
         }
     },
     mutations: {
-        updateErrorShortDescription(state, short_description) {
-            state.short_description = short_description
-        },
         updateErrorCategoryId(state, category_id) {
             state.category_id = category_id
         },
@@ -60,16 +54,12 @@ export default {
         },
     },
     state: {
-        short_description: null,
         category_id: null,
         photo: null,
         title: null,
         description: null,
     },
     getters: {
-        getErrorShortDescription(state) {
-            return state.short_description
-        },
         getErrorCategoryId(state) {
             return state.category_id
         },

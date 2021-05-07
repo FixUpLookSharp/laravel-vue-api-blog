@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>Not found</h2>
+        <h2>Страница не существует</h2>
     </div>
 </template>
 

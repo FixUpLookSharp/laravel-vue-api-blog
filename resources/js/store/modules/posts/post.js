@@ -2,8 +2,7 @@ import router from "../../../router";
 
 export default {
     actions: {
-        async showPost(ctx, title)
-        {
+        async showPost(ctx, title) {
            await axios({
                method: 'get',
                url: '/api/V1/article/' + title,
@@ -12,12 +11,10 @@ export default {
                ctx.commit('updatePost', response.data)
 
            }).catch(err => {
-               console.log(err.response.data)
-                    ctx.commit('updatePost', false)
-               router.push('/404')
+               ctx.commit('updatePost', false)
+               router.push('/')
            })
-
-        }
+        },
     },
     mutations: {
         updatePost(state, post) {

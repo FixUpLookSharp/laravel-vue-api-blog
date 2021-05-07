@@ -21,13 +21,6 @@
                             </span>
                         </div>
                         <div class="form-group">
-                            <label>Краткое описание</label>
-                            <textarea :class="[getErrorShortDescription ? 'is-invalid' : '']" rows="3" class="form-control" v-model="short_description" ></textarea>
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{$t(getErrorShortDescription)}}</strong>
-                            </span>
-                        </div>
-                        <div class="form-group">
                             <label>Описание</label>
                             <vue-simplemde :class="[getErrorDescription ? 'is-invalid' : '']" v-model="description" ref="markdownEditor" />
                             <span class="invalid-feedback" role="alert">
@@ -82,7 +75,6 @@
             ...mapGetters({
                 getCategories: 'getCategories',
                 getAuth: 'getAuth',
-                getErrorShortDescription: 'getErrorShortDescription',
                 getErrorCategoryId: 'getErrorCategoryId',
                 getErrorPhoto: 'getErrorPhoto',
                 getErrorTitle: 'getErrorTitle',
@@ -95,7 +87,6 @@
             }),
             ...mapMutations({
                 updateErrorTitle: 'updateErrorTitle',
-                updateErrorShortDescription: 'updateErrorShortDescription',
                 updateErrorPhoto: 'updateErrorPhoto',
                 updateErrorCategoryId: 'updateErrorCategoryId',
                 updateErrorDescription: 'updateErrorDescription'
@@ -111,9 +102,6 @@
             },
             description: function (e) {
                 this.updateErrorDescription(null)
-            },
-            short_description: function (e) {
-                this.updateErrorShortDescription(null)
             },
             photo: function (e) {
                 this.updateErrorPhoto(null)

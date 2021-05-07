@@ -24,9 +24,8 @@ class ArticleCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|min:4|max:50|unique:articles',
+            'title' => 'required|min:4|max:500|unique:articles',
             'category_id' => 'required|exists:article_categories,id',
-            'short_description' => 'required|min:3|max:80',
             'description' => 'required|min:10',
             'photo' => 'required|mimes:jpg,jpeg,png|max:2048'
         ];

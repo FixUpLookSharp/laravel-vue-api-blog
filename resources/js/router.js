@@ -16,7 +16,12 @@ export default new VueRouter({
         {
             path: '*',
             name: 'notFound',
-            component: NotFoundComponent
+            component: NotFoundComponent,
+            beforeEnter: (to, from, next) => {
+                    return next({
+                        name: 'index'
+                    })
+            }
         },
         {
             path: '/',

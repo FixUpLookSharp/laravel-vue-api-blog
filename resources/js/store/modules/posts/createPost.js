@@ -1,8 +1,6 @@
 export default {
     actions: {
         async sendPost(ctx, data) {
-            // let errors = { title: null, short_description: null, description: null }
-            // await ctx.commit("updatePostErrors", errors)
          let creator_id = await ctx.getters.getAuth.id
             data.creator_id = creator_id
             const config = {

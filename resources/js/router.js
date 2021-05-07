@@ -15,6 +15,7 @@ export default new VueRouter({
     routes: [
         {
             path: '*',
+            name: 'notFound',
             component: NotFoundComponent
         },
         {
@@ -67,9 +68,6 @@ export default new VueRouter({
             component: PostComponent,
 
         },
-
-
-
 
 
     ],

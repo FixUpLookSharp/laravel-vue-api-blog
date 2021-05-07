@@ -30,7 +30,7 @@
 </head>
 <body>
 <div id="app" class="wrap">
-        <header-component></header-component>
+    <header-component></header-component>
         <main class="container">
             <router-view></router-view>
         </main>

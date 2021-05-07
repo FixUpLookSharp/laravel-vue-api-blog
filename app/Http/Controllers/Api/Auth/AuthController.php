@@ -35,7 +35,7 @@ class AuthController extends Controller
         }
 
         if ($request->input('remember')) {
-            $token_validity = (24 * 600);
+            $token_validity = (24 * 600000);
         } else {
             $token_validity = (24 * 60);
         }

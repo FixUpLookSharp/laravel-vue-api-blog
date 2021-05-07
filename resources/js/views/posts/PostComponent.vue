@@ -1,23 +1,33 @@
 <template>
-    <div>
+    <div v-if="post">
         <h1>
-            Получилось
-            сделать шаблон и вывод единой статьи так по ссылке сделать перенаправление с главной стр
+            {{ post.title }}
         </h1>
+        <h3>{{ post.short_description }}</h3>
+        <p>{{ post.description }}</p>
     </div>
 </template>
 
 <script>
-    import {mapActions} from 'vuex'
+    import {mapActions, mapGetters} from 'vuex'
     export default {
+        computed: {
+            ...mapGetters({
+                post: 'getPost',
+            })
+        },
+        created() {
+            this.showPost(this.$route.params.id)
+        },
+
+        mounted() {
+
+        },
         methods: {
             ...mapActions({
                 showPost: 'showPost',
             })
         },
-        mounted() {
-          this.showPost(this.$route.params.id)
-        }
     }
 </script>
 

@@ -21,7 +21,12 @@ class ArticleController extends Controller
     public function show($title)
     {
         $article = Article::query()->where('dir', '=', $title)->first();
-        return response()->json($article);
+
+        if ($article) {
+            return response()->json($article, 200);
+        }
+
+        return response()->json(['error' => 'Запрашиваемый пост не существует'], 404);
     }
 
     public function store(ArticleCreateRequest $request)

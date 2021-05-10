@@ -6,7 +6,7 @@ import store from './store'
 
 import LoginComponent from "./views/auth/LoginComponent";
 import RegisterComponent from "./views/auth/RegisterComponent";
-import IndexComponent from "./components/IndexComponent";
+import IndexComponent from "./views/index/IndexComponent";
 import CreatePostComponent from "./views/posts/CreatePostComponent";
 import NotFoundComponent from "./views/NotFoundComponent";
 import PostComponent from "./views/posts/PostComponent";

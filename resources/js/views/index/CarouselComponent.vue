@@ -4,60 +4,61 @@
             <div class="row">
                 <div class="col-md-12">
                     <swiper ref="mySwiper" :options="swiperOptions">
-                        <swiper-slide>
+                        <swiper-slide v-for="post in posts" :key="post.id">
                             <div>
-                                <a href="blog-single.html" class="a-block d-flex align-items-center height-lg" style="background-image: url('images/img_1.jpg'); ">
+                                <a href="blog-single.html" class="a-block d-flex align-items-center height-lg" style="background-image: url('/images/img_1.jpg')">
                                     <div class="text half-to-full">
-                                        <span class="category mb-5">Food</span>
+                                        <span class="category mb-5">{{ $t(post.category_name) }}</span>
                                         <div class="post-meta">
 
-                                            <span class="author mr-2"><img src="images/person_1.jpg" alt="Colorlib"> Colorlib</span>&bullet;
-                                            <span class="mr-2">March 15, 2018 </span> &bullet;
-                                            <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
+                                            <span class="author mr-2"><img :src="getPrefixUrlPhoto + post.creator.photo" alt="Colorlib"> {{ post.creator.name }}</span>&bullet;
+                                            <span class="mr-2">{{ moment(post.created_at).format("DD MM YYYY") }}</span> &bullet;
+                                            <span class="ml-2"><span class="fa fa-comments"></span> {{ post.count_comments }}</span>
 
                                         </div>
-                                        <h3>How to Find the Video Games of Your Youth</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nobis, ut dicta eaque ipsa laudantium!</p>
+                                        <h3>{{ post.title }}</h3>
+<!--                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nobis, ut dicta eaque ipsa laudantium!</p>-->
                                     </div>
                                 </a>
                             </div>
                         </swiper-slide>
-                        <swiper-slide>
-                            <div>
-                                <a href="blog-single.html" class="a-block d-flex align-items-center height-lg" style="background-image: url('images/img_2.jpg'); ">
-                                    <div class="text half-to-full">
-                                        <span class="category mb-5">Travel</span>
-                                        <div class="post-meta">
 
-                                            <span class="author mr-2"><img src="images/person_1.jpg" alt="Colorlib"> Colorlib</span>&bullet;
-                                            <span class="mr-2">March 15, 2018 </span> &bullet;
-                                            <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
+<!--                        <swiper-slide>-->
+<!--                            <div>-->
+<!--                                <a href="blog-single.html" class="a-block d-flex align-items-center height-lg" style="background-image: url('images/img_2.jpg'); ">-->
+<!--                                    <div class="text half-to-full">-->
+<!--                                        <span class="category mb-5">Travel</span>-->
+<!--                                        <div class="post-meta">-->
 
-                                        </div>
-                                        <h3>How to Find the Video Games of Your Youth</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nobis, ut dicta eaque ipsa laudantium!</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </swiper-slide>
-                        <swiper-slide>
-                            <div>
-                                <a href="blog-single.html" class="a-block d-flex align-items-center height-lg" style="background-image: url('images/img_3.jpg'); ">
-                                    <div class="text half-to-full">
-                                        <span class="category mb-5">Sports</span>
-                                        <div class="post-meta">
+<!--                                            <span class="author mr-2"><img src="images/person_1.jpg" alt="Colorlib"> Colorlib</span>&bullet;-->
+<!--                                            <span class="mr-2">March 15, 2018 </span> &bullet;-->
+<!--                                            <span class="ml-2"><span class="fa fa-comments"></span> 3</span>-->
 
-                                            <span class="author mr-2"><img src="images/person_1.jpg" alt="Colorlib"> Colorlib</span>&bullet;
-                                            <span class="mr-2">March 15, 2018 </span> &bullet;
-                                            <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
+<!--                                        </div>-->
+<!--                                        <h3>How to Find the Video Games of Your Youth</h3>-->
+<!--                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nobis, ut dicta eaque ipsa laudantium!</p>-->
+<!--                                    </div>-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                        </swiper-slide>-->
+<!--                        <swiper-slide>-->
+<!--                            <div>-->
+<!--                                <a href="blog-single.html" class="a-block d-flex align-items-center height-lg" style="background-image: url('images/img_3.jpg'); ">-->
+<!--                                    <div class="text half-to-full">-->
+<!--                                        <span class="category mb-5">Sports</span>-->
+<!--                                        <div class="post-meta">-->
 
-                                        </div>
-                                        <h3>How to Find the Video Games of Your Youth</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nobis, ut dicta eaque ipsa laudantium!</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </swiper-slide>
+<!--                                            <span class="author mr-2"><img src="images/person_1.jpg" alt="Colorlib"> Colorlib</span>&bullet;-->
+<!--                                            <span class="mr-2">March 15, 2018 </span> &bullet;-->
+<!--                                            <span class="ml-2"><span class="fa fa-comments"></span> 3</span>-->
+
+<!--                                        </div>-->
+<!--                                        <h3>How to Find the Video Games of Your Youth</h3>-->
+<!--                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nobis, ut dicta eaque ipsa laudantium!</p>-->
+<!--                                    </div>-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                        </swiper-slide>-->
                         <div class="swiper-pagination" slot="pagination"></div>
                         <div class="swiper-button-prev" slot="button-prev"></div>
                         <div class="swiper-button-next" slot="button-next"></div>
@@ -69,7 +70,10 @@
 </template>
 
 <script>
-    import { Swiper, SwiperSlide, } from 'vue-awesome-swiper'
+    import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
+    import { mapActions, mapGetters } from 'vuex'
+    import moment from "moment";
+
     export default {
         data() {
             return {
@@ -88,11 +92,26 @@
                     navigation: {
                         nextEl: '.swiper-button-next',
                         prevEl: '.swiper-button-prev'
-                    }
-                }
+                    },
+                },
+                moment: moment,
             }
         },
         components: {Swiper, SwiperSlide},
+        computed: {
+            ...mapGetters({
+                posts: 'getTopPosts',
+                getPrefixUrlPhoto: 'getPrefixUrlPhoto',
+            })
+        },
+        created() {
+            this.topPosts()
+        },
+        methods: {
+            ...mapActions({
+                topPosts: 'topPosts'
+            }),
+        }
     }
 </script>
 

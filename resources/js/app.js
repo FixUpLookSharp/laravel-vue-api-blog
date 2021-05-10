@@ -37,6 +37,9 @@ Vue.component('header-component', require('./components/HeaderComponent.vue').de
 //footer
 Vue.component('footer-component', require('./components/FooterComponent.vue').default);
 
+//pagination
+Vue.component('paginate-component', require('laravel-vue-pagination'));
+
 store.dispatch('attemptUser', localStorage.getItem('token')).then(() => {
     const app = new Vue({
         el: '#app',

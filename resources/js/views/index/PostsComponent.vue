@@ -1,8 +1,7 @@
 <template>
     <div class="col-md-12 col-lg-8 main-content">
         <div class="row">
-            <div v-for="post in posts" class="col-md-6">
-
+            <div v-for="post in posts.data" :key="post.id" class="col-md-6">
                     <div class="blog-entry">
                         <router-link :to="{name: 'post', params:{ id: post.dir}}" class="postIndex">
                         <img :src="getPrefixUrlPhoto + post.photo" alt="Image placeholder">
@@ -22,12 +21,7 @@
         </div>
         <div class="row mt-5">
             <div class="col-md-12 text-center">
-                <nav aria-label="Page navigation" class="text-center">
-                    <ul class="pagination">
-                        <li v-for="paginate in pagination.links" :class="{active: paginate.active}" class="page-item"><a class="page-link" href="#">{{ paginate.label }}</a></li>
-                    </ul>
-                    <a @click="test">trxt</a>
-                </nav>
+                <paginate-component :data="posts" :limit="1" :show-disabled="true" :align="'center'" @pagination-change-page="allPosts"></paginate-component>
             </div>
         </div>
     </div>
@@ -42,26 +36,26 @@
         data: function() {
             return {
                 moment: moment,
+                posts: {},
             }
         },
         computed: {
             ...mapGetters({
-                posts: 'getPosts',
-                pagination: 'getPagination',
                 auth: 'getAuth',
                 getPrefixUrlPhoto: 'getPrefixUrlPhoto',
             })
         },
-        mounted() {
+        created() {
             this.allPosts()
-            this.perPage
         },
         methods: {
-            ...mapActions({
-                allPosts: 'allPosts'
-            }),
-            test(){
-                console.log(this.pagination)
+           async allPosts(page = 1) {
+               await axios({
+                    method: 'get',
+                    url: '/api/V1/article?page=' + page
+                }).then((response) => {
+                        this.posts = response.data
+                })
             }
         },
 

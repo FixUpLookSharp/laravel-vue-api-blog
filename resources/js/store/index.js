@@ -7,7 +7,6 @@ import login from "./modules/auth/login";
 import categories from "./modules/index/categories";
 import createPost from "./modules/posts/createPost";
 import post from "./modules/posts/post";
-import posts from "./modules/index/posts";
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -19,6 +18,5 @@ export default new Vuex.Store({
         createPost,
         post,
         categories,
-        posts
     }
 })

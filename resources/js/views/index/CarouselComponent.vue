@@ -6,7 +6,7 @@
                     <swiper ref="mySwiper" :options="swiperOptions">
                         <swiper-slide v-for="post in posts" :key="post.id">
                             <div>
-                                <a href="blog-single.html" class="a-block d-flex align-items-center height-lg" style="background-image: url('/images/img_1.jpg')">
+                                <div class="a-block d-flex align-items-center height-lg" :style="{ 'background-image': 'url(' + getPrefixUrlPhoto + post.photo + ')' }">
                                     <div class="text half-to-full">
                                         <span class="category mb-5">{{ $t(post.category_name) }}</span>
                                         <div class="post-meta">
@@ -16,10 +16,12 @@
                                             <span class="ml-2"><span class="fa fa-comments"></span> {{ post.count_comments }}</span>
 
                                         </div>
-                                        <h3>{{ post.title }}</h3>
+                                        <router-link :to="{name: 'post', params:{ id: post.dir}}" class="postIndex">
+                                            <h4>{{ post.title }}</h4>
+                                        </router-link>
 <!--                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nobis, ut dicta eaque ipsa laudantium!</p>-->
                                     </div>
-                                </a>
+                                </div>
                             </div>
                         </swiper-slide>
 
@@ -127,5 +129,9 @@
     .swiper-button-disabled {
         opacity: 0 !important;
     }
+     .postIndex {
+         text-decoration: none;
+         color: white;
+     }
 </style>
 

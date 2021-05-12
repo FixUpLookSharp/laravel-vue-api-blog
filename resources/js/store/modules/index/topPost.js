@@ -5,7 +5,6 @@ export default {
                 method: 'get',
                 url: '/api/V1/index/top-post'
             }).then((response) => {
-                console.log(response.data)
                 ctx.commit('SET_TOP_POSTS', response.data)
             })
         },

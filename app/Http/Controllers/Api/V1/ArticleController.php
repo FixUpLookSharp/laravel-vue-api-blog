@@ -22,8 +22,24 @@ class ArticleController extends Controller
     {
         $article = Article::query()->where('dir', '=', $title)->first();
 
-        if ($article) {
-            return response()->json($article, 200);
+        $newArticle = [
+            'id' => $article->id,
+            'title' => $article->title,
+            'likes_count' => $article->likes_count,
+            'photo' => $article->photo,
+            'created_at' => $article->created_at,
+            'category_name'=> $article->category->name,
+            'description' => $article->description,
+            'creator' => [
+                'id' => $article->creator->id,
+                'photo' => $article->creator->photo,
+                'name' => $article->creator->name,
+            ],
+            'count_comments' => count($article->comments)
+        ];
+
+        if ($newArticle) {
+            return response()->json($newArticle, 200);
         }
 
         return response()->json(['error' => 'Запрашиваемый пост не существует'], 404);

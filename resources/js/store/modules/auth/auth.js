@@ -3,6 +3,7 @@ export default {
     actions: {
         async attemptUser(ctx, token) {  // Accepts a token from registration and login
             if (token) {
+                ctx.commit('SET_LINK', 'main')
                 ctx.commit('SET_TOKEN', token)
             }
             if (!ctx.state.token) { // If the user is not logged in, stop the code
@@ -27,6 +28,8 @@ export default {
               url: '/api/auth/logout',
           }).then((response) => {
               axios.defaults.headers.common['Authorization'] = null
+              localStorage.removeItem('link')
+              ctx.commit('SET_LINK', null)
               localStorage.removeItem('token')
               ctx.commit('SET_TOKEN', null)
               ctx.commit('SET_USER', null)

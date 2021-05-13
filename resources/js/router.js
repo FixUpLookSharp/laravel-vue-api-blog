@@ -18,6 +18,7 @@ export default new VueRouter({
             name: 'notFound',
             component: NotFoundComponent,
             beforeEnter: (to, from, next) => {
+                localStorage.setItem('link', 'main');
                     return next({
                         name: 'index'
                     })
@@ -26,7 +27,12 @@ export default new VueRouter({
         {
             path: '/',
             name: 'index',
-            component: IndexComponent
+            component: IndexComponent,
+            beforeEnter: (to, from, next) => {
+                localStorage.setItem('link', 'main');
+                next()
+            }
+
         },
         {
             path: '/login',
@@ -34,10 +40,12 @@ export default new VueRouter({
             component: LoginComponent,
             beforeEnter: (to, from, next) => {
                 if (store.getters.getAuth) {
+                    localStorage.setItem('link', 'main');
                     return next({
                         name: 'index'
                     })
                 }
+                localStorage.removeItem('link')
                 next()
             }
         },
@@ -47,10 +55,12 @@ export default new VueRouter({
             component: RegisterComponent,
             beforeEnter: (to, from, next) => {
                 if (store.getters.getAuth) {
+                    localStorage.setItem('link', 'main');
                     return next({
                         name: 'index'
                     })
                 }
+                localStorage.removeItem('link')
                 next()
             }
         },
@@ -60,10 +70,12 @@ export default new VueRouter({
             component: CreatePostComponent,
             beforeEnter: (to, from, next) => {
                 if (!store.getters.getAuth) {
+                    localStorage.setItem('link', 'main');
                     return next({
                         name: 'index'
                     })
                 }
+                localStorage.setItem('link', 'post');
                 return next()
             }
         },

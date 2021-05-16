@@ -8,9 +8,11 @@
                         </router-link>
                         <div class="blog-content-body">
                             <div class="post-meta">
-                                <span class="author mr-2"><img :src="getPrefixUrlPhoto + auth.photo" alt="Colorlib"> {{ auth.name }}</span>&bullet;
+                                <span class="author mr-2"><img :src="getPrefixUrlPhoto + post.creator.photo" alt="Colorlib"> {{ post.creator.name }}</span>&bullet;
                                 <span class="mr-2">{{ moment(post.created_at).format("DD MM YYYY") }}</span> &bullet;
-                                <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
+                                <span class="ml-2"><span class="fa fa-comments"></span> {{ post.count_comments }}</span>
+                                <span class="ml-2"><span class="fa fa-thumbs-up"></span> {{ post.likes_count }}</span>
+
                             </div>
                             <router-link :to="{name: 'post', params:{ id: post.dir}}" class="postIndex">
                             <h2>{{ post.title }}</h2>

@@ -6,16 +6,35 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleCreateRequest;
 use Illuminate\Http\Request;
 use App\Models\Article;
-use App\helpers\MyHelper;
-use Illuminate\Support\Facades\Auth;
-
+use App\Helpers\MyHelper;
 
 class ArticleController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Article::paginate(8));
+        $articles = Article::all()->map(function ($article) {
+            $res = [
+                'id' => $article->id,
+                'title' => $article->title,
+                'dir' => $article->dir,
+                'likes_count' => $article->likes_count,
+                'photo' => $article->photo,
+                'created_at' => $article->created_at,
+                'category_name'=> $article->category->name,
+                'creator' => [
+                    'id' => $article->creator->id,
+                    'photo' => $article->creator->photo,
+                    'name' => $article->creator->name,
+                ],
+                'count_comments' => count($article->comments)
+            ];
+
+            return $res;
+        });
+
+        $page = $request->input('page');
+        return response()->json(MyHelper::getPaginator($articles, 8, $page), 200);
     }
 
     public function show($title)
@@ -81,4 +100,6 @@ class ArticleController extends Controller
     {
         //
     }
+
+
 }

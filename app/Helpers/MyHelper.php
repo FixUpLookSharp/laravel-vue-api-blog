@@ -1,9 +1,9 @@
 <?php
 
 
-namespace App\helpers;
+namespace App\Helpers;
 
-
+use Illuminate\Pagination\LengthAwarePaginator;
 class MyHelper
 {
     public static function translit_file($filename)
@@ -23,7 +23,7 @@ class MyHelper
             'О' => 'O', 'П' => 'P', 'Р' => 'R', 'С' => 'S', 'Т' => 'T',
             'У' => 'U', 'Ф' => 'F', 'Х' => 'H', 'Ц' => 'C', 'Ч' => 'Ch',
             'Ш' => 'Sh', 'Щ' => 'Sch', 'Ь' => '', 'Ы' => 'Y', 'Ъ' => '',
-            'Э' => 'E', 'Ю' => 'Yu', 'Я' => 'Ya',
+            'Э' => 'E', 'Ю' => 'Yu', 'Я' => 'Ya', '#' => 'Number-', '—' => '-'
         );
 
         $new = '';
@@ -46,6 +46,19 @@ class MyHelper
         }
 
         return $new;
+    }
+
+    public static function getPaginator($articles, $perPage, $page = 1) {
+
+        return new LengthAwarePaginator(
+            $articles->slice(($page - 1) * $perPage, $perPage),
+            $articles->count(),
+            $perPage,
+            $page,
+            [
+                'path' => \Illuminate\Pagination\Paginator::resolveCurrentPath()
+            ]
+        );
     }
 
 

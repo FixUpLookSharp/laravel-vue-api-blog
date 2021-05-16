@@ -1,3 +1,4 @@
+import router from "../../../router";
 export default {
     actions: {
         async sendPost(ctx, data) {
@@ -18,8 +19,7 @@ export default {
 
             await axios.post('/api/V1/article', data2, config)
                 .then(function (res) {
-                    //здесь должен быть редирект на определенную статью
-                    console.log(res.data);
+                    router.push({name: 'post', params:{ id: res.data.dir}})
                 })
                 .catch(function (err) {
                     let title = {}

@@ -43,7 +43,7 @@
                             <li @click="mainActiveLink('con')" class="nav-item">
                                 <a class="nav-link" :class="[mainLink == 'con' ? 'active' : '']" href="#">Контакты</a>
                             </li>
-                            <li @click="mainActiveLink('post')" v-if="authStatus" class="nav-item">
+                            <li @click="mainActiveLink('post')" class="nav-item">
                                 <router-link class="nav-link" :class="[mainLink == 'post' ? 'active' : '']" :to="{name: 'createPost'}">Написать пост</router-link>
                             </li>
                         </ul>

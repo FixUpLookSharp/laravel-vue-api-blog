@@ -70,9 +70,9 @@ export default new VueRouter({
             component: CreatePostComponent,
             beforeEnter: (to, from, next) => {
                 if (!store.getters.getAuth) {
-                    localStorage.setItem('link', 'main');
+                    localStorage.removeItem('link')
                     return next({
-                        name: 'index'
+                        name: 'login'
                     })
                 }
                 localStorage.setItem('link', 'post');

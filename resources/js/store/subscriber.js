@@ -1,6 +1,6 @@
 import store from '../store'
 
-store.subscribe((mutation) => {  // если токен передан, сохряняем его в заголовки (headers)
+store.subscribe((mutation) => {// если токен передан, сохряняем его в заголовки (headers)
     switch (mutation.type) {
         case 'SET_TOKEN':  // для мутации SET_TOKEN
             if (mutation.payload) {

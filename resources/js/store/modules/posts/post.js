@@ -7,7 +7,6 @@ export default {
                method: 'get',
                url: '/api/V1/article/' + title,
            }).then((response) => {
-               console.log(response.data)
                ctx.commit('updatePost', response.data)
 
            }).catch(err => {
@@ -15,18 +14,48 @@ export default {
                router.push('/')
            })
         },
+
+        async setLike(ctx, article) {
+            await axios({
+                method: 'post',
+                url: '/api/V1/like/' + article
+            }).then((response) => {
+                ctx.commit('updateLike', response.data)
+            })
+        },
+
+        async getLike(ctx, article) {
+            await axios({
+                method: 'get',
+                url: '/api/V1/like/' + article
+            }).then((response) => {
+                ctx.commit('updateLikeStatus', response.data)
+            })
+        }
     },
     mutations: {
         updatePost(state, post) {
             state.post = post
+        },
+        updateLike(state, data) {
+            state.post.likes_count = data.likes_count
+            state.statusLike = data.status
+        },
+        updateLikeStatus(state, data) {
+            state.statusLike = data
         }
+
     },
     state: {
-       post: false,
+        post: false,
+        statusLike: false
     },
     getters: {
         getPost(state) {
             return state.post
+        },
+        getStatusLike(state) {
+            return state.statusLike
         }
     }
 }

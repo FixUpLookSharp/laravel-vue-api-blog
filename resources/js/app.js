@@ -45,7 +45,7 @@ store.dispatch('attemptUser', localStorage.getItem('token')).then(() => {
         el: '#app',
         router,
         store,
-        i18n
+        i18n,
     });
 });
 

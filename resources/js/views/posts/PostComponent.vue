@@ -1,38 +1,58 @@
 <template>
-    <div class="site-section py-lg">
-        <div class="row blog-entries">
-            <div class="col-md-12 col-lg-12 main-content">
-                <img :src="prefixUrlPhoto + post.photo" alt="Image" class="img-fluid mb-5">
-                <div class="post-meta">
-                    <span v-if="post.creator"  class="author mr-2">
+    <section class="site-section py-lg">
+        <div class="container">
+            <div class="row blog-entries">
+                <div class="col-md-12 col-lg-8 main-content">
+                    <img :src="prefixUrlPhoto + post.photo" alt="Image" class="img-fluid mb-5">
+                    <div class="post-meta">
+                       <span v-if="post.creator"  class="author mr-2">
                         <img :src="prefixUrlPhoto + post.creator.photo" class="mr-2"> {{ post.creator.name }}
                     </span>&bullet;
-                    <span class="mr-2">{{ moment(post.created_at).format("DD MM YYYY") }}</span> &bullet;
-                    <span class="ml-2"><span class="fa fa-comments"></span> {{ post.count_comments }}</span>
-                </div>
-                <h1 class="mb-4">{{ post.title }}</h1>
-                <a class="category mb-5" href="#">{{ $t(post.category_name) }}</a>
-                <div class="post-content-body">
-                    <vue-markdown :source="post.description"></vue-markdown>
-                </div>
-                <div class="row block-test">
-                    <div class="col-md-12 mt-5 text-right">
-                        <span @click="setLike(post.id)" class="ml-4 likeBlock"><span :class="[statusLike ? 'likeRed' : '']" class="fa fa-lg fa-thumbs-up mr-2"></span> {{ post.likes_count }}</span>
+                        <span class="mr-2">{{ moment(post.created_at).format("DD MM YYYY") }}</span> &bullet;
+                        <span class="ml-2"><span class="fa fa-comments"></span> {{ post.count_comments }}</span> &bullet;
+                        <span class="ml-2"><span class="fa fa-thumbs-up"></span> {{ post.likes_count }}</span>
                     </div>
+                    <h1 class="mb-4">{{ post.title }}</h1>
+                    <a class="category mb-5" href="#">{{ $t(post.category_name) }}</a>
+                    <div class="post-content-body">
+                        <vue-markdown :source="post.description"></vue-markdown>
+                    </div>
+                    <div v-if="authStatus" class="row block-test">
+                        <div class="col-md-12 mt-5 text-right">
+                            <span :class="[statusLike ? 'likeRed' : '']" @click="setLike(post.id)" class="ml-4 likeBlock"><span  class="fa fa-lg fa-thumbs-up mr-2"></span> {{ post.likes_count }}</span>
+                        </div>
+                    </div>
+                    <comments-component :postId="post.id"></comments-component>
+                </div>
+                <div class="col-md-12 col-lg-4 sidebar">
+                    <index-search-component></index-search-component>
+                    <top-week-component></top-week-component>
+                    <popular-post-component></popular-post-component>
+                    <index-categories-component></index-categories-component>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </template>
 
 <script>
-    import CommentComponent from "./CommentComponent";
+    import CommentsComponent from "./CommentsComponent";
+    import IndexCategoriesComponent from "../index/IndexCategoriesComponent";
+    import IndexSearchComponent from "../index/IndexSearchComponent";
+    import PopularPostComponent from "../index/PopularPostComponent";
+    import TopWeekComponent from "../index/TopWeekComponent";
     import {mapActions, mapGetters} from 'vuex'
     import moment from "moment";
     import VueMarkdown from 'vue-markdown'
-    import post from "../../store/modules/posts/post";
     export default {
-        components: {CommentComponent, VueMarkdown},
+        components: {
+            CommentsComponent,
+            VueMarkdown,
+            IndexCategoriesComponent,
+            IndexSearchComponent,
+            PopularPostComponent,
+            TopWeekComponent
+        },
         data() {
             return {
                 moment: moment,
@@ -43,6 +63,7 @@
                 post: 'getPost',
                 prefixUrlPhoto: 'getPrefixUrlPhoto',
                 statusLike: 'getStatusLike',
+                authStatus: 'getAuthStatus'
             })
         },
         created() {
@@ -69,7 +90,8 @@
     cursor: pointer;
 }
     .likeRed {
-        color: #08e59f;
+        color: #68d95f;
+        border: 1px solid #68d95f;
     }
     .block-test {
         max-height: 80px;

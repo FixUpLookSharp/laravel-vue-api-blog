@@ -34,6 +34,7 @@ class ArticleController extends Controller
         });
 
         $page = $request->input('page');
+
         return response()->json(MyHelper::getPaginator($articles, 8, $page), 200);
     }
 

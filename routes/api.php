@@ -45,5 +45,8 @@ Route::group(
         Route::resource('article', 'ArticleController', [
             'except' => ['edit', 'create']
         ]);
+        Route::resource('comment', 'ArticleController', [
+            'except' => ['edit', 'create', 'show', 'index', ]
+        ]);
     }
 );

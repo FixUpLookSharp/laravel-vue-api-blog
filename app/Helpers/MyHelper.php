@@ -6,6 +6,10 @@ namespace App\Helpers;
 use Illuminate\Pagination\LengthAwarePaginator;
 class MyHelper
 {
+    /**
+     * @param $filename
+     * @return string
+     */
     public static function translit_file($filename)
     {
         $converter = array(
@@ -48,6 +52,12 @@ class MyHelper
         return $new;
     }
 
+    /**
+     * @param $articles
+     * @param $perPage
+     * @param int $page
+     * @return LengthAwarePaginator
+     */
     public static function getPaginator($articles, $perPage, $page = 1) {
 
         return new LengthAwarePaginator(

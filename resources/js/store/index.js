@@ -9,6 +9,7 @@ import createPost from "./modules/posts/createPost";
 import post from "./modules/posts/post";
 import topPost from "./modules/index/topPost";
 import nav2 from "./modules/header/nav2";
+import comments from "./modules/posts/comments"
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -21,6 +22,7 @@ export default new Vuex.Store({
         post,
         categories,
         topPost,
-        nav2
+        nav2,
+        comments
     }
 })

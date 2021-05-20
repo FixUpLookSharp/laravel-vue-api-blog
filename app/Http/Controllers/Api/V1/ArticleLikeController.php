@@ -42,12 +42,17 @@ class ArticleLikeController extends Controller
     public function getLike($dir)
     {
         $article = Article::query()->where('dir', $dir)->first();
-        $user = Auth::user();
-        $like = ArticleLikes::query()
-            ->where('article_id', $article->id)
-            ->where('user_id', $user->id)
-            ->exists();
 
-        return response()->json($like);
+        $user = Auth::user();
+        if ($article && $user) {
+            $like = ArticleLikes::query()
+                ->where('article_id', $article->id)
+                ->where('user_id', $user->id)
+                ->exists();
+
+            return response()->json($like);
+        }
+
+
     }
 }

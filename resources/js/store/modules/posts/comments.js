@@ -2,18 +2,26 @@ import router from "../../../router";
 
 export default {
     actions: {
-        // addComment(ctx, data) {
-        //     console.log(data)
-        // }
+        async showComments(ctx, dir) {
+            await axios({
+                method: 'get',
+                url: '/api/V1/comment/' + dir,
+            }).then((response) => {
+                ctx.commit('updateComments', response.data)
+            })
+        },
     },
     mutations: {
-
+        updateComments(state, comments) {
+            state.comments = comments
+        }
     },
     state: {
-        post: false,
-        statusLike: false
+        comments: {}
     },
     getters: {
-
+        getComments(state) {
+            return state.comments
+        }
     }
 }

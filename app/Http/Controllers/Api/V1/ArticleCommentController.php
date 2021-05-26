@@ -25,7 +25,7 @@ class ArticleCommentController extends Controller
             ->limit($loadMore)
             ->get();
 
-        if ($loadMore >= ArticleComment::all()->count()) {
+        if ($loadMore >= ArticleComment::query()->where('article_id', $article_id)->count()) {
             return response()->json([
                 'allComment' => true,
                 'message' => 'Все коментарии загружены',
@@ -78,8 +78,13 @@ class ArticleCommentController extends Controller
                 ];
         }
 
+        $loadButton = false;
+        if (ArticleComment::query()->where('article_id', $article_id)->count() > 4) {
+            $loadButton = true;
+        }
 
-        return response()->json(array_reverse($newComments),200);
+
+        return response()->json(['newComments' => array_reverse($newComments), 'loadButton' => $loadButton],200);
     }
 
     public function store(ArticleCommentRequest $request)
@@ -132,7 +137,7 @@ class ArticleCommentController extends Controller
             return response()->json(["message" => "Error"]);
         }
 
-        return response()->json('Коментарий удален');
+        return response('',204);
 
 
     }

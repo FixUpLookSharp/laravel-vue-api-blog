@@ -8,7 +8,7 @@
                        <span v-if="post.creator"  class="author mr-2">
                         <img :src="prefixUrlPhoto + post.creator.photo" class="mr-2"> {{ post.creator.name }}
                     </span>&bullet;
-                        <span class="mr-2">{{ moment(post.created_at).format("DD MM YYYY") }}</span> &bullet;
+                        <span class="mr-2">{{ moment(post.created_at).format("DD.MM.YYYY") }}</span> &bullet;
                         <span class="ml-2"><span class="fa fa-comments"></span> {{ post.count_comments }}</span> &bullet;
                         <span class="ml-2"><span class="fa fa-thumbs-up"></span> {{ post.likes_count }}</span>
                     </div>

@@ -6,20 +6,20 @@
                         <h4 class="card-title">Последние коментарии</h4>
                     </div>
                     <div class="comment-widgets m-b-20">
-                        <div v-for="comment in comments" :key="comment.id" class="d-flex flex-row comment-row">
+                        <div v-for="(comment, index) in comments" :key="comment.id" class="d-flex flex-row comment-row">
                             <div class="p-2"><span class="round"><img :src="prefixUrlPhoto + comment.creator.photo" alt="user" width="50"></span></div>
                             <div class="comment-text w-100">
                                 <h5>{{ comment.creator.name }}</h5>
                                 <div class="comment-footer">
-                                    <span class="date">April 14, 2019</span>
+                                    <span class="date">{{ moment(comment.created_at).format('DD.MM.YYYY') }}</span>
                                     <span class="action-icons">
                                         <a v-if="comment.creator.id == auth.id && comment.id != update.id" @click="commentUpdateShow(comment.id, comment.content)" class="update">
                                         <i class="fa fa-pencil"></i>
                                         </a>
-                                        <a v-if="comment.creator.id == auth.id && update.comment && comment.id == update.id" @click="commentUpdate({id: update.id, content: update.content})" class="update">
+                                        <a v-if="comment.creator.id == auth.id && update.comment && comment.id == update.id" @click="commentUpdate({id: update.id, content: update.content}, index)" class="update">
                                         <i class="fas fa-save"></i>
                                         </a>
-                                        <a v-if="comment.creator.id == auth.id" @click="commentDelete(comment.id)" class="delete">
+                                        <a v-if="comment.creator.id == auth.id" @click="commentDelete(comment.id, index)" class="delete">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                         </a>
 <!--                                        <a href="#" data-abc="true">-->
@@ -64,21 +64,21 @@
 <!--                                <p class="m-b-5 m-t-10">It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>-->
 <!--                            </div>-->
 <!--                        </div>-->
-                        <a v-if="!active.allComment" @click="loadMore" class="btn btn-primary btn-sm btn-block" role="button"><span class="glyphicon glyphicon-refresh"></span> Загрузить старые</a>
-                        <a v-else class="btn btn-success btn-sm btn-block" role="button"><span class="glyphicon glyphicon-refresh"></span> {{ active.message }}</a>
-                        <div v-if="authStatus" class="d-flex flex-row add-comment-section mt-4 mb-4">
+                        <a v-if="!active.allComment && loadButton" @click="loadMore" class="btn btn-primary btn-sm btn-block mb-4" role="button"><span class="glyphicon glyphicon-refresh"></span> Загрузить старые</a>
+                        <a v-else-if="active.allComment && !loadButton" class="btn btn-success btn-sm btn-block mb-4" role="button"><span class="glyphicon glyphicon-refresh"></span> {{ active.message }}</a>
+                        <div v-if="authStatus" class="d-flex flex-row add-comment-section mb-4">
                             <img class="img-fluid img-responsive rounded-circle mr-2" :src="prefixUrlPhoto + auth.photo" width="38">
-                            <input @keyup.enter="addComment({content: content, article_id: postId, creator_id: auth.id})" type="text" class="form-control mr-3" v-model="content" placeholder="Добавить Коментарий">
+                            <input @keyup.enter="addComment({content: content, article_id: postId, creator_id: auth.id})" type="text" :class="[errors ? 'is-invalid' : '']" class="form-control mr-3" v-model="content" placeholder="Добавить Коментарий"><br>
                             <button @click="addComment({content: content, article_id: postId, creator_id: auth.id})" class="btn btn-primary" type="button">Добавть</button>
                         </div>
                     </div>
-
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import moment from 'moment'
     import { mapGetters, mapActions, mapMutations } from 'vuex'
     export default {
         data: function () {
@@ -93,6 +93,7 @@
                   comment: false,
                   content: '',
               },
+              moment: moment,
           }
         },
         props: [
@@ -104,10 +105,17 @@
                 prefixUrlPhoto: 'getPrefixUrlPhoto',
                 authStatus: 'getAuthStatus',
                 comments: 'getComments',
+                errors: 'getErrorsComments',
+                loadButton: 'getCommentLoadButton',
             })
         },
         mounted() {
             this.showComments(this.$route.params.id)
+        },
+        watch: {
+            content: function (e) {
+                this.updateCommentErrors(null)
+            }
         },
         methods: {
             ...mapActions({
@@ -115,6 +123,8 @@
             }),
             ...mapMutations({
                 updateComments: 'updateComments',
+                updateCommentErrors: 'updateCommentErrors',
+                updateCommentButton: 'updateCommentButton',
             }),
             async addComment(data) {
                 let app = this
@@ -129,6 +139,9 @@
                 }).then((response) => {
                     app.content = ''
                     this.comments.push(response.data)
+                }).catch(error => {
+                    let errors = error.response.data.errors.content ? error.response.data.errors.content[0] : null
+                    this.updateCommentErrors(errors)
                 })
             },
             async loadMore() {
@@ -145,9 +158,9 @@
                     if (response.data.allComment) {
                         this.active.allComment = response.data.allComment
                         this.active.message = response.data.message
+                        this.updateCommentButton(false)
                         return;
                     }
-
                     this.updateComments(response.data)
                 })
             },
@@ -156,7 +169,7 @@
                 this.update.id = commentId
                 this.update.content = content
             },
-            async commentUpdate(comment) {
+            async commentUpdate(comment, index) {
                 await axios({
                     method: 'put',
                     url: '/api/V1/comment/' + comment.id,
@@ -164,27 +177,21 @@
                         content: comment.content
                     }
                 }).then((response) => {
-                    for(let i = 0; i <  this.comments.length; i++) {
-                        if(this.comments[i].id == response.data.id) {
-                            this.comments[i].content = response.data.content
-                            this.update.comment = false
-                            this.update.id = 0
-                            break;
-                        }
-                    }
+                    this.comments[index].content = response.data.content
+                    this.update.comment = false
+                    this.update.id = 0
                 })
             },
 
-            async commentDelete(id) {
-
+            async commentDelete(id, index) {
                 await axios({
                     method: 'delete',
                     url: '/api/V1/comment/' + id,
                 }).then((response) => {
-
+                    this.comments.splice(index, 1)
                 })
-            }
-        }
+            },
+        },
     }
 </script>
 

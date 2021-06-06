@@ -16,10 +16,9 @@
                                             <span class="ml-2"><span class="fa fa-comments"></span> {{ post.count_comments }}</span>
 
                                         </div>
-                                        <router-link :to="{name: 'post', params:{ id: post.dir}}" class="postIndex">
+                                        <router-link :to="{name: 'post', params:{ id: post.dir }}" class="postIndex">
                                             <h4>{{ post.title }}</h4>
                                         </router-link>
-<!--                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nobis, ut dicta eaque ipsa laudantium!</p>-->
                                     </div>
                                 </div>
                             </div>
@@ -102,16 +101,16 @@
         components: {Swiper, SwiperSlide},
         computed: {
             ...mapGetters({
-                posts: 'getTopPosts',
+                posts: 'getRandomPosts',
                 getPrefixUrlPhoto: 'getPrefixUrlPhoto',
             })
         },
         created() {
-            this.topPosts()
+            this.randomPosts()
         },
         methods: {
             ...mapActions({
-                topPosts: 'topPosts'
+                randomPosts: 'randomPosts'
             }),
         }
     }

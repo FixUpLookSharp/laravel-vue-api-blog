@@ -126,8 +126,12 @@
                 updateCommentErrors: 'updateCommentErrors',
                 updateCommentButton: 'updateCommentButton',
             }),
+             updateComment() {
+                this.content = ''
+            },
             async addComment(data) {
-                let app = this
+                await this.updateComment()
+
                 await axios({
                     method: 'post',
                     url: '/api/V1/comment',
@@ -137,7 +141,6 @@
                         article_id: data.article_id,
                     }
                 }).then((response) => {
-                    app.content = ''
                     this.comments.push(response.data)
                 }).catch(error => {
                     let errors = error.response.data.errors.content ? error.response.data.errors.content[0] : null
@@ -147,6 +150,7 @@
             async loadMore() {
                 let currLenghtElement = this.comments.length
                 let article_id = this.postId
+
                 await axios({
                     method: 'get',
                     url: '/api/V1/comment',

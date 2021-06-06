@@ -13,7 +13,7 @@
                         <span class="ml-2"><span class="fa fa-thumbs-up"></span> {{ post.likes_count }}</span>
                     </div>
                     <h1 class="mb-4">{{ post.title }}</h1>
-                    <a class="category mb-5" href="#">{{ $t(post.category_name) }}</a>
+<!--                    <router-link class="category mb-5" :to="{name: 'category', params:{ id: post.category_dir}}">{{ $t(post.category_name) }}</router-link>-->
                     <div class="post-content-body">
                         <vue-markdown :source="post.description"></vue-markdown>
                     </div>

@@ -1,40 +1,19 @@
 <template>
     <div class="sidebar-box">
-        <h3 class="heading">Popular Posts</h3>
+        <h3 class="heading">Популярные посты</h3>
         <div class="post-entry-sidebar">
             <ul>
-                <li>
-                    <a href="">
-                        <img src="/images/img_2.jpg" alt="Image placeholder" class="mr-4">
+<!--                //не работает redirect-->
+                <li v-for="post in posts" :key="post.id">
+                    <router-link class="postIndex" :to="{name: 'post', params:{ id: post.dir}}" >
+                        <img :src="getPrefixUrlPhoto + post.photo" alt="Image placeholder" class="mr-4">
                         <div class="text">
-                            <h4>Как найти видеоигры вашей юности</h4>
+                            <h4 @click="redirectPost(post.dir)">{{ post.title }}</h4>
                             <div class="post-meta">
-                                <span class="mr-2">15 марта 2018 </span>
+                                <span class="mr-2">{{ moment(post.created_at).format('DD.MM.YYYY') }}</span>
                             </div>
                         </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <img src="/images/img_4.jpg" alt="Image placeholder" class="mr-4">
-                        <div class="text">
-                            <h4>How to Find the Video Games of Your Youth</h4>
-                            <div class="post-meta">
-                                <span class="mr-2">March 15, 2018 </span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <img src="/images/img_12.jpg" alt="Image placeholder" class="mr-4">
-                        <div class="text">
-                            <h4>How to Find the Video Games of Your Youth</h4>
-                            <div class="post-meta">
-                                <span class="mr-2">March 15, 2018 </span>
-                            </div>
-                        </div>
-                    </a>
+                    </router-link>
                 </li>
             </ul>
         </div>
@@ -42,11 +21,37 @@
 </template>
 
 <script>
+    import { mapActions, mapGetters } from 'vuex'
+    import moment from "moment";
     export default {
-
+        data() {
+            return {
+                moment: moment,
+            }
+        },
+        computed: {
+            ...mapGetters({
+                posts: 'getTopPosts',
+                getPrefixUrlPhoto: 'getPrefixUrlPhoto',
+            })
+        },
+        created() {
+            this.topPosts()
+        },
+        methods: {
+            ...mapActions({
+                topPosts: 'topPosts'
+            }),
+            redirectPost(dir) {
+                this.$route.push('/post/' + dir)
+            }
+        }
     }
 </script>
 
 <style scoped>
-
+    .postIndex {
+        text-decoration: none;
+        color: black;
+    }
 </style>

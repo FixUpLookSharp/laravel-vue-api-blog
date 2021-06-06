@@ -10,6 +10,8 @@ import post from "./modules/posts/post";
 import topPost from "./modules/index/topPost";
 import nav2 from "./modules/header/nav2";
 import comments from "./modules/posts/comments"
+import randomPost from "./modules/index/randomPost";
+import topWeek from "./modules/index/topWeek";
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -23,6 +25,8 @@ export default new Vuex.Store({
         categories,
         topPost,
         nav2,
-        comments
+        comments,
+        randomPost,
+        topWeek
     }
 })

@@ -8,7 +8,6 @@ use App\Http\Requests\ArticleCommentUpdateRequest;
 use App\Models\ArticleComment;
 use App\Models\Article;
 use Illuminate\Http\Request;
-use mysql_xdevapi\Exception;
 
 class ArticleCommentController extends Controller
 {
@@ -19,16 +18,18 @@ class ArticleCommentController extends Controller
         $loadMore = $request->input('lenght') + $limit;
 
 
-
         $comments = ArticleComment::query()
             ->where('article_id', $article_id)
             ->limit($loadMore)
             ->get();
 
-        if ($loadMore >= ArticleComment::query()->where('article_id', $article_id)->count()) {
+        $allComments = $loadMore - ArticleComment::query()->where('article_id', $article_id)->count();
+
+        if ($allComments == $limit) {
             return response()->json([
                 'allComment' => true,
                 'message' => 'Все коментарии загружены',
+                'all' => ArticleComment::query()->where('article_id', $article_id)->count()
                 ]);
         }
 
@@ -84,7 +85,7 @@ class ArticleCommentController extends Controller
         }
 
 
-        return response()->json(['newComments' => array_reverse($newComments), 'loadButton' => $loadButton],200);
+        return response()->json(['newComments' => array_reverse($newComments), 'loadButton' => $loadButton,],200);
     }
 
     public function store(ArticleCommentRequest $request)

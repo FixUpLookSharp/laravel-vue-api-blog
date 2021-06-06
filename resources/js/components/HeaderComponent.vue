@@ -34,7 +34,7 @@
                             <li @click="mainActiveLink('cat')" class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" :class="[mainLink == 'cat' ? 'active' : '']" href="category.html" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Категории</a>
                                 <div class="dropdown-menu" aria-labelledby="dropdown05">
-                                    <a v-for="category in categories" class="dropdown-item"  href="#">{{ $t(category.name) }}</a>
+                                    <router-link v-for="category in categories" :key="category.id"  class="dropdown-item"  :to="{name: 'category', params:{ id: category.dir}}">{{ $t(category.name) }}</router-link>
                                 </div>
                             </li>
                             <li @click="mainActiveLink('usl')" class="nav-item">

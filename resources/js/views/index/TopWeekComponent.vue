@@ -1,14 +1,14 @@
 <template>
-    <div class="sidebar-box">
+    <div  v-if="post" class="sidebar-box">
         <div class="text-center" style="margin-bottom: 50px">
-            <h2>ТОП ЗА НЕДЕЛЮ</h2>
+            <h2>{{ post.topWeekTitle }}</h2>
         </div>
         <div class="bio text-center">
-            <img src="/images/person_1.jpg" alt="Image Placeholder" class="img-fluid">
+            <img :src="prefixUrlPhoto + post.topWeek.user_photo" alt="Image Placeholder" class="img-fluid">
             <div class="bio-body">
-                <h2>David Craig</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem facilis sunt repellendus excepturi beatae porro debitis voluptate nulla quo veniam fuga sit molestias minus.</p>
-                <p><a href="#" class="btn btn-primary btn-sm rounded">Read my bio</a></p>
+                <h2>{{ post.topWeek.user_name }}</h2>
+                <p>{{ post.topWeek.article_title }}</p>
+                <p><router-link :to="{name: 'post', params:{ id: post.topWeek.article_dir}}" class="btn btn-primary btn-sm rounded">Перейти к посту</router-link></p>
                 <p class="social">
                     <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
                     <a href="#" class="p-2"><span class="fa fa-twitter"></span></a>
@@ -21,8 +21,31 @@
 </template>
 
 <script>
+    import moment from 'moment'
+    import { mapGetters, mapActions,} from 'vuex'
     export default {
-
+        data: function () {
+            return {
+                moment: moment,
+            }
+        },
+        computed: {
+            ...mapGetters({
+                post: 'getTopWeekPost',
+                prefixUrlPhoto: 'getPrefixUrlPhoto',
+            })
+        },
+        created() {
+            this.topWeekPost()
+        },
+        methods: {
+            ...mapActions({
+                topWeekPost: 'topWeekPost'
+            }),
+            test() {
+                console.log(this.post)
+            }
+        }
     }
 </script>
 

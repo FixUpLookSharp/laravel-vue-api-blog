@@ -10,6 +10,7 @@ import IndexComponent from "./views/index/IndexComponent";
 import CreatePostComponent from "./views/posts/CreatePostComponent";
 import NotFoundComponent from "./views/NotFoundComponent";
 import PostComponent from "./views/posts/PostComponent";
+import CategoryComponent from "./views/categories/CategoryComponent";
 export default new VueRouter({
     mode: 'history',
     routes: [
@@ -83,6 +84,12 @@ export default new VueRouter({
             path: '/post/:id',
             name: 'post',
             component: PostComponent,
+
+        },
+        {
+            path: '/category/:id',
+            name: 'category',
+            component: CategoryComponent,
 
         },
 

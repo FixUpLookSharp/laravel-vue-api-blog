@@ -4,11 +4,11 @@
             <div v-for="post in posts.data" :key="post.id" class="col-md-6">
                     <div class="blog-entry">
                         <router-link :to="{name: 'post', params:{ id: post.dir}}" class="postIndex">
-                        <img :src="getPrefixUrlPhoto + post.photo" alt="Image placeholder">
+                        <img :src="prefixUrlPhoto + post.photo" alt="Image placeholder">
                         </router-link>
                         <div class="blog-content-body">
                             <div class="post-meta">
-                                <span class="author mr-2"><img :src="getPrefixUrlPhoto + post.creator.photo" alt="Colorlib"> {{ post.creator.name }}</span>&bullet;
+                                <span class="author mr-2"><img :src="prefixUrlPhoto + post.creator.photo" alt="Colorlib"> {{ post.creator.name }}</span>&bullet;
                                 <span class="mr-2">{{ moment(post.created_at).format("DD.MM.YYYY") }}</span> &bullet;
                                 <span class="ml-2"><span class="fa fa-comments"></span> {{ post.count_comments }}</span>
                                 <span class="ml-2"><span class="fa fa-thumbs-up"></span> {{ post.likes_count }}</span>
@@ -44,7 +44,7 @@
         computed: {
             ...mapGetters({
                 auth: 'getAuth',
-                getPrefixUrlPhoto: 'getPrefixUrlPhoto',
+                prefixUrlPhoto: 'getPrefixUrlPhoto',
             })
         },
         created() {

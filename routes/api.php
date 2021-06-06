@@ -38,8 +38,15 @@ Route::group(
     ],
 
     function () {
-        Route::get('category', 'ArticleCategoryController@show');
+        Route::get('category', 'ArticleCategoryController@index');
+        Route::get('category/{dir}', 'ArticleCategoryController@show');
+
+
         Route::get('index/top-post', 'IndexController@topPost');
+        Route::get('index/random-post', 'IndexController@randomPost');
+        Route::get('index/top-week', 'IndexController@topWeek');
+
+
         Route::post('like/{article}', 'ArticleLikeController@setLike');
         Route::get('like/{article}', 'ArticleLikeController@getLike');
         Route::resource('article', 'ArticleController', [

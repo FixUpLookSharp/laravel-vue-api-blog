@@ -56,6 +56,7 @@
         data() {
             return {
                 moment: moment,
+                routerId: null
             }
         },
         computed: {
@@ -66,16 +67,20 @@
                 authStatus: 'getAuthStatus'
             })
         },
-        created() {
-            this.showPost(this.$route.params.id)
+        async created() {
+            this.routerId = await this.$route.params.id
+            await this.showPost(this.routerId)
             this.getLike(this.$route.params.id)
+        },
+         beforeRouteUpdate(to, from, next) {
+            this.showPost(to.params.id)
+             next()
         },
         methods: {
             ...mapActions({
                 showPost: 'showPost',
                 setLike: 'setLike',
                 getLike: 'getLike',
-
             }),
         },
     }

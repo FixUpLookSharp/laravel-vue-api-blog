@@ -29,7 +29,7 @@
                     </div>
 
                     <div class="col-md-12 text-center">
-                        <paginate-component :data="posts" :limit="1" :show-disabled="true" :align="'center'" @pagination-change-page="allPostsCategory"></paginate-component>
+                        <paginate-component :data="posts" :limit="1" :show-disabled="true" :align="'center'" @pagination-change-page="allPostsCategory({})"></paginate-component>
                     </div>
                 </div>
 
@@ -74,20 +74,25 @@
         },
        mounted() {
             this.cat = this.$route.params.id
-           this.allPostsCategory()
+           this.allPostsCategory(this.cat)
        },
-
+        beforeRouteUpdate(to, from, next) {
+            console.log(to)
+            next()
+        },
         methods: {
-           async allPostsCategory(page = 1) {
+           async allPostsCategory(pas) {
+               // pas['page'] = 1
+               console.log(pas)
                await axios({
                     method: 'get',
-                    url: '/api/V1/category/' + this.cat + '?page=' + page
+                    url: '/api/V1/category/' + 'games' + '?page=' + 1
                 }).then((response) => {
                     this.posts = response.data
                 }).catch(error => {
                     router.push('/')
                 })
-            }
+            },
         }
     }
 </script>

@@ -8,7 +8,7 @@
                     <router-link class="postIndex" :to="{name: 'post', params:{ id: post.dir}}" >
                         <img :src="getPrefixUrlPhoto + post.photo" alt="Image placeholder" class="mr-4">
                         <div class="text">
-                            <h4 @click="redirectPost(post.dir)">{{ post.title }}</h4>
+                            <h4>{{ post.title }}</h4>
                             <div class="post-meta">
                                 <span class="mr-2">{{ moment(post.created_at).format('DD.MM.YYYY') }}</span>
                             </div>
@@ -42,9 +42,6 @@
             ...mapActions({
                 topPosts: 'topPosts'
             }),
-            redirectPost(dir) {
-                this.$route.push('/post/' + dir)
-            }
         }
     }
 </script>

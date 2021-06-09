@@ -29,7 +29,7 @@
                     </div>
 
                     <div class="col-md-12 text-center">
-                        <paginate-component :data="posts" :limit="1" :show-disabled="true" :align="'center'" @pagination-change-page="allPostsCategory({})"></paginate-component>
+                        <paginate-component :data="posts" :limit="1" :show-disabled="true" :align="'center'" @pagination-change-page="changePage"></paginate-component>
                     </div>
                 </div>
 
@@ -72,21 +72,36 @@
                 prefixUrlPhoto: 'getPrefixUrlPhoto',
             }),
         },
+
        mounted() {
-            this.cat = this.$route.params.id
-           this.allPostsCategory(this.cat)
+           this.cat = this.$route.params.id
+           let page = 1
+           if (this.$route.query.hasOwnProperty('page')) {
+               page = this.$route.query.page
+           }
+           this.allPostsCategory(page)
        },
+
         beforeRouteUpdate(to, from, next) {
-            console.log(to)
+            this.cat = to.params.id
+            let page = 1
+            if (to.query.hasOwnProperty('page')) {
+                page = to.query.page
+            }
+            this.allPostsCategory(page)
             next()
         },
         methods: {
-           async allPostsCategory(pas) {
-               // pas['page'] = 1
-               console.log(pas)
-               await axios({
+           async changePage(page = 1) {
+               if (this.$route.query.hasOwnProperty('page') && this.$route.query.page == page) {
+                   return;
+               }
+               this.$router.push({ path: "/category/" + this.cat, query: { page: page } });
+           },
+            async allPostsCategory(page) {
+                await axios({
                     method: 'get',
-                    url: '/api/V1/category/' + 'games' + '?page=' + 1
+                    url: '/api/V1/category/' + this.cat + '?page=' + page
                 }).then((response) => {
                     this.posts = response.data
                 }).catch(error => {

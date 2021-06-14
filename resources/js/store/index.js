@@ -12,6 +12,7 @@ import nav2 from "./modules/header/nav2";
 import comments from "./modules/posts/comments"
 import randomPost from "./modules/index/randomPost";
 import topWeek from "./modules/index/topWeek";
+import userInfo from  "./modules/user/userInfo";
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -27,6 +28,7 @@ export default new Vuex.Store({
         nav2,
         comments,
         randomPost,
-        topWeek
+        topWeek,
+        userInfo,
     }
 })

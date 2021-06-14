@@ -55,5 +55,8 @@ Route::group(
         Route::resource('comment', 'ArticleCommentController', [
             'except' => ['edit', 'create',]
         ]);
+
+        Route::get('account/{user}/info', 'UserController@info');
+
     }
 );

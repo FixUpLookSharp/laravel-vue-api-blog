@@ -11,6 +11,7 @@ import CreatePostComponent from "./views/posts/CreatePostComponent";
 import NotFoundComponent from "./views/NotFoundComponent";
 import PostComponent from "./views/posts/PostComponent";
 import CategoryComponent from "./views/categories/CategoryComponent";
+import UserInfoComponent from "./views/user/UserInfoComponent";
 export default new VueRouter({
     mode: 'history',
     routes: [
@@ -90,6 +91,12 @@ export default new VueRouter({
             path: '/category/:id',
             name: 'category',
             component: CategoryComponent,
+
+        },
+        {
+            path: '/account/:id/info',
+            name: 'user',
+            component: UserInfoComponent,
 
         },
 

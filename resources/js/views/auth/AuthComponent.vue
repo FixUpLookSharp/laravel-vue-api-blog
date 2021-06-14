@@ -12,7 +12,7 @@
                 <i class="fas fa-user-alt"></i> Профиль </a>
             <div class="dropdown-menu dropdown-menu-right dropdown-info">
                 <router-link v-if="getAuth.is_admin" class="dropdown-item" to="/">Админ панель</router-link>
-                <a class="dropdown-item" href="#">Мой аккаунт</a>
+                <router-link class="dropdown-item" :to="{name: 'user', params: {id: getAuth.id}}">Мой профиль</router-link>
                 <a class="dropdown-item" href="#">Мои настройки</a>
                 <a @click="logout" class="dropdown-item cursor-logout">Выйти</a>
             </div>

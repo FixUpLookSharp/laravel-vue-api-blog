@@ -93,10 +93,13 @@
         },
         methods: {
            async changePage(page = 1) {
-               if (this.$route.query.hasOwnProperty('page') && this.$route.query.page == page) {
+               if (this.$route.query.page == page) {
                    return;
                }
                this.$router.push({ path: "/category/" + this.cat, query: { page: page } });
+               if (page == 1) {
+                   this.$router.push({ path: '/category/' + this.cat  });
+               }
            },
             async allPostsCategory(page) {
                 await axios({

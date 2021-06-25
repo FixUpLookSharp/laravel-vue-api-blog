@@ -29,7 +29,7 @@
                                 <router-link class="nav-link" :class="[mainLink == 'main' ? 'active' : '']" to="/">Главная</router-link>
                             </li>
                             <li @click="mainActiveLink('biz')" class="nav-item">
-                                <a class="nav-link" :class="[mainLink == 'biz' ? 'active' : '']" href="#">Бизнес</a>
+                                <router-link class="nav-link" :class="[mainLink == 'biz' ? 'active' : '']" to="/users">Пользователи</router-link>
                             </li>
                             <li @click="mainActiveLink('cat')" class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" :class="[mainLink == 'cat' ? 'active' : '']" href="category.html" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Категории</a>

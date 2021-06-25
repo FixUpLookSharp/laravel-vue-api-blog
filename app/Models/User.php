@@ -86,6 +86,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(__NAMESPACE__ . '\Chat', 'subscriber2_id');
     }
 
+    public function role()
+    {
+        return $this->belongsTo(__NAMESPACE__ . '\Role', 'role_id');
+    }
+
     public function isOnline()
     {
        return Cache::has('user-is-online-' . $this->id);

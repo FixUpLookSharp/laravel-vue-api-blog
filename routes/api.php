@@ -57,6 +57,14 @@ Route::group(
         ]);
 
         Route::get('account/{user}/info', 'UserController@info');
+        Route::post('block/{user}', 'LockedUserController@block');
+        Route::post('unblock/{user}', 'LockedUserController@unblock');
+
+        Route::get('users/', 'UserController@allUsers');
+        Route::get('user/search', 'UserController@userSearch');
+
+
+
 
     }
 );

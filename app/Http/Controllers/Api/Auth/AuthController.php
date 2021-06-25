@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
+use function Symfony\Component\Translation\t;
 
 
 class AuthController extends Controller
@@ -101,6 +104,7 @@ class AuthController extends Controller
 
     public function profile()
     {
+        $this->IsUserOnline();
         return response()->json($this->guard()->user());
 
     }//end profile()
@@ -141,6 +145,16 @@ class AuthController extends Controller
             $result .= $arr[$i];
         }
         return $result;
+    }
+
+    private function IsUserOnline()
+    {
+        if($this->guard()->check()){
+            $expiresAt = Carbon::now()->addMinutes(5);
+            Cache::put('user-is-online-' . $this->guard()->user()->id, true, $expiresAt);
+            $this->guard()->user()->is_online = $expiresAt;
+            $this->guard()->user()->save();
+        }
     }
 
 

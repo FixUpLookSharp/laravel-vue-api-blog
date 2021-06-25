@@ -13,6 +13,7 @@ import comments from "./modules/posts/comments"
 import randomPost from "./modules/index/randomPost";
 import topWeek from "./modules/index/topWeek";
 import userInfo from  "./modules/user/userInfo";
+import search from "./modules/search/search";
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -30,5 +31,6 @@ export default new Vuex.Store({
         randomPost,
         topWeek,
         userInfo,
+        search,
     }
 })

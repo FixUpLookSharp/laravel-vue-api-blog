@@ -12,6 +12,7 @@ import NotFoundComponent from "./views/NotFoundComponent";
 import PostComponent from "./views/posts/PostComponent";
 import CategoryComponent from "./views/categories/CategoryComponent";
 import UserInfoComponent from "./views/user/UserInfoComponent";
+import AllUserComponent from "./views/users/AllUserComponent";
 export default new VueRouter({
     mode: 'history',
     routes: [
@@ -98,6 +99,11 @@ export default new VueRouter({
             name: 'user',
             component: UserInfoComponent,
 
+        },
+        {
+            path: '/users',
+            name: 'users',
+            component: AllUserComponent,
         },
 
 

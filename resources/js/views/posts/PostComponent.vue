@@ -41,7 +41,7 @@
     import IndexSearchComponent from "../index/IndexSearchComponent";
     import PopularPostComponent from "../index/PopularPostComponent";
     import TopWeekComponent from "../index/TopWeekComponent";
-    import {mapActions, mapGetters} from 'vuex'
+    import {mapActions, mapGetters, mapMutations} from 'vuex'
     import moment from "moment";
     import VueMarkdown from 'vue-markdown'
     export default {
@@ -72,6 +72,12 @@
             await this.showPost(this.routerId)
             this.getLike(this.$route.params.id)
         },
+        async beforeRouteLeave(to, from, next) {
+            await this.updateNotFoundSearch(false)
+            await this.updateSearchData(null)
+            await this.updateSearchStatus(false)
+            next()
+        },
          beforeRouteUpdate(to, from, next) {
             this.showPost(to.params.id)
              next()
@@ -81,6 +87,12 @@
                 showPost: 'showPost',
                 setLike: 'setLike',
                 getLike: 'getLike',
+            }),
+            ...mapMutations({
+                updateNotFoundSearch: 'updateNotFoundSearch',
+                updateSearchData: 'updateSearchData',
+                updateSearchStatus: 'updateSearchStatus',
+
             }),
         },
     }

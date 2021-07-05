@@ -3,7 +3,6 @@ import Vue from 'vue';
 Vue.use(VueRouter);
 import store from './store'
 
-
 import LoginComponent from "./views/auth/LoginComponent";
 import RegisterComponent from "./views/auth/RegisterComponent";
 import IndexComponent from "./views/index/IndexComponent";
@@ -34,7 +33,8 @@ export default new VueRouter({
             beforeEnter: (to, from, next) => {
                 localStorage.setItem('link', 'main');
                 next()
-            }
+            },
+
 
         },
         {
@@ -92,7 +92,6 @@ export default new VueRouter({
             path: '/category/:id',
             name: 'category',
             component: CategoryComponent,
-
         },
         {
             path: '/account/:id/info',

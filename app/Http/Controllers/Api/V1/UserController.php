@@ -44,15 +44,16 @@ class UserController extends Controller
             $monthUser = $user->created_at->toObject()->month;
             $dayUser = $user->created_at->toObject()->day;
 
-            $date1 = Carbon::createMidnightDate(2020, 3, 15);
-            $date2 = Carbon::createMidnightDate($yearUser, $monthUser, $dayUser);
+
+            $dateUser = Carbon::createMidnightDate($yearUser, $monthUser, $dayUser);
+            $dateToDay = Carbon::now();
 
            $res = [
                'id' => $user->id,
                'name' => $user->name,
                'nickname' => $user->nickname,
                'email' => $user->email,
-               'created_at' =>  $date1->diffInDays($date2),
+               'created_at' =>  $dateUser->diffInDays($dateToDay),
                'is_banned' => $user->is_banned,
                'status' => $user->role->name,
            ];

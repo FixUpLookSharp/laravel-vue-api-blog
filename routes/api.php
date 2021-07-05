@@ -38,30 +38,40 @@ Route::group(
     ],
 
     function () {
+        //categories
         Route::get('category', 'ArticleCategoryController@index');
         Route::get('category/{dir}', 'ArticleCategoryController@show');
 
-
+        //index
         Route::get('index/top-post', 'IndexController@topPost');
         Route::get('index/random-post', 'IndexController@randomPost');
         Route::get('index/top-week', 'IndexController@topWeek');
 
-
+        //likes
         Route::post('like/{article}', 'ArticleLikeController@setLike');
         Route::get('like/{article}', 'ArticleLikeController@getLike');
+
+        //articles
         Route::resource('article', 'ArticleController', [
             'except' => ['edit', 'create']
         ]);
+        Route::get('article/search/index', 'ArticleSearchController@index');
+        Route::get('article/search/category/{dir}', 'ArticleSearchController@category');
+        Route::get('article/search/post', 'ArticleSearchController@post');
+
+        //comments
         Route::resource('comment', 'ArticleCommentController', [
             'except' => ['edit', 'create',]
         ]);
 
+        //users
         Route::get('account/{user}/info', 'UserController@info');
         Route::post('block/{user}', 'LockedUserController@block');
         Route::post('unblock/{user}', 'LockedUserController@unblock');
-
         Route::get('users/', 'UserController@allUsers');
         Route::get('user/search', 'UserController@userSearch');
+
+
 
 
 

@@ -11,6 +11,8 @@ export default {
                 console.log(response.data)
                 if (response.data.length == 0) {
                     ctx.commit('updateNotFoundSearch', true)
+                } else {
+                    ctx.commit('updateNotFoundSearch', false)
                 }
                 ctx.commit('updateSearchData', response.data)
                 // ctx.commit('updateSearchInput', data.searchData)

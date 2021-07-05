@@ -8,28 +8,10 @@
             </div>
             <div class="row blog-entries">
                 <div class="col-md-12 col-lg-8 main-content">
-                    <div v-for="post in posts.data" :key="post.id" class="row mb-5 mt-5">
-                        <div class="col-md-12">
-                            <div class="post-entry-horzontal">
-                                <router-link :to="{name: 'post', params:{ id: post.dir}}">
-                                    <div class="image " data-animate-effect="fadeIn" :style="{ 'background-image': 'url(' + prefixUrlPhoto + post.photo + ')' }"></div>
-                                    <span class="text">
-                                        <div class="post-meta">
-                                            <span class="author mr-2"><img :src="prefixUrlPhoto + post.creator.photo" alt="Colorlib"> Colorlib</span>&bullet;
-                                            <span class="mr-2">{{ moment(post.created_at).format("DD.MM.YYYY") }} </span> &bullet;
-                                            <span class="mr-2">{{ $t(post.category_name) }}</span> &bullet;
-                                            <span class="ml-2"><span class="fa fa-comments"></span> {{ post.count_comments }}</span>
-                                            <span class="ml-2"><span class="fa fa-thumbs-up"></span> {{ post.likes_count }}</span>
-                                        </div>
-                                        <h2>There’s a Cool New Way for Men to Wear Socks and Sandals</h2>
-                                    </span>
-                                </router-link>
-                            </div>
-                        </div>
-                    </div>
-
+                    <categories-component v-if="!searchData" :posts="posts"></categories-component>
+                    <categories-search-component v-else-if="searchData" :posts="searchData"></categories-search-component>
                     <div class="col-md-12 text-center">
-                        <paginate-component :data="posts" :limit="1" :show-disabled="true" :align="'center'" @pagination-change-page="changePage"></paginate-component>
+                        <paginate-component v-if="!searchData" :data="posts" :limit="1" :show-disabled="true" :align="'center'" @pagination-change-page="changePage"></paginate-component>
                     </div>
                 </div>
 
@@ -50,19 +32,21 @@
     import IndexSearchComponent from "../index/IndexSearchComponent";
     import PopularPostComponent from "../index/PopularPostComponent";
     import TopWeekComponent from "../index/TopWeekComponent";
-    import {mapActions, mapGetters} from 'vuex'
-    import moment from "moment";
+    import CategoriesSearchComponent from "./category/CategoriesSearchComponent";
+    import CategoriesComponent from "./category/CategoriesComponent";
+    import {mapActions, mapGetters, mapMutations} from 'vuex'
     import router from "../../router";
     export default {
         components: {
             IndexCategoriesComponent,
             IndexSearchComponent,
             PopularPostComponent,
-            TopWeekComponent
+            TopWeekComponent,
+            CategoriesSearchComponent,
+            CategoriesComponent
         },
         data() {
             return {
-                moment: moment,
                 posts: {},
                 cat: ''
             }
@@ -70,9 +54,10 @@
         computed: {
             ...mapGetters({
                 prefixUrlPhoto: 'getPrefixUrlPhoto',
+                searchData: 'getSearchData',
+                notFoundStatus: 'getNotFoundStatus',
             }),
         },
-
        mounted() {
            this.cat = this.$route.params.id
            let page = 1
@@ -81,17 +66,35 @@
            }
            this.allPostsCategory(page)
        },
-
-        beforeRouteUpdate(to, from, next) {
+        async beforeRouteLeave(to, from, next) {
+            await this.updateNotFoundSearch(false)
+            await this.updateSearchData(null)
+            await this.updateSearchStatus(false)
+            next()
+        },
+         beforeRouteUpdate(to, from, next) {
             this.cat = to.params.id
             let page = 1
             if (to.query.hasOwnProperty('page')) {
                 page = to.query.page
             }
-            this.allPostsCategory(page)
+            this.getUrl({
+                url: '/api/V1/article/search/category/' + to.params.id,
+                placeholder: 'Найти статью в категории ' + this.$t('categories' + '.' + to.params.id),
+            })
+             this.allPostsCategory(page)
             next()
         },
         methods: {
+            ...mapActions({
+                getUrl: 'getUrl'
+            }),
+            ...mapMutations({
+                updateNotFoundSearch: 'updateNotFoundSearch',
+                updateSearchData: 'updateSearchData',
+                updateSearchStatus: 'updateSearchStatus',
+
+            }),
            async changePage(page = 1) {
                if (this.$route.query.page == page) {
                    return;

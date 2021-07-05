@@ -14,6 +14,7 @@ import randomPost from "./modules/index/randomPost";
 import topWeek from "./modules/index/topWeek";
 import userInfo from  "./modules/user/userInfo";
 import search from "./modules/search/search";
+import categorySearch from "./modules/search/categorySearch";
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -32,5 +33,6 @@ export default new Vuex.Store({
         topWeek,
         userInfo,
         search,
+        categorySearch,
     }
 })

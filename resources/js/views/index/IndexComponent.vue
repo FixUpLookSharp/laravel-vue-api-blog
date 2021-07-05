@@ -28,7 +28,7 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import { mapGetters, mapMutations} from 'vuex'
     import CarouselComponent from "./CarouselComponent";
     import PostsComponent from "./PostsComponent"
     import IndexSearchComponent from "./IndexSearchComponent";
@@ -48,12 +48,27 @@
         computed: {
           ...mapGetters({
               getAuth: 'getAuth',
-              getCategories: 'getCategories'
-
+              getCategories: 'getCategories',
           }),
         },
-        mounted() {
-        }
+        methods: {
+            ...mapMutations({
+                updateNotFoundSearch: 'updateNotFoundSearch',
+                updateSearchData: 'updateSearchData',
+                updateSearchStatus: 'updateSearchStatus',
+
+            }),
+        },
+        async beforeRouteLeave(to, from, next) {
+            await this.updateNotFoundSearch(false)
+            await this.updateSearchData(null)
+            await this.updateSearchStatus(false)
+            next()
+        },
+        async created() {
+            await this.updateNotFoundSearch(null)
+            await this.updateSearchData(null)
+        },
 
     }
 </script>

@@ -82,6 +82,9 @@
             debounceSearch(after, before) {
                 if (this.debounceSearch) {
                     this.fetch({searchData: this.debounceSearch, url: this.url});
+                    if (this.$route.query.search == this.debounceSearch) {
+                        return;
+                    }
                     this.$router.push({ path: 'users', query: { search: this.debounceSearch } });
                 }
                 if (!this.debounceSearch) {
@@ -118,9 +121,6 @@
                 this.allUsers(page)
             },
             async allUsers(page = 1) {
-                // if (this.$route.query.hasOwnProperty('search') && this.searchUser == 'test') {
-                //     this.$router.push({ path: 'users' });
-                // }
                 this.updateNotFoundSearch(false)
                 this.updateSearchData(false)
                 this.searchUser = ''

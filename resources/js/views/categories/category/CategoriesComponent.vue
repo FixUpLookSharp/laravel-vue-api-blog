@@ -3,7 +3,7 @@
         <div v-for="post in posts.data" :key="post.id" class="row mb-5 mt-5">
             <div class="col-md-12">
                 <div class="post-entry-horzontal">
-                    <router-link :to="{name: 'post', params:{ id: post.dir}}">
+                    <router-link class="linkRoute" :to="{name: 'post', params:{ id: post.dir}}">
                         <div class="image " data-animate-effect="fadeIn" :style="{ 'background-image': 'url(' + prefixUrlPhoto + post.photo + ')' }"></div>
                         <span class="text">
                             <div class="post-meta">

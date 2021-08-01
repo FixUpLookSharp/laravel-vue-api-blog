@@ -68,8 +68,5 @@
 </script>
 
 <style scoped>
-.postIndex {
-    text-decoration: none;
-    color: black;
-}
+
 </style>

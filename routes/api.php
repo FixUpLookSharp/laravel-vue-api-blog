@@ -47,6 +47,10 @@ Route::group(
         Route::get('index/random-post', 'IndexController@randomPost');
         Route::get('index/top-week', 'IndexController@topWeek');
 
+        //footer
+        Route::get('footer/recent-posts', 'IndexController@recentPosts');
+
+
         //likes
         Route::post('like/{article}', 'ArticleLikeController@setLike');
         Route::get('like/{article}', 'ArticleLikeController@getLike');

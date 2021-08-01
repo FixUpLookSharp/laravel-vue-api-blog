@@ -51,6 +51,7 @@ class ArticleController extends Controller
             'category_name'=> $article->category->name,
             'category_dir'=> $article->category->dir,
             'description' => $article->description,
+            'dir' => $article->dir,
             'creator' => [
                 'id' => $article->creator->id,
                 'photo' => $article->creator->photo,

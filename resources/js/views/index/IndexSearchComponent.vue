@@ -27,7 +27,8 @@
           ...mapGetters({
               placeholder: 'getSearchPlaceholder',
               url: 'getSearchUrl',
-              getSearchStatus: 'getSearchStatus'
+              searchStatus: 'getSearchStatus',
+              searchPath: 'getSearchPath',
           }),
         },
         watch: {
@@ -37,9 +38,16 @@
             debounceSearch(after, before) {
                 if (this.debounceSearch) {
                     this.fetch({searchData: this.debounceSearch, url: this.url});
+                    if (this.$route.query.search == this.debounceSearch) {
+                        return;
+                    }
+                    this.$router.push({ path: this.searchPath, query: { search: this.debounceSearch } });
                 }
                 if (!this.debounceSearch) {
                     this.updateFetch()
+                    if (this.$route.query.hasOwnProperty('search')) {
+                        this.$router.push({ path: this.searchPath });
+                    }
                 }
             },
         },
@@ -49,25 +57,33 @@
                 updateFetch: 'updateFetch',
                 getUrl: 'getUrl'
             }),
-            ...mapMutations({
-                updateSearchCategory: 'updateSearchCategory',
-            }),
-            updateUrlPlaceholder() {
+            async updateUrlPlaceholder() {
                 if (this.$route.name == 'index') {
-                    this.getUrl({
-                        url: '/api/V1/article/search/index',
-                        placeholder: 'Найти статью',
+                   await this.getUrl({
+                       url: '/api/V1/article/search/index',
+                       placeholder: 'Найти статью',
+                       path: ''
                     })
+                    this.searchMounted()
                 } else if (this.$route.name == 'category') {
-                    this.getUrl({
+                    await this.getUrl({
                         url: '/api/V1/article/search/category/' + this.$route.params.id,
                         placeholder: 'Найти статью в категории ' + this.$t('categories' + '.' + this.$route.params.id),
+                        path: '/category/' + this.$route.params.id,
                     })
+                    this.searchMounted()
                 } else if (this.$route.name == 'post') {
-                    this.getUrl({
+                    await this.getUrl({
                         url: '/api/V1/article/search/post',
                         placeholder: 'Найти пост',
+                        path: '/post/' + this.$route.params.id,
                     })
+                    this.searchMounted()
+                }
+            },
+             searchMounted() {
+                if (this.$route.query.hasOwnProperty('search') && this.$route.query.search != '') {
+                    this.fetch({searchData: this.$route.query.search, url: this.url});
                 }
             },
         },

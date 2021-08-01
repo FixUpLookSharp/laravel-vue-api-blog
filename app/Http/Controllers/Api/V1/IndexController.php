@@ -106,4 +106,30 @@ class IndexController extends Controller
 
         return response()->json(['topWeek' => $topWeek, 'topWeekTitle' => 'ТОП ЗА НЕДЕЛЮ'], 200);
     }
+
+    public function recentPosts() {
+        $articles = Article::query()->orderByDesc('created_at')->limit(3)->get()->reverse();
+
+        $res = [];
+
+        foreach ($articles as $article) {
+            $res[] = [
+                'id' => $article->id,
+                'title' => $article->title,
+                'dir' => $article->dir,
+                'likes_count' => $article->likes_count,
+                'photo' => $article->photo,
+                'created_at' => $article->created_at,
+                'category_name'=> $article->category->name,
+                'creator' => [
+                    'id' => $article->creator->id,
+                    'photo' => $article->creator->photo,
+                    'name' => $article->creator->name,
+                ],
+                'count_comments' => count($article->comments)
+            ];
+        }
+
+        return response()->json($res, 200);
+    }
 }

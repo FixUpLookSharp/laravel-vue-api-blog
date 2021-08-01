@@ -15,6 +15,7 @@ import topWeek from "./modules/index/topWeek";
 import userInfo from  "./modules/user/userInfo";
 import search from "./modules/search/search";
 import categorySearch from "./modules/search/categorySearch";
+import footer from "./modules/footer/footer";
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -34,5 +35,6 @@ export default new Vuex.Store({
         userInfo,
         search,
         categorySearch,
+        footer,
     }
 })

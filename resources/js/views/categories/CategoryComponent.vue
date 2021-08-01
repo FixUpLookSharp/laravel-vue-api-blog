@@ -2,8 +2,11 @@
     <section class="site-section pt-5">
         <div class="container">
             <div class="row mb-4">
-                <div class="col-md-6">
+                <div v-if="!searchNotFoundStatus" class="col-md-6">
                     <h2 class="mb-4">Категория: </h2>
+                </div>
+                <div v-if="searchNotFoundStatus" class="col-md-6">
+                    <h2 class="mb-4">Статьи в катеогрии <span class="searchNotFoundStatus">{{ $t('categories' + '.' + cat) }}</span> не найдены </h2>
                 </div>
             </div>
             <div class="row blog-entries">
@@ -55,7 +58,7 @@
             ...mapGetters({
                 prefixUrlPhoto: 'getPrefixUrlPhoto',
                 searchData: 'getSearchData',
-                notFoundStatus: 'getNotFoundStatus',
+                searchNotFoundStatus: 'getNotFoundStatus',
             }),
         },
        mounted() {
@@ -81,7 +84,12 @@
             this.getUrl({
                 url: '/api/V1/article/search/category/' + to.params.id,
                 placeholder: 'Найти статью в категории ' + this.$t('categories' + '.' + to.params.id),
+                path: '/category/' + to.params.id,
             })
+             this.updateNotFoundSearch(false)
+             this.updateSearchData(null)
+             this.updateSearchStatus(false)
+
              this.allPostsCategory(page)
             next()
         },
@@ -119,5 +127,7 @@
 </script>
 
 <style scoped>
-
+    .searchNotFoundStatus {
+        color: red;
+    }
 </style>

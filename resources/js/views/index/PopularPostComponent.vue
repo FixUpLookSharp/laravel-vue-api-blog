@@ -3,10 +3,9 @@
         <h3 class="heading">Популярные посты</h3>
         <div class="post-entry-sidebar">
             <ul>
-<!--                //не работает redirect-->
                 <li v-for="post in posts" :key="post.id">
                     <router-link class="postIndex" :to="{name: 'post', params:{ id: post.dir}}" >
-                        <img :src="getPrefixUrlPhoto + post.photo" alt="Image placeholder" class="mr-4">
+                        <img :src="prefixUrlPhoto + post.photo" alt="Image placeholder" class="mr-4">
                         <div class="text">
                             <h4>{{ post.title }}</h4>
                             <div class="post-meta">
@@ -32,7 +31,7 @@
         computed: {
             ...mapGetters({
                 posts: 'getTopPosts',
-                getPrefixUrlPhoto: 'getPrefixUrlPhoto',
+                prefixUrlPhoto: 'getPrefixUrlPhoto',
             })
         },
         created() {

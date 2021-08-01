@@ -2,7 +2,11 @@
     <section class="site-section py-lg">
         <div class="container">
             <div class="row blog-entries">
-                <div class="col-md-12 col-lg-8 main-content">
+                <div v-if="searchNotFoundStatus" class="col-md-6">
+                    <h2 class="mb-4">Постов не найдено </h2>
+                    <button class="btn btn-outline-success" @click="backPost">К предедущему посту</button>
+                </div>
+                <div v-if="!searchData" class="col-md-12 col-lg-8 main-content">
                     <img :src="prefixUrlPhoto + post.photo" alt="Image" class="img-fluid mb-5">
                     <div class="post-meta">
                        <span v-if="post.creator"  class="author mr-2">
@@ -13,7 +17,6 @@
                         <span class="ml-2"><span class="fa fa-thumbs-up"></span> {{ post.likes_count }}</span>
                     </div>
                     <h1 class="mb-4">{{ post.title }}</h1>
-<!--                    <router-link class="category mb-5" :to="{name: 'category', params:{ id: post.category_dir}}">{{ $t(post.category_name) }}</router-link>-->
                     <div class="post-content-body">
                         <vue-markdown :source="post.description"></vue-markdown>
                     </div>
@@ -23,6 +26,10 @@
                         </div>
                     </div>
                     <comments-component :postId="post.id"></comments-component>
+                </div>
+                <div v-else-if="searchData" class="col-md-12 col-lg-8 main-content">
+                    <button v-if="!searchNotFoundStatus" class="btn btn-outline-success mb-5" @click="backPost">К предедущему посту</button>
+                    <search-desc-post-component :posts="searchData"></search-desc-post-component>
                 </div>
                 <div class="col-md-12 col-lg-4 sidebar">
                     <index-search-component></index-search-component>
@@ -41,9 +48,11 @@
     import IndexSearchComponent from "../index/IndexSearchComponent";
     import PopularPostComponent from "../index/PopularPostComponent";
     import TopWeekComponent from "../index/TopWeekComponent";
+    import SearchDescPostComponent from "./SearchDescPostComponent";
     import {mapActions, mapGetters, mapMutations} from 'vuex'
     import moment from "moment";
     import VueMarkdown from 'vue-markdown'
+    import post from "../../store/modules/posts/post";
     export default {
         components: {
             CommentsComponent,
@@ -51,7 +60,8 @@
             IndexCategoriesComponent,
             IndexSearchComponent,
             PopularPostComponent,
-            TopWeekComponent
+            TopWeekComponent,
+            SearchDescPostComponent
         },
         data() {
             return {
@@ -64,7 +74,9 @@
                 post: 'getPost',
                 prefixUrlPhoto: 'getPrefixUrlPhoto',
                 statusLike: 'getStatusLike',
-                authStatus: 'getAuthStatus'
+                authStatus: 'getAuthStatus',
+                searchData: 'getSearchData',
+                searchNotFoundStatus: 'getNotFoundStatus'
             })
         },
         async created() {
@@ -80,6 +92,9 @@
         },
          beforeRouteUpdate(to, from, next) {
             this.showPost(to.params.id)
+             this.updateNotFoundSearch(false)
+             this.updateSearchData(null)
+             this.updateSearchStatus(false)
              next()
         },
         methods: {
@@ -92,8 +107,13 @@
                 updateNotFoundSearch: 'updateNotFoundSearch',
                 updateSearchData: 'updateSearchData',
                 updateSearchStatus: 'updateSearchStatus',
-
             }),
+            backPost() {
+                this.$router.push({ path: '/post/' + this.post.dir});
+                this.updateNotFoundSearch(false)
+                this.updateSearchData(null)
+                this.updateSearchStatus(false)
+            }
         },
     }
 </script>

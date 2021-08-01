@@ -3,6 +3,8 @@ export default {
        async getUrl(ctx, data) {
            await ctx.commit('updateSearchPlaceholder', data.placeholder)
            await ctx.commit('updateSearchUrl', data.url)
+           await ctx.commit('updateSearchPath', data.path)
+
         },
     },
     mutations: {
@@ -12,10 +14,14 @@ export default {
         updateSearchUrl(state, url) {
             state.url = url
         },
+        updateSearchPath(state, path) {
+            state.path = path
+        }
     },
     state: {
         placeholder: '',
         url: '',
+        path: ''
     },
     getters: {
         getSearchPlaceholder(state) {
@@ -23,6 +29,9 @@ export default {
         },
         getSearchUrl(state) {
             return state.url
+        },
+        getSearchPath(state) {
+            return state.path
         },
     }
 }

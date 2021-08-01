@@ -4,8 +4,11 @@
         <section class="site-section py-sm">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div v-if="!searchNotFoundStatus" class="col-md-6">
                         <h2 class="mb-4">Последние статьи</h2>
+                    </div>
+                    <div v-if="searchNotFoundStatus" class="col-md-6">
+                        <h2 class="mb-4 searchNotFoundStatus">Статьи не найдены</h2>
                     </div>
                 </div>
                 <!-- sidebar -->
@@ -49,6 +52,7 @@
           ...mapGetters({
               getAuth: 'getAuth',
               getCategories: 'getCategories',
+              searchNotFoundStatus: 'getNotFoundStatus',
           }),
         },
         methods: {
@@ -73,3 +77,8 @@
     }
 </script>
 
+<style scoped>
+    .searchNotFoundStatus {
+        color: red;
+    }
+</style>

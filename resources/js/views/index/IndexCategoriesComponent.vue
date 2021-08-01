@@ -14,7 +14,6 @@
             ...mapGetters({
                 getAuth: 'getAuth',
                 getCategories: 'getCategories'
-
             }),
         },
     }

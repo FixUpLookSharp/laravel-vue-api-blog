@@ -49,6 +49,7 @@ Route::group(
 
         //footer
         Route::get('footer/recent-posts', 'IndexController@recentPosts');
+        Route::get('footer/top-all-time', 'IndexController@topAllTimePost');
 
 
         //likes
@@ -74,6 +75,7 @@ Route::group(
         Route::post('unblock/{user}', 'LockedUserController@unblock');
         Route::get('users/', 'UserController@allUsers');
         Route::get('user/search', 'UserController@userSearch');
+        Route::post('user/change-password', 'UserController@changePassword');
 
 
 

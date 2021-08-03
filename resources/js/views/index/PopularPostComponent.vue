@@ -4,7 +4,7 @@
         <div class="post-entry-sidebar">
             <ul>
                 <li v-for="post in posts" :key="post.id">
-                    <router-link class="postIndex" :to="{name: 'post', params:{ id: post.dir}}" >
+                    <router-link @click.native="scrollToTop" class="postIndex" :to="{name: 'post', params:{ id: post.dir}}" >
                         <img :src="prefixUrlPhoto + post.photo" alt="Image placeholder" class="mr-4">
                         <div class="text">
                             <h4>{{ post.title }}</h4>
@@ -39,7 +39,8 @@
         },
         methods: {
             ...mapActions({
-                topPosts: 'topPosts'
+                topPosts: 'topPosts',
+                scrollToTop: 'scrollToTop',
             }),
         }
     }

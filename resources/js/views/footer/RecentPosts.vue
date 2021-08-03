@@ -36,11 +36,9 @@
         },
         methods: {
             ...mapActions({
-                recentPosts: 'recentPosts'
+                recentPosts: 'recentPosts',
+                scrollToTop: 'scrollToTop',
             }),
-            scrollToTop() { //переделать глобально
-                window.scrollTo(0,0);
-            }
         }
     }
 </script>

@@ -3,57 +3,12 @@
         <footer class="site-footer">
             <div class="container">
                 <div class="row mb-5">
-                    <div class="col-md-4">
-                        <h3>About Us</h3>
-                        <p class="mb-4">
-                            <img src="/images/img_1.jpg" alt="Image placeholder" class="img-fluid">
-                        </p>
-
-                        <p>Lorem ipsum dolor sit amet sa ksal sk sa, consectetur adipisicing elit. Ipsa harum inventore reiciendis. <a href="#">Read More</a></p>
-                    </div>
+                    <top-all-time-post></top-all-time-post>
                     <div class="col-md-6 ml-auto">
                         <div class="row">
                             <div class="col-md-7">
                                 <h3>Latest Post</h3>
                                 <div class="post-entry-sidebar">
-<!--                                    <ul>-->
-<!--                                        <li>-->
-<!--                                            <a href="">-->
-<!--                                                <img src="/images/img_6.jpg" alt="Image placeholder" class="mr-4">-->
-<!--                                                <div class="text">-->
-<!--                                                    <h4>How to Find the Video Games of Your Youth</h4>-->
-<!--                                                    <div class="post-meta">-->
-<!--                                                        <span class="mr-2">March 15, 2018 </span> &bullet;-->
-<!--                                                        <span class="ml-2"><span class="fa fa-comments"></span> 3</span>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </a>-->
-<!--                                        </li>-->
-<!--                                        <li>-->
-<!--                                            <a href="">-->
-<!--                                                <img src="/images/img_3.jpg" alt="Image placeholder" class="mr-4">-->
-<!--                                                <div class="text">-->
-<!--                                                    <h4>How to Find the Video Games of Your Youth</h4>-->
-<!--                                                    <div class="post-meta">-->
-<!--                                                        <span class="mr-2">March 15, 2018 </span> &bullet;-->
-<!--                                                        <span class="ml-2"><span class="fa fa-comments"></span> 3</span>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </a>-->
-<!--                                        </li>-->
-<!--                                        <li>-->
-<!--                                            <a href="">-->
-<!--                                                <img src="/images/img_4.jpg" alt="Image placeholder" class="mr-4">-->
-<!--                                                <div class="text">-->
-<!--                                                    <h4>How to Find the Video Games of Your Youth</h4>-->
-<!--                                                    <div class="post-meta">-->
-<!--                                                        <span class="mr-2">March 15, 2018 </span> &bullet;-->
-<!--                                                        <span class="ml-2"><span class="fa fa-comments"></span> 3</span>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </a>-->
-<!--                                        </li>-->
-<!--                                    </ul>-->
                                     <recent-posts></recent-posts>
                                 </div>
                             </div>
@@ -97,8 +52,12 @@
 <script>
     import {mapGetters} from "vuex";
     import RecentPosts from "../views/footer/RecentPosts";
+    import TopAllTimePost from "../views/footer/TopAllTimePost";
     export default {
-        components: {RecentPosts},
+        components: {
+            RecentPosts,
+            TopAllTimePost,
+        },
         computed: {
             ...mapGetters({
                 getAuth: 'getAuth',

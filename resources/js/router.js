@@ -12,6 +12,8 @@ import PostComponent from "./views/posts/PostComponent";
 import CategoryComponent from "./views/categories/CategoryComponent";
 import UserInfoComponent from "./views/user/UserInfoComponent";
 import AllUserComponent from "./views/users/AllUserComponent";
+import SettingInfoComponent from "./views/user/settings/SettingInfoComponent";
+import SettingsPasswordComponent from "./views/user/settings/SettingsPasswordComponent";
 export default new VueRouter({
     mode: 'history',
     routes: [
@@ -103,6 +105,18 @@ export default new VueRouter({
             path: '/users',
             name: 'users',
             component: AllUserComponent,
+        },
+        {
+            path: '/user/settings',
+            name: 'userSettings',
+            meta: {link: 'settings'},
+            component: SettingInfoComponent,
+        },
+        {
+            path: '/user/change/password',
+            name: 'userChangePassword',
+            meta: {link: 'password'},
+            component: SettingsPasswordComponent,
         },
 
 

@@ -1,6 +1,8 @@
 export default {
     actions: {
-
+        scrollToTop() {
+            window.scrollTo(0,0);
+        }
     },
     mutations: {
 

@@ -2,7 +2,7 @@
     <div v-if="posts" class="row">
         <div  v-for="post in posts" :key="post.id" class="col-md-6">
             <div class="blog-entry">
-                <router-link :to="{name: 'post', params:{ id: post.dir}}">
+                <router-link @click.native="scrollToTop" :to="{name: 'post', params:{ id: post.dir}}">
                     <img :src="prefixUrlPhoto + post.photo" alt="Image placeholder">
                 </router-link>
                 <div class="blog-content-body">
@@ -13,7 +13,7 @@
                         <span class="ml-2"><span class="fa fa-thumbs-up"></span> {{ post.likes_count }}</span>
 
                     </div>
-                    <router-link :to="{name: 'post', params:{ id: post.dir}}" class="linkRoute">
+                    <router-link @click.native="scrollToTop" :to="{name: 'post', params:{ id: post.dir}}" class="linkRoute">
                         <h2>{{ post.title }}</h2>
                     </router-link>
                 </div>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
+    import {mapActions, mapGetters} from 'vuex'
     import moment from "moment";
     export default {
         data: function() {
@@ -38,6 +38,11 @@
                 prefixUrlPhoto: 'getPrefixUrlPhoto',
             })
         },
+        methods: {
+            ...mapActions({
+                scrollToTop: 'scrollToTop',
+            }),
+        }
     }
 </script>
 

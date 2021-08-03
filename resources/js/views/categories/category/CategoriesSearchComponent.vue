@@ -3,7 +3,7 @@
         <div v-for="post in posts" :key="post.id" class="row mb-5 mt-5">
             <div class="col-md-12">
                 <div class="post-entry-horzontal">
-                    <router-link class="linkRoute" :to="{name: 'post', params:{ id: post.dir}}">
+                    <router-link @click.native="scrollToTop" class="linkRoute" :to="{name: 'post', params:{ id: post.dir}}">
                         <div class="image " data-animate-effect="fadeIn" :style="{ 'background-image': 'url(' + prefixUrlPhoto + post.photo + ')' }"></div>
                         <span class="text">
                             <div class="post-meta">
@@ -24,7 +24,7 @@
 
 <script>
     import moment from "moment";
-    import {mapGetters} from 'vuex'
+    import {mapActions, mapGetters} from 'vuex'
     export default {
         data() {
             return {
@@ -39,7 +39,12 @@
                 prefixUrlPhoto: 'getPrefixUrlPhoto',
             }),
         },
-        props: ['posts']
+        props: ['posts'],
+        methods: {
+            ...mapActions({
+                scrollToTop: 'scrollToTop',
+            }),
+        }
     }
 </script>
 

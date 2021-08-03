@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\MyHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdatePasswordRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
 class UserController extends Controller
 {
     public function info(User $user)
@@ -98,5 +101,27 @@ class UserController extends Controller
 
 
         return response()->json($users, 200);
+    }
+
+    public function changePassword(UpdatePasswordRequest $request)
+    {
+        $user = Auth::guard()->user();
+
+        $oldpassword = $request->input('old_password');
+        $password = $request->input('password');
+
+
+
+        if (!Hash::check($oldpassword, $user->password)) {
+            return response()->json(['errors' => ['password' => ['Пароль не соответствует действующему']]], 422);
+        }
+        if (Hash::check($password, $user->password)) {
+            return response()->json(['errors' => ['password' => ['Пароль не может быть как действующий']]], 422);
+        }
+
+        $user->password = password_hash($password, PASSWORD_DEFAULT);
+        $user->save();
+
+        return response()->json(['status' => true, 'message' => 'Пароль успешно обновлен']);
     }
 }

@@ -76,7 +76,7 @@
                 statusLike: 'getStatusLike',
                 authStatus: 'getAuthStatus',
                 searchData: 'getSearchData',
-                searchNotFoundStatus: 'getNotFoundStatus'
+                searchNotFoundStatus: 'getNotFoundStatus',
             })
         },
         async created() {

@@ -16,6 +16,8 @@ import userInfo from  "./modules/user/userInfo";
 import search from "./modules/search/search";
 import categorySearch from "./modules/search/categorySearch";
 import footer from "./modules/footer/footer";
+import userSettings from "./modules/user/userSettings";
+import changePassword from "./modules/user/changePassword";
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -36,5 +38,7 @@ export default new Vuex.Store({
         search,
         categorySearch,
         footer,
+        userSettings,
+        changePassword
     }
 })

@@ -107,7 +107,8 @@ class IndexController extends Controller
         return response()->json(['topWeek' => $topWeek, 'topWeekTitle' => 'ТОП ЗА НЕДЕЛЮ'], 200);
     }
 
-    public function recentPosts() {
+    public function recentPosts()
+    {
         $articles = Article::query()->orderByDesc('created_at')->limit(3)->get()->reverse();
 
         $res = [];
@@ -131,5 +132,18 @@ class IndexController extends Controller
         }
 
         return response()->json($res, 200);
+    }
+
+    public function topAllTimePost()
+    {
+        $article = Article::query()->orderByDesc('likes_count')->first();
+
+        $res = [
+            'title' => $article->title,
+            'dir' => $article->dir,
+            'photo' => $article->photo,
+        ];
+        return response()->json($res, 200);
+
     }
 }

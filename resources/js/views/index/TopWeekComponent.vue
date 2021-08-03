@@ -8,7 +8,7 @@
             <div class="bio-body">
                 <h2>{{ post.topWeek.user_name }}</h2>
                 <p>{{ post.topWeek.article_title }}</p>
-                <p><router-link :to="{name: 'post', params:{ id: post.topWeek.article_dir}}" class="btn btn-primary btn-sm rounded">Перейти к посту</router-link></p>
+                <p><router-link @click.native="scrollToTop" :to="{name: 'post', params:{ id: post.topWeek.article_dir}}" class="btn btn-primary btn-sm rounded">Перейти к посту</router-link></p>
                 <p class="social">
                     <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
                     <a href="#" class="p-2"><span class="fa fa-twitter"></span></a>
@@ -40,11 +40,9 @@
         },
         methods: {
             ...mapActions({
-                topWeekPost: 'topWeekPost'
+                topWeekPost: 'topWeekPost',
+                scrollToTop: 'scrollToTop',
             }),
-            test() {
-                console.log(this.post)
-            }
         }
     }
 </script>

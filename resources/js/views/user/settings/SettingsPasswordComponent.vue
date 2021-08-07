@@ -24,6 +24,7 @@
                                 <p class="mb-2">Требования к паролю</p>
                                 <p class="small text-muted mb-2">Чтобы создать новый пароль, вы должны соответствовать всем следующим требованиям:</p>
                                 <ul class="small text-muted pl-4 mb-0">
+                                    <li>Должен состоять из латинских букв</li>
                                     <li>Минимум 8 символов</li>
                                     <li>По крайней мере, один специальный символ</li>
                                     <li>Хотя бы одно число</li>
@@ -34,6 +35,7 @@
                         <button @click="changePassword({password: password, old_password: old_password, password_confirmation: password_confirmation
                         })" type="submit" class="btn btn-primary">Сохранить пароль</button>
                     </div>
+                    <p @click="test">rttt</p>
                 </div>
             </div>
         </div>
@@ -54,12 +56,17 @@
           }
         },
         computed: {
-
+            ...mapGetters({
+                errors: 'getErrorsUser'
+            })
         },
         methods: {
             ...mapActions({
                 changePassword: 'changePassword'
-            })
+            }),
+            test() {
+                console.log(this.errors)
+            }
         }
     }
 </script>

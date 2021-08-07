@@ -105,11 +105,50 @@ class UserController extends Controller
 
     public function changePassword(UpdatePasswordRequest $request)
     {
+        $bigLetters = ['Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B','N','M',];
+        $smallLetters = ['q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m',];
+        $symbols = ['!','@','#','$','%','^','&','*',',','.','/','?',];
+        $numbers = ['0','1','2','3','4','5','6','7','8','9',];
+
+        $bigLettersBool = false;
+        $smallLettersBool = false;
+        $symbolsBool = false;
+        $numbersBool = false;
+
         $user = Auth::guard()->user();
 
         $oldpassword = $request->input('old_password');
         $password = $request->input('password');
 
+        $errors = [];
+
+        for($i = 0; $i < strlen($password); $i++) {
+            if(in_array($password[$i], $bigLetters) && !$bigLettersBool) {
+                $bigLettersBool = true;
+            }
+            if(in_array($password[$i], $smallLetters) && !$smallLettersBool) {
+                $smallLettersBool = true;
+            }
+            if(in_array($password[$i], $symbols) && !$symbolsBool) {
+                $symbolsBool = true;
+            }
+            if(in_array($password[$i], $numbers) && !$numbersBool) {
+                $numbersBool = true;
+            }
+        }
+
+        if (!$bigLettersBool) {
+            $errors['errors']['bigLatters'] = 'В пароле отсутствуют большие буквы!';
+        }
+        if (!$smallLettersBool) {
+            $errors['errors']['smallLetters'] = 'В пароле отсутствуют маленькие буквы!';
+        }
+        if (!$symbolsBool) {
+            $errors['errors']['symbols'] = 'В пароле отсутствуют символы!';
+        }
+        if (!$numbersBool) {
+            $errors['errors']['numbers'] = 'В пароле отсутствуют числа!';
+        }
 
 
         if (!Hash::check($oldpassword, $user->password)) {
@@ -117,6 +156,11 @@ class UserController extends Controller
         }
         if (Hash::check($password, $user->password)) {
             return response()->json(['errors' => ['password' => ['Пароль не может быть как действующий']]], 422);
+        }
+
+        if (!$bigLettersBool || !$smallLettersBool || !$symbolsBool) {
+            return response()->json($errors, 422);
+
         }
 
         $user->password = password_hash($password, PASSWORD_DEFAULT);

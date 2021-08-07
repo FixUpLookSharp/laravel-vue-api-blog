@@ -111,12 +111,30 @@ export default new VueRouter({
             name: 'userSettings',
             meta: {link: 'settings'},
             component: SettingInfoComponent,
+            beforeEnter: (to, from, next) => {
+                if (!store.getters.getAuth) {
+                    return next({
+                        name: 'login'
+                    })
+                }
+                localStorage.removeItem('link')
+                next()
+            }
         },
         {
             path: '/user/change/password',
             name: 'userChangePassword',
             meta: {link: 'password'},
             component: SettingsPasswordComponent,
+            beforeEnter: (to, from, next) => {
+                if (!store.getters.getAuth) {
+                    return next({
+                        name: 'login'
+                    })
+                }
+                localStorage.removeItem('link')
+                next()
+            }
         },
 
 

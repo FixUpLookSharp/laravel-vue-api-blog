@@ -4,15 +4,24 @@ export default {
             let links = {
                 linkSettings: false,
                 linkPassword: false,
+                linkUserPosts: false,
+
             }
 
             if (link == 'settings') {
                 links.linkSettings = true
+                links.linkUserPosts = false
                 links.linkPassword = false
                 ctx.commit('updateLinksSettings', links)
             } else if (link == 'password') {
-                links.linkSettings = false
                 links.linkPassword = true
+                links.linkSettings = false
+                links.linkUserPosts = false
+                ctx.commit('updateLinksSettings', links)
+            } else if (link == 'userPosts') {
+                links.linkPassword = false
+                links.linkSettings = false
+                links.linkUserPosts = true
                 ctx.commit('updateLinksSettings', links)
             }
         }
@@ -26,6 +35,7 @@ export default {
         links: {
             linkSettings: false,
             linkPassword: false,
+            linkUserPosts: false,
         }
     },
     getters: {

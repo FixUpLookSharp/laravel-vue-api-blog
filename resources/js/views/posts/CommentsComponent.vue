@@ -7,7 +7,7 @@
                     </div>
                     <div class="comment-widgets m-b-20">
                         <div v-for="(comment, index) in comments" :key="comment.id" class="d-flex flex-row comment-row">
-                            <div class="p-2"><span class="round"><img :src="prefixUrlPhoto + comment.creator.photo" alt="user" width="50"></span></div>
+                            <div class="p-2"><span class="round"><img :src="prefixUrlPhoto + comment.creator.photo" class="rounded-circle" alt="user" width="50" height="50"></span></div>
                             <div class="comment-text w-100">
                                 <h5>{{ comment.creator.name }}</h5>
                                 <div class="comment-footer">
@@ -67,7 +67,7 @@
                         <a v-if="!active.allComment && loadButton" @click="loadMore" class="btn btn-primary btn-sm btn-block mb-4" role="button"><span class="glyphicon glyphicon-refresh"></span> Загрузить старые</a>
                         <a v-else-if="active.allComment && !loadButton" class="btn btn-success btn-sm btn-block mb-4" role="button"><span class="glyphicon glyphicon-refresh"></span> {{ active.message }}</a>
                         <div v-if="authStatus" class="d-flex flex-row add-comment-section mb-4">
-                            <img class="img-fluid img-responsive rounded-circle mr-2" :src="prefixUrlPhoto + auth.photo" width="38">
+                            <img class="rounded-circle mr-2" :src="prefixUrlPhoto + auth.photo" width="70" height="50">
                             <input @keyup.enter="addComment({content: content, article_id: postId, creator_id: auth.id})" type="text" :class="[errors ? 'is-invalid' : '']" class="form-control mr-3" v-model="content" placeholder="Добавить Коментарий"><br>
                             <button @click="addComment({content: content, article_id: postId, creator_id: auth.id})" class="btn btn-primary" type="button">Добавть</button>
                         </div>

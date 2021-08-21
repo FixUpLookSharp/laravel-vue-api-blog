@@ -8,7 +8,6 @@ export default {
                     search: data.searchData,
                 },
             }).then((response) => {
-                console.log(response.data)
                 if (response.data.length == 0) {
                     ctx.commit('updateNotFoundSearch', true)
                 } else {

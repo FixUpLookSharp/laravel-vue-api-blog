@@ -117,7 +117,7 @@ return [
         ],
     ],
     'attributes'           => [
-        'address'               => 'Адрес',
+        'address'                => 'Адрес',
         'age'                   => 'Возраст',
         'available'             => 'Доступно',
         'city'                  => 'Город',
@@ -138,7 +138,9 @@ return [
         'month'                 => 'Месяц',
         'name'                  => 'Имя',
         'password'              => 'Пароль',
+        'new_password'          => 'Новый пароль',
         'password_confirmation' => 'Подтверждение пароля',
+        'new_password_confirmation' => 'Подтведиие пароль',
         'phone'                 => 'Телефон',
         'second'                => 'Секунда',
         'sex'                   => 'Пол',

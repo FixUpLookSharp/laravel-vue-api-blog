@@ -8,68 +8,88 @@
                         <div class="row mt-5 align-items-center">
                             <div class="col-md-3 text-center mb-5">
                                 <div class="avatar avatar-xl">
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="..." class="avatar-img rounded-circle" />
+                                    <img :src="prefixUrlPhoto + auth.photo" class="avatar-img rounded" />
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="row align-items-center">
-                                    <div class="col-md-7">
-                                        <h4 class="mb-1">Brown, Asher</h4>
-                                        <p class="small mb-3"><span class="badge badge-dark">New York, USA</span></p>
+                                    <div class="col-md-7 mb-1">
+                                        <h4 class="mb-1">{{ auth.name }}</h4>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <div class="col-md-7">
+                                    <div class="col-md-12">
                                         <p class="text-muted">
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit nisl ullamcorper, rutrum metus in, congue lectus. In hac habitasse platea dictumst. Cras urna quam, malesuada vitae risus at,
-                                            pretium blandit sapien.
+                                            Чтобы обновить аватар, после выбора файла нажмите «Сохранить» внизу страницы<br>
+                                            Разрешенные типы изображений: jpeg, png, gif<br>
+                                            Максимальный размер файла: 15 Мб<br>
+                                            Не больше 5000 точек по каждой из сторон<br>
                                         </p>
-                                    </div>
-                                    <div class="col">
-                                        <p class="small mb-0 text-muted">Nec Urna Suscipit Ltd</p>
-                                        <p class="small mb-0 text-muted">P.O. Box 464, 5975 Eget Avenue</p>
-                                        <p class="small mb-0 text-muted">(537) 315-1481</p>
                                     </div>
                                 </div>
                             </div>
+                            <b-form-file
+                                v-model="photo"
+                                placeholder="Выберите файл или перетащите сюда ..."
+                                drop-placeholder="Перетащите файл сюда ..."
+                                browse-text="Загрузить"
+                            ></b-form-file>
                         </div>
                         <hr class="my-4" />
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="firstname">Firstname</label>
-                                <input type="text" id="firstname" class="form-control" placeholder="Brown" />
+                                <label>Имя</label>
+                                <input type="text" class="form-control" :class="[name ? 'is-valid' : '']" v-model="name"/>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="lastname">Lastname</label>
-                                <input type="text" id="lastname" class="form-control" placeholder="Asher" />
+                                <label>Ник</label>
+                                <input type="text" class="form-control" :class="[nickname ? 'is-valid' : '']" v-model="nickname"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" class="form-control"  placeholder="brown@asher.me" />
+                            <input type="email" class="form-control" :class="[email ? 'is-valid' : '']" v-model="email"/>
                         </div>
                         <div class="form-group">
-                            <label>Address</label>
-                            <input type="text" class="form-control"  placeholder="P.O. Box 464, 5975 Eget Avenue" />
+                            <label>Обо мне</label>
+                            <textarea type="text" class="form-control info-text" :class="[info ? 'is-valid' : '']" rows="2" v-model="info"/>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label>Company</label>
-                                <input type="text" class="form-control" placeholder="Nec Urna Suscipit Ltd" />
+                            <div class="form-group col-md-8">
+                                <label>Адрес</label>
+                                <input type="text" class="form-control" :class="[address ? 'is-valid' : '']" v-model="address"/>
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="inputState5">State</label>
-                                <select id="inputState5" class="form-control">
-                                    <option selected="">Choose...</option>
-                                    <option>...</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label>Zip</label>
-                                <input type="text" class="form-control" placeholder="98232" />
+                                <label>Телефон</label>
+                                <input type="text" class="form-control" :class="[phone ? 'is-valid' : '']" v-model="phone" v-mask="'#-###-###-##-##'"/>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Save Change</button>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label>Вконтакте</label>
+                                <input type="text" class="form-control" :class="[vk ? 'is-valid' : '']" v-model="vk"/>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Фейсбук</label>
+                                <input type="text" class="form-control" :class="[facebook ? 'is-valid' : '']" v-model="facebook"/>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Инстаграм</label>
+                                <input type="text" class="form-control" :class="[instagram ? 'is-valid' : '']" v-model="instagram"/>
+                            </div>
+                        </div>
+                        <button @click="changeUser({
+                        photo: photo,
+                        name: name,
+                        email: email,
+                        info: info,
+                        address: address,
+                        phone: phone,
+                        vk: vk,
+                        facebook: facebook,
+                        nickname: nickname,
+                        instagram: instagram,
+                         })" type="submit" class="btn btn-primary">Сохранить изменения</button>
                     </div>
                 </div>
             </div>
@@ -78,12 +98,56 @@
 </template>
 
 <script>
+    import {mapGetters, mapActions, mapMutations} from 'vuex'
+    import {mask} from 'vue-the-mask'
     import LayoutMenuSettingsComponent from "./LayoutMenuSettingsComponent";
     export default {
-        components: {LayoutMenuSettingsComponent}
+        components: {
+            LayoutMenuSettingsComponent,
+        },
+        directives: {mask},
+        data() {
+            return {
+                name: null,
+                email: null,
+                nickname: null,
+                info: null,
+                address: null,
+                phone: null,
+                vk: null,
+                facebook: null,
+                instagram: null,
+                photo: null
+            }
+        },
+        computed: {
+            ...mapGetters({
+                auth: 'getAuth',
+                prefixUrlPhoto: 'getPrefixUrlPhoto'
+            })
+        },
+        created() {
+            this.name = this.auth.name
+            this.email = this.auth.email
+            this.nickname = this.auth.nickname
+            this.info = this.auth.info ? this.auth.info : ''
+            this.address = this.auth.address ? this.auth.address : ''
+            this.phone = this.auth.phone ? this.auth.phone : ''
+            this.vk = this.auth.vk ? this.auth.vk : ''
+            this.facebook = this.auth.facebook ? this.auth.facebook : ''
+            this.instagram = this.auth.instagram ? this.auth.instagram : ''
+
+        },
+        methods: {
+            ...mapActions({
+                changeUser: 'changeUser'
+            }),
+        }
     }
 </script>
 
 <style scoped>
-
+    .info-text {
+        resize: none;
+    }
 </style>

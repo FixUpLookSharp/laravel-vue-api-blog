@@ -76,6 +76,8 @@ Route::group(
         Route::get('users/', 'UserController@allUsers');
         Route::get('user/search', 'UserController@userSearch');
         Route::post('user/change-password', 'UserController@changePassword');
+        Route::post('user/change-user', 'UserController@changeUser');
+        Route::get('user/my-posts', 'UserController@myPosts');
 
 
 

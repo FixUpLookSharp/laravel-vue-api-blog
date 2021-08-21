@@ -5,37 +5,49 @@
                 <div class="my-4">
                     <layout-menu-settings-component></layout-menu-settings-component>
                     <div>
+                        <div v-if="statusPassword" class="alert-success mb-1">Пароль успешно изменен</div>
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Старый пароль</label>
-                                    <input type="password" v-model="old_password" class="form-control"/>
+                                    <label>Текущий пароль</label>
+                                    <input type="password" v-model="current_password" class="form-control" :class="[errorCurrentPassword ? 'is-invalid' : '']"/>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ errorCurrentPassword }}</strong>
+                                     </span>
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Новый пароль</label>
-                                    <input type="password" v-model="password" id="password" class="form-control"/>
+                                    <input type="password" v-model="new_password" id="password" class="form-control" :class="[errorNewPassword ? 'is-invalid' : '']"/>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ errorNewPassword }}</strong>
+                                    </span>
+<!--                                    <div class="complexity-password text-center mt-1" :class="[complexityPassword.status ? complexityPassword.color : '']"><span class="text-p">{{ complexityPassword.password }}</span></div>-->
+                                    <div v-if="complexityPassword.status">Пароль: <span class="badge mt-1" :class="[complexityPassword.status ? complexityPassword.color : '']">{{ complexityPassword.password }}</span></div>
                                 </div>
                                 <div class="form-group">
                                     <label>Подтвердите пароль</label>
-                                    <input type="password" v-model="password_confirmation" class="form-control"/>
+                                    <input type="password" v-model="new_password_confirmation"  class="form-control" :class="[errorNewPasswordConfirmation ? 'is-invalid' : '']"/>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ errorNewPasswordConfirmation }}</strong>
+                                    </span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <p class="mb-2">Требования к паролю</p>
                                 <p class="small text-muted mb-2">Чтобы создать новый пароль, вы должны соответствовать всем следующим требованиям:</p>
                                 <ul class="small text-muted pl-4 mb-0">
-                                    <li>Должен состоять из латинских букв</li>
+                                    <li>Должен состоять из латинских букв, верхнего и нижниго регистра</li>
                                     <li>Минимум 8 символов</li>
                                     <li>По крайней мере, один специальный символ</li>
                                     <li>Хотя бы одно число</li>
                                     <li>Не может быть таким же, как предыдущий пароль</li>
+                                    <li>Пример: <span class="example-password">priMeR123!</span></li>
                                 </ul>
                             </div>
                         </div>
-                        <button @click="changePassword({password: password, old_password: old_password, password_confirmation: password_confirmation
+                        <button @click="changePassword({new_password: new_password, current_password: current_password, new_password_confirmation: new_password_confirmation
                         })" type="submit" class="btn btn-primary">Сохранить пароль</button>
                     </div>
-                    <p @click="test">rttt</p>
                 </div>
             </div>
         </div>
@@ -44,33 +56,151 @@
 </template>
 
 <script>
-    import {mapActions, mapGetters} from 'vuex'
+    import {mapActions, mapGetters, mapMutations} from 'vuex'
     import LayoutMenuSettingsComponent from "./LayoutMenuSettingsComponent";
     export default {
         components: {LayoutMenuSettingsComponent},
         data() {
           return {
-              password: null,
-              old_password: null,
-              password_confirmation: null
+              new_password: null,
+              current_password: null,
+              new_password_confirmation: null,
+              statusPassword: false,
+              complexityPassword: {
+                  status: false,
+                  password: '',
+                  color: '',
+              },
+
           }
         },
         computed: {
             ...mapGetters({
-                errors: 'getErrorsUser'
+                errorCurrentPassword: 'getErrorCurrentPassword',
+                errorNewPassword: 'getErrorNewPassword',
+                errorNewPasswordConfirmation: 'getErrorNewPasswordConfirmation'
             })
+        },
+        watch: {
+            new_password: function (password) {
+                this.updateErrorNewPassword(null)
+                this.checkPassword(password)
+                if (!password) {
+                    this.complexityPassword.status = false
+                    this.complexityPassword.password = ''
+                    this.complexityPassword.color = ''
+                }
+            },
+            current_password: function (e) {
+                this.updateErrorCurrentPassword(null)
+            },
+            new_password_confirmation: function (e) {
+                this.updateErrorNewPasswordConfirmation(null)
+            },
+
         },
         methods: {
             ...mapActions({
-                changePassword: 'changePassword'
+
             }),
-            test() {
-                console.log(this.errors)
-            }
+            ...mapMutations({
+                updateErrorCurrentPassword: 'updateErrorCurrentPassword',
+                updateErrorNewPassword: 'updateErrorNewPassword',
+                updateErrorNewPasswordConfirmation: 'updateErrorNewPasswordConfirmation',
+            }),
+            async changePassword(data) {
+               await axios({
+                    method: 'post',
+                    url: '/api/V1/user/change-password',
+                    data: {
+                        new_password: data.new_password,
+                        current_password: data.current_password,
+                        new_password_confirmation: data.new_password_confirmation
+                    }
+                }).then((response) => {
+                    this.statusPassword = response.data.status
+                    this.new_password = ''
+                    this.current_password =  ''
+                    this.new_password_confirmation = ''
+
+                }).catch(error => {
+                   this.statusPassword = false
+
+                   var current_password, new_password, new_password_confirmation
+
+                    current_password = error.response.data.errors.current_password ? error.response.data.errors.current_password[0] : null
+                    new_password = error.response.data.errors.new_password ? error.response.data.errors.new_password[0] : null
+                    new_password_confirmation = error.response.data.errors.new_password_confirmation ? error.response.data.errors.new_password_confirmation[0] : null
+
+                    this.updateErrorCurrentPassword(current_password)
+                    this.updateErrorNewPassword(new_password)
+                    this.updateErrorNewPasswordConfirmation(new_password_confirmation)
+                })
+            },
+            checkPassword(password) {
+                let s_letters = "qwertyuiopasdfghjklzxcvbnm"
+                let b_letters = "QWERTYUIOPLKJHGFDSAZXCVBNM"
+                let digits = "0123456789"
+                let specials = "!@#$%^&*()_-+=\|/.,:;[]{}"
+
+                let is_s = false
+                let is_b = false
+                let is_d = false
+                let is_sp = false
+
+                for (let i = 0; i < password.length; i++) {
+                    if (!is_s && s_letters.indexOf(password[i]) != -1) is_s = true
+                    else if (!is_b && b_letters.indexOf(password[i]) != -1) is_b = true
+                    else if (!is_d && digits.indexOf(password[i]) != -1) is_d = true
+                    else if (!is_sp && specials.indexOf(password[i]) != -1) is_sp = true
+                }
+                let rating = 0
+                let text = ""
+                if (is_s) rating++
+                if (is_b) rating++
+                if (is_d) rating++
+                if (is_sp) rating++
+
+                if (password.length < 6 && rating < 3) text = "Простой"
+                else if (password.length < 6 && rating >= 3) text = "Средний"
+                else if (password.length >= 8 && rating < 3) text = "Средний"
+                else if (password.length >= 8 && rating >= 3) text = "Сложный"
+                else if (password.length >= 6 && rating == 1) text = "Простой"
+                else if (password.length >= 6 && rating > 1 && rating < 4) text = "Средний"
+                else if (password.length >= 6 && rating == 4) text = "Сложный"
+
+                if (text == "Простой") this.complexityPassword.color = "badge-danger"
+                else if (text == "Средний") this.complexityPassword.color = "badge-warning"
+                else if (text == "Сложный") this.complexityPassword.color = "badge-success"
+                this.complexityPassword.password = text
+                this.complexityPassword.status = true
+            },
         }
+
     }
 </script>
 
 <style scoped>
-
+    .example-password {
+        color: #0ba360;
+    }
+    .complexity-password {
+        width: 100%;
+        border-radius: 100px;
+    }
+    .text-p {
+        font-size: 15px;
+    }
+    .red {
+        background-color: #cb3333;
+        color: whitesmoke;
+    }
+    .yellow {
+        background-color: #e0e066;
+        color: whitesmoke;
+    }
+    .green {
+        background-color: #0ba360;
+        color: whitesmoke;
+    }
 </style>

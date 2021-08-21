@@ -15,6 +15,11 @@ class LockedUserController extends Controller
         if ($user->role_id == 3) {
             return response()->json('Блокировка администраторов запрещена');
         }
+
+        if ($user->role_id !== 3 ) {
+            return response()->json('Блокировка неразрешена');
+        }
+
         $cause = $request->input('cause');
 
         $user->is_banned = 1;

@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="d-flex flex-column align-items-center text-center">
-                    <img :src="prefixUrlPhoto + user.photo" class="rounded-circle p-1" :class="[user.isOnlineBool ? 'bg-success' : 'bg-primary']" width="110">
+                    <img :src="prefixUrlPhoto + user.photo" class="rounded-circle p-1" :class="[user.isOnlineBool ? 'bg-success' : 'bg-primary']" width="150" height="150">
                     <div class="mt-3">
                         <h4>{{ user.name }}</h4>
                         <p class=" mb-1" :class="user.role.name">{{ $t(user.role.name) }}</p>

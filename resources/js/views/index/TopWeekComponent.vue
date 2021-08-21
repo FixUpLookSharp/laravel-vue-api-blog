@@ -4,7 +4,7 @@
             <h2>{{ post.topWeekTitle }}</h2>
         </div>
         <div class="bio text-center">
-            <img :src="prefixUrlPhoto + post.topWeek.user_photo" alt="Image Placeholder" class="img-fluid">
+            <img :src="prefixUrlPhoto + post.topWeek.user_photo"  class="rounded-circle" alt="user" width="100" height="100">
             <div class="bio-body">
                 <h2>{{ post.topWeek.user_name }}</h2>
                 <p>{{ post.topWeek.article_title }}</p>

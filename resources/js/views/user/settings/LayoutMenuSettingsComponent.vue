@@ -5,6 +5,9 @@
         </li>
         <li class="nav-item">
             <router-link :to="{name: 'userChangePassword'}" class="nav-link linkRoute" :class="[links.linkPassword ? 'active' : '']">Настройки пароля</router-link>
+        </li
+        ><li class="nav-item">
+            <router-link :to="{name: 'userPosts'}" class="nav-link linkRoute" :class="[links.linkUserPosts ? 'active' : '']">Посты</router-link>
         </li>
     </ul>
 </template>

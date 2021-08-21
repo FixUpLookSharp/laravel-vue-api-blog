@@ -150,9 +150,13 @@ class AuthController extends Controller
     private function IsUserOnline()
     {
         if($this->guard()->check()){
+            if (Cache::get('user-is-online-' . $this->guard()->user()->id) === true) {
+                return;
+            }
+
             $expiresAt = Carbon::now()->addMinutes(5);
             Cache::put('user-is-online-' . $this->guard()->user()->id, true, $expiresAt);
-            $this->guard()->user()->is_online = $expiresAt;
+            $this->guard()->user()->is_online = Carbon::now();
             $this->guard()->user()->save();
         }
     }

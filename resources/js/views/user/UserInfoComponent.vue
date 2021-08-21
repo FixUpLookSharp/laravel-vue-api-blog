@@ -29,7 +29,7 @@
         },
         computed: {
           ...mapGetters({
-              userInfo: 'getUserInfo'
+              userInfo: 'getUserInfo',
           })
         },
          mounted() {
@@ -38,7 +38,7 @@
         methods: {
             ...mapActions({
                 getUserInfo: 'getUserInfo',
-            })
+            }),
         }
     }
 </script>

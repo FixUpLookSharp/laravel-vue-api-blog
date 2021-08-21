@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Helpers\MyHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdatePasswordRequest;
+use App\Http\Requests\UserUpdateRequest;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
@@ -105,67 +107,86 @@ class UserController extends Controller
 
     public function changePassword(UpdatePasswordRequest $request)
     {
-        $bigLetters = ['Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B','N','M',];
-        $smallLetters = ['q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m',];
-        $symbols = ['!','@','#','$','%','^','&','*',',','.','/','?',];
-        $numbers = ['0','1','2','3','4','5','6','7','8','9',];
-
-        $bigLettersBool = false;
-        $smallLettersBool = false;
-        $symbolsBool = false;
-        $numbersBool = false;
 
         $user = Auth::guard()->user();
 
-        $oldpassword = $request->input('old_password');
-        $password = $request->input('password');
-
-        $errors = [];
-
-        for($i = 0; $i < strlen($password); $i++) {
-            if(in_array($password[$i], $bigLetters) && !$bigLettersBool) {
-                $bigLettersBool = true;
-            }
-            if(in_array($password[$i], $smallLetters) && !$smallLettersBool) {
-                $smallLettersBool = true;
-            }
-            if(in_array($password[$i], $symbols) && !$symbolsBool) {
-                $symbolsBool = true;
-            }
-            if(in_array($password[$i], $numbers) && !$numbersBool) {
-                $numbersBool = true;
-            }
-        }
-
-        if (!$bigLettersBool) {
-            $errors['errors']['bigLatters'] = 'В пароле отсутствуют большие буквы!';
-        }
-        if (!$smallLettersBool) {
-            $errors['errors']['smallLetters'] = 'В пароле отсутствуют маленькие буквы!';
-        }
-        if (!$symbolsBool) {
-            $errors['errors']['symbols'] = 'В пароле отсутствуют символы!';
-        }
-        if (!$numbersBool) {
-            $errors['errors']['numbers'] = 'В пароле отсутствуют числа!';
-        }
-
+        $oldpassword = $request->input('current_password');
+        $password = $request->input('new_password');
 
         if (!Hash::check($oldpassword, $user->password)) {
-            return response()->json(['errors' => ['password' => ['Пароль не соответствует действующему']]], 422);
-        }
-        if (Hash::check($password, $user->password)) {
-            return response()->json(['errors' => ['password' => ['Пароль не может быть как действующий']]], 422);
-        }
-
-        if (!$bigLettersBool || !$smallLettersBool || !$symbolsBool) {
-            return response()->json($errors, 422);
-
+            return response()->json(['errors' => ['current_password' => ['Пароль не соответствует действующему']]], 422);
         }
 
         $user->password = password_hash($password, PASSWORD_DEFAULT);
         $user->save();
 
         return response()->json(['status' => true, 'message' => 'Пароль успешно обновлен']);
+    }
+
+    public function changeUser(UserUpdateRequest $request)
+    {
+        $user = Auth::guard()->user();
+
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $nickname = $request->input('nickname');
+        $address = $request->input('address');
+        $info = $request->input('info');
+        $vk = $request->input('vk');
+        $instagram = $request->input('instagram');
+        $facebook = $request->input('facebook');
+        $phone = $request->input('phone');
+
+        if ($request->file()) {
+            $photo = $request->file('photo')->store('post', 'public');
+        }
+
+        $user->name = $name;
+        $user->email = $email;
+        $user->nickname = $nickname;
+        $user->address = $address;
+        $user->info = $info;
+        $user->vk = $vk;
+        $user->instagram = $instagram;
+        $user->facebook = $facebook;
+        $user->phone = $phone;
+
+
+        if (isset($photo)) {
+            $user->photo = $photo;
+        }
+
+        $user->save();
+
+        return response()->json('true');
+    }
+
+    public function myPosts()
+    {
+        $user = Auth::guard()->user();
+//        $articles =  $user->articles->map(function ($article) {
+//                $res = [
+//                    'id' => $article->id,
+//                    'title' => $article->title,
+//                    'dir' => $article->dir,
+//                    'likes_count' => $article->likes_count,
+//                    'photo' => $article->photo,
+//                    'created_at' => $article->created_at,
+//                    'category_name'=> $article->category->name,
+//                    'creator' => [
+//                        'id' => $article->creator->id,
+//                        'photo' => $article->creator->photo,
+//                        'name' => $article->creator->name,
+//                    ],
+//                    'count_comments' => count($article->comments)
+//                ];
+//                return $res;
+//        });
+//
+//        return response()->json($articles, 200);
+        $ss = Cache::get('user-is-online-' . $user->id);
+        $arr = [$user->isOnline(), $ss];
+
+        return response()->json($arr);
     }
 }

@@ -14,6 +14,7 @@ import UserInfoComponent from "./views/user/UserInfoComponent";
 import AllUserComponent from "./views/users/AllUserComponent";
 import SettingInfoComponent from "./views/user/settings/SettingInfoComponent";
 import SettingsPasswordComponent from "./views/user/settings/SettingsPasswordComponent";
+import AllPostsUserComponent from "./views/user/posts/AllPostsUserComponent";
 export default new VueRouter({
     mode: 'history',
     routes: [
@@ -126,6 +127,21 @@ export default new VueRouter({
             name: 'userChangePassword',
             meta: {link: 'password'},
             component: SettingsPasswordComponent,
+            beforeEnter: (to, from, next) => {
+                if (!store.getters.getAuth) {
+                    return next({
+                        name: 'login'
+                    })
+                }
+                localStorage.removeItem('link')
+                next()
+            }
+        },
+        {
+            path: '/user/my-posts',
+            name: 'userPosts',
+            meta: {link: 'userPosts'},
+            component: AllPostsUserComponent,
             beforeEnter: (to, from, next) => {
                 if (!store.getters.getAuth) {
                     return next({

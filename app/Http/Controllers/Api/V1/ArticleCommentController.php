@@ -8,6 +8,7 @@ use App\Http\Requests\ArticleCommentUpdateRequest;
 use App\Models\ArticleComment;
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleCommentController extends Controller
 {
@@ -90,7 +91,8 @@ class ArticleCommentController extends Controller
 
     public function store(ArticleCommentRequest $request)
     {
-        $creator_id = $request->input('creator_id');
+
+        $creator_id = Auth::guard()->user()->id;
         $article_id = $request->input('article_id');
         $content = $request->input('content');
 
@@ -117,9 +119,10 @@ class ArticleCommentController extends Controller
         return response()->json($res, 200);
     }
 
-    public function update(ArticleCommentUpdateRequest $request, $id)
+    public function update(ArticleCommentUpdateRequest $request, ArticleComment $comment)
     {
-        $comment = ArticleComment::findOrfail($id);
+        $this->authorize('update', [self::class, $comment]);
+
         $content = $request->input('content');
 
         $comment->content = $content;
@@ -128,9 +131,10 @@ class ArticleCommentController extends Controller
         return response()->json($comment, 201);
     }
 
-    public function destroy($id)
+    public function destroy(ArticleComment $comment)
     {
-        $comment = ArticleComment::findOrfail($id);
+        $this->authorize('delete', [self::class, $comment]);
+
 
         try {
             $comment->delete();

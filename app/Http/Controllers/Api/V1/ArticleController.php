@@ -7,6 +7,7 @@ use App\Http\Requests\ArticleCreateRequest;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Helpers\MyHelper;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
@@ -71,7 +72,7 @@ class ArticleController extends Controller
     {
         $article = new Article();
 
-        $creator_id = $request->input('creator_id');
+        $creator_id = Auth::guard()->user()->id;
         $title = $request->input('title');
         $category_id = $request->input('category_id');
         $description = $request->input('description');

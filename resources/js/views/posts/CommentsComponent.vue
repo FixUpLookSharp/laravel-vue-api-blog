@@ -12,14 +12,14 @@
                                 <h5>{{ comment.creator.name }}</h5>
                                 <div class="comment-footer">
                                     <span class="date">{{ moment(comment.created_at).format('DD.MM.YYYY') }}</span>
-                                    <span class="action-icons">
+                                    <span v-if="auth" class="action-icons">
                                         <a v-if="comment.creator.id == auth.id && comment.id != update.id" @click="commentUpdateShow(comment.id, comment.content)" class="update">
                                         <i class="fa fa-pencil"></i>
                                         </a>
                                         <a v-if="comment.creator.id == auth.id && update.comment && comment.id == update.id" @click="commentUpdate({id: update.id, content: update.content}, index)" class="update">
                                         <i class="fas fa-save"></i>
                                         </a>
-                                        <a v-if="comment.creator.id == auth.id" @click="commentDelete(comment.id, index)" class="delete">
+                                        <a v-if="comment.creator.id == auth.id || auth.role_id == 3" @click="commentDelete(comment.id, index)" class="delete">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                         </a>
 <!--                                        <a href="#" data-abc="true">-->
@@ -67,9 +67,9 @@
                         <a v-if="!active.allComment && loadButton" @click="loadMore" class="btn btn-primary btn-sm btn-block mb-4" role="button"><span class="glyphicon glyphicon-refresh"></span> Загрузить старые</a>
                         <a v-else-if="active.allComment && !loadButton" class="btn btn-success btn-sm btn-block mb-4" role="button"><span class="glyphicon glyphicon-refresh"></span> {{ active.message }}</a>
                         <div v-if="authStatus" class="d-flex flex-row add-comment-section mb-4">
-                            <img class="rounded-circle mr-2" :src="prefixUrlPhoto + auth.photo" width="70" height="50">
-                            <input @keyup.enter="addComment({content: content, article_id: postId, creator_id: auth.id})" type="text" :class="[errors ? 'is-invalid' : '']" class="form-control mr-3" v-model="content" placeholder="Добавить Коментарий"><br>
-                            <button @click="addComment({content: content, article_id: postId, creator_id: auth.id})" class="btn btn-primary" type="button">Добавть</button>
+                            <img class="rounded-circle mr-2" :src="prefixUrlPhoto + auth.photo" width="50" height="50">
+                            <input @keyup.enter="addComment({content: content, article_id: postId})" type="text" :class="[errors ? 'is-invalid' : '']" class="form-control mr-3" v-model="content" placeholder="Добавить Коментарий"><br>
+                            <button @click="addComment({content: content, article_id: postId})" class="btn btn-primary" type="button">Добавть</button>
                         </div>
                     </div>
             </div>
@@ -109,8 +109,8 @@
                 loadButton: 'getCommentLoadButton',
             })
         },
-        mounted() {
-            this.showComments(this.$route.params.id)
+       async mounted() {
+           await this.showComments(this.$route.params.id)
         },
         watch: {
             content: function (e) {
@@ -137,7 +137,6 @@
                     url: '/api/V1/comment',
                     data: {
                         content: data.content,
-                        creator_id: data.creator_id,
                         article_id: data.article_id,
                     }
                 }).then((response) => {

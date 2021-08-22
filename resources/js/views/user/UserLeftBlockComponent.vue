@@ -11,7 +11,7 @@
                         <p v-if="user.is_banned" class="blockUser font-size-sm">Заблокирован</p>
                         <div v-if="auth && user.id != auth.id">
                             <button  v-if="auth.role_id == 3 && !user.is_banned" @click="show=true" class="btn btn-outline-danger">Заблокировать</button>
-                            <button  v-if="auth.role_id == 3 && user.is_banned" @click="unBlockUser(user.id)" class="btn btn-outline-success">Разблокировать</button>
+                            <button v-if="auth.role_id == 3 && user.is_banned" :disabled="disabled"  @click="unBlockUser(user.id)" class="btn btn-outline-success">Разблокировать</button>
                             <button class="btn btn-outline-primary">Начать диалог</button>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
             </span>
             <template #modal-footer>
                 <b-button @click="show=false" variant="success">Отмена</b-button>
-                <b-button @click="blockUser(cause, user.id)" variant="danger">Заблокировать</b-button>
+                <b-button :disabled="disabled" @click="blockUser(cause, user.id)" variant="danger">Заблокировать</b-button>
             </template>
         </b-modal>
     </div>
@@ -60,6 +60,8 @@
                 cause: null,
                 show: false,
                 errorCause: null,
+                disabled: false,
+                timeout: null,
             }
         },
         computed: {
@@ -78,6 +80,11 @@
                     this.errorCause = 'Поле "Причина" содержать не менее 10 символов'
                     return;
                 }
+               this.disabled = await true
+
+               this.timeout = await setTimeout(() => {
+                   this.disabled = false
+               }, 2000)
                 await axios({
                     method: 'post',
                     url: '/api/V1/block/' + user,
@@ -91,6 +98,12 @@
                 })
             },
             async unBlockUser(user) {
+                this.disabled = await true
+
+                this.timeout = await setTimeout(() => {
+                    this.disabled = false
+                }, 2000)
+
                 await axios({
                     method: 'post',
                     url: '/api/V1/unblock/' + user,

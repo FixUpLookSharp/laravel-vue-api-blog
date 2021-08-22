@@ -6,19 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LockedUserRequest;
 use App\Mail\UnblockUser;
 use App\Models\User;
+use http\Env\Response;
 use Illuminate\Support\Facades\Mail;
 class LockedUserController extends Controller
 {
     public function block(User $user, LockedUserRequest $request)
     {
 
-        if ($user->role_id == 3) {
-            return response()->json('Блокировка администраторов запрещена');
-        }
-
-        if ($user->role_id !== 3 ) {
-            return response()->json('Блокировка неразрешена');
-        }
+        $this->authorize('user-block', [self::class, $user]);
 
         $cause = $request->input('cause');
 
@@ -31,9 +26,12 @@ class LockedUserController extends Controller
 
     public function unblock(User $user)
     {
-        if (\Auth::guard()->user()->role_id  == 2 || \Auth::guard()->user()->role_id  == 1) {
-            return response()->json('Нет прав на разблокировку');
-        }
+        $this->authorize('user-unblock', [self::class, $user]);
+
+
+//        if (\Auth::guard()->user()->role_id  == 2 || \Auth::guard()->user()->role_id  == 1) {
+//            return response()->json('Нет прав на разблокировку');
+//        }
 
         $user->is_banned = 0;
         $user->cause = null;

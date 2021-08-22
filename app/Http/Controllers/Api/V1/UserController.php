@@ -164,29 +164,28 @@ class UserController extends Controller
     public function myPosts()
     {
         $user = Auth::guard()->user();
-//        $articles =  $user->articles->map(function ($article) {
-//                $res = [
-//                    'id' => $article->id,
-//                    'title' => $article->title,
-//                    'dir' => $article->dir,
-//                    'likes_count' => $article->likes_count,
-//                    'photo' => $article->photo,
-//                    'created_at' => $article->created_at,
-//                    'category_name'=> $article->category->name,
-//                    'creator' => [
-//                        'id' => $article->creator->id,
-//                        'photo' => $article->creator->photo,
-//                        'name' => $article->creator->name,
-//                    ],
-//                    'count_comments' => count($article->comments)
-//                ];
-//                return $res;
-//        });
-//
-//        return response()->json($articles, 200);
-        $ss = Cache::get('user-is-online-' . $user->id);
-        $arr = [$user->isOnline(), $ss];
+        $articles =  $user->articles->map(function ($article) {
+                $res = [
+                    'id' => $article->id,
+                    'title' => $article->title,
+                    'dir' => $article->dir,
+                    'likes_count' => $article->likes_count,
+                    'photo' => $article->photo,
+                    'created_at' => $article->created_at,
+                    'category_name'=> $article->category->name,
+                    'creator' => [
+                        'id' => $article->creator->id,
+                        'photo' => $article->creator->photo,
+                        'name' => $article->creator->name,
+                    ],
+                    'count_comments' => count($article->comments)
+                ];
+                return $res;
+        });
 
-        return response()->json($arr);
+        if (count($articles) == 0) return response()->json(false, 200);
+
+        return response()->json($articles, 200);
+
     }
 }

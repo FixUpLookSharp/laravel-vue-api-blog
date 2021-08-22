@@ -24,6 +24,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <p v-if="!posts">У вас постов еще не создано</p>
                         </div>
                     </div>
             </div>
@@ -48,8 +49,9 @@
                 posts: 'getUserPosts',
             }),
         },
-        mounted() {
-            this.userPosts()
+       async created() {
+            await this.userPosts()
+           console.log(this.posts)
         },
         methods: {
             ...mapActions({

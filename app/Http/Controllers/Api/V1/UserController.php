@@ -6,12 +6,13 @@ use App\Helpers\MyHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UserUpdateRequest;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
@@ -138,8 +139,10 @@ class UserController extends Controller
         $phone = $request->input('phone');
 
         if ($request->file()) {
-            $photo = $request->file('photo')->store('post', 'public');
+            $photo = Image::make($request->file('photo'))->resize(290, 290)->save('storage/user/' . Str::random(40) . '.jpg');
         }
+
+
 
         $user->name = $name;
         $user->email = $email;
@@ -153,7 +156,7 @@ class UserController extends Controller
 
 
         if (isset($photo)) {
-            $user->photo = $photo;
+            $user->photo = 'user/' . $photo->filename . '.jpg';
         }
 
         $user->save();

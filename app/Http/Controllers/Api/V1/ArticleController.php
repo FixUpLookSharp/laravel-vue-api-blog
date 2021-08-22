@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Helpers\MyHelper;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class ArticleController extends Controller
 {
@@ -78,16 +80,19 @@ class ArticleController extends Controller
         $description = $request->input('description');
 
         if ($request->file()) {
-            $photo = $request->file('photo')->store('post', 'public');
+            $photo = Image::make($request->file('photo'))->resize(710, 399)->save('storage/post/' . Str::random(40) . '.jpg');
         }
 
         $dir = MyHelper::translit_file($request->input('title'));
+
+        if (isset($photo)) {
+            $article->photo = 'post/' . $photo->filename . '.jpg';
+        }
 
         $article->category_id = $category_id;
         $article->creator_id = $creator_id;
         $article->title = $title;
         $article->description = $description;
-        $article->photo = $photo;
         $article->dir = $dir;
         $article->save();
 

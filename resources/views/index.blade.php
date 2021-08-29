@@ -29,13 +29,9 @@
 
 </head>
 <body>
-<div id="app" class="wrap">
-    <header-component></header-component>
-        <main class="container">
-            <router-view></router-view>
-        </main>
-    <footer-component></footer-component>
-</div>
+    <div id="app" class="wrap">
+        <global-component></global-component>
+    </div>
 </body>
 <script>window.Laravel = {csrfToken: '{{ csrf_token() }}'}</script>
 <script src="https://use.fontawesome.com/6b370d6c4e.js"></script>

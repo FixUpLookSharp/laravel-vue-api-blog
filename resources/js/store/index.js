@@ -20,6 +20,7 @@ import userSettings from "./modules/user/userSettings";
 import changePassword from "./modules/user/changePassword";
 import changeUser from "./modules/user/changeUser";
 import userPosts from "./modules/user/userPosts";
+import notFound from "./modules/notFound/notFound";
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -43,6 +44,7 @@ export default new Vuex.Store({
         userSettings,
         changePassword,
         changeUser,
-        userPosts
+        userPosts,
+        notFound
     }
 })

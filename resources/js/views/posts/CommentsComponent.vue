@@ -7,9 +7,17 @@
                     </div>
                     <div class="comment-widgets m-b-20">
                         <div v-for="(comment, index) in comments" :key="comment.id" class="d-flex flex-row comment-row">
-                            <div class="p-2"><span class="round"><img :src="prefixUrlPhoto + comment.creator.photo" class="rounded-circle" alt="user" width="50" height="50"></span></div>
+                            <div class="p-2">
+                                <span class="round">
+                                    <router-link class="linkRoute" :to="{name: 'user', params: {id: comment.creator.id}}">
+                                        <img :src="prefixUrlPhoto + comment.creator.photo" class="rounded-circle" alt="user" width="50" height="50">
+                                    </router-link>
+                                </span>
+                            </div>
                             <div class="comment-text w-100">
-                                <h5>{{ comment.creator.name }}</h5>
+                                <router-link class="linkRoute" :to="{name: 'user', params: {id: comment.creator.id}}">
+                                    <h5>{{ comment.creator.name }}</h5>
+                                </router-link>
                                 <div class="comment-footer">
                                     <span class="date">{{ moment(comment.created_at).format('DD.MM.YYYY') }}</span>
                                     <span v-if="auth" class="action-icons">

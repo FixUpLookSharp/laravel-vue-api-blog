@@ -23,9 +23,7 @@ class UnBlockUser extends Mailable
     }
 
     /**
-     * Build the message.
-     *
-     * @return $this
+     * @return UnBlockUser
      */
     public function build()
     {

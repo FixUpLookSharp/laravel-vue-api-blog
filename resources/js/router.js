@@ -22,17 +22,19 @@ export default new VueRouter({
             path: '*',
             name: 'notFound',
             component: NotFoundComponent,
-            beforeEnter: (to, from, next) => {
-                localStorage.setItem('link', 'main');
-                    return next({
-                        name: 'index'
-                    })
-            }
+            meta: {link: 'notFound'}
+            // beforeEnter: (to, from, next) => {
+            //     localStorage.setItem('link', 'main');
+            //         return next({
+            //             name: 'index'
+            //         })
+            // }
         },
         {
             path: '/',
             name: 'index',
             component: IndexComponent,
+            meta: {link: 'index'},
             beforeEnter: (to, from, next) => {
                 localStorage.setItem('link', 'main');
                 next()

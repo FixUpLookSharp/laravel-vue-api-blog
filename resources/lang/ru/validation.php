@@ -128,6 +128,7 @@ return [
         'day'                   => 'День',
         'description'           => 'Описание',
         'email'                 => 'E-Mail адрес',
+        'explanation'           => 'Объяснение',
         'excerpt'               => 'Выдержка',
         'first_name'            => 'Имя',
         'gender'                => 'Пол',

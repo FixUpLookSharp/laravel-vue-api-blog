@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\UserRegistrationJob;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -28,7 +29,7 @@ class AuthController extends Controller
             $request->all(),
             [
                 'email'    => 'required|email',
-                'password' => 'required|string|min:6',
+                'password' => 'required|string|min:8',
             ]
         );
 
@@ -76,6 +77,7 @@ class AuthController extends Controller
         $user->password = bcrypt($request->input('password'));
         $user->photo = 'user/userStandart.jpg';
         $user->nickname = 'user-' . $this->generateNameHash($request->name);
+        $user->role_id = 1;
         $user->save();
 
         $token_validity = (24 * 60);
@@ -83,6 +85,8 @@ class AuthController extends Controller
         $this->guard()->factory()->setTTL($token_validity);
 
         $token = $this->guard()->attempt($validator->validated());
+
+        dispatch(new UserRegistrationJob($user->email, $request->input('password')))->delay(now()->addMinutes(1));
 
         return response()->json(
             [

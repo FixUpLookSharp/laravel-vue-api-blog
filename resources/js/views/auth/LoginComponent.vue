@@ -7,8 +7,10 @@
                         <div class="login100-pic js-tilt" data-tilt>
                             <img src="images/img-01.png" alt="IMG">
                         </div>
-
                         <div class="login100-form">
+                            <div v-if="resetSuccess" class="alert alert-success">
+                                Пароль успешно обновлен!
+                            </div>
                             <span class="login100-form-title">
                                 Авторизация
                             </span>
@@ -54,9 +56,9 @@
                                 <span class="txt1">
                                     Забыли
                                 </span>
-                                <a class="txt2" href="#">
+                                <router-link :to="{name: 'reset-password'}" class="txt2">
                                     имя пользователя или пароль?
-                                </a>
+                                </router-link>
                             </div>
                             <div class="text-center p-t-136">
                                 <router-link class="txt2" :to="{name: 'register'}">
@@ -85,7 +87,8 @@
         computed: {
             ...mapGetters({
                 getAuthStatus: 'getAuthStatus',
-                getErrorLogin: 'getErrorLogin'
+                getErrorLogin: 'getErrorLogin',
+                resetSuccess: 'getResetSuccess'
             })
         },
         mounted() {

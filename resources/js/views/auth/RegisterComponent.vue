@@ -4,7 +4,7 @@
             <div class="limiter">
                 <div class="container-login100">
                     <div class="wrap-register100">
-                        <form class="login100-form register100-form" onclick="return false">
+                        <div class="login100-form register100-form">
                             <span class="login100-form-title">
                                 Регистрация
                             </span>
@@ -41,6 +41,8 @@
                                     <strong>{{ getRegisterErrors.password }}</strong>
                                 </span>
                             </div>
+                            <div class="mb-1" v-if="complexityPassword.status">Пароль: <span class="badge mt-1" :class="[complexityPassword.status ? complexityPassword.color : '']">{{ complexityPassword.password }}</span></div>
+                            <div class="mb-2" v-if="complexityPassword.status">Пример: <span class="badge mt-1 badge-success">GoOdPassWord123</span></div>
                             <div class="wrap-input100 validate-input">
                                 <input type="password" class="input100" v-model="password_confirmation" placeholder="Подтвердите пароль">
                                 <span class="focus-input100"></span>
@@ -53,12 +55,12 @@
                                     Зарегистрироваться
                                 </button>
                             </div>
-                            <div class="text-center p-t-136 txt2">
+                            <div class="text-center pt-1 p-t-136 txt2">
                                     У вас уже есть аккаунт?<br>
                                     <router-link class="txt2" :to="{name: 'login'}">Войти</router-link>
                                     <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -67,7 +69,7 @@
 </template>
 
 <script>
-    import {mapActions, mapGetters} from "vuex"
+    import {mapActions, mapGetters, mapMutations} from "vuex"
     export default {
         data: function() {
             return {
@@ -75,19 +77,37 @@
                 email: '',
                 password: '',
                 password_confirmation: '',
+                dataPasswordStatus: {
+                    status: false,
+                    password: '',
+                    color: '',
+                },
             }
         },
         computed: {
             ...mapGetters({
                 getAuthStatus: 'getAuthStatus',
-                getRegisterErrors: 'getRegisterErrors'
+                getRegisterErrors: 'getRegisterErrors',
+                complexityPassword: 'getComplexityPassword',
             })
+        },
+        watch: {
+            password: function (password) {
+                this.checkPassword(password)
+                if (!password) {
+                    this.updateComplexityPassword(this.dataPasswordStatus)
+                }
+            },
         },
         mounted() {
         },
         methods: {
             ...mapActions({
+                checkPassword: 'checkPassword',
                 registerUser: 'registerUser',
+            }),
+            ...mapMutations({
+                updateComplexityPassword: 'updateComplexityPassword',
             })
         }
     }

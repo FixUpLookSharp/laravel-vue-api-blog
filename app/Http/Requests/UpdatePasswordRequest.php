@@ -25,8 +25,9 @@ class UpdatePasswordRequest extends FormRequest
     {
         return [
             'current_password' => 'required',
-            'new_password' => 'required|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^\w\s]).{8,}/|different:current_password',
+            'new_password' => 'required|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}/|different:current_password',
             'new_password_confirmation' => 'required'
             ];
     }
 }
+//^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^\w\s]).{8,} with symbols

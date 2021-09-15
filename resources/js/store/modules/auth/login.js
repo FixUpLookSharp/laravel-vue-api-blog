@@ -28,6 +28,9 @@ export default {
     mutations: {
         updateLoginErrors(state, errors) {
             state.errors = errors
+        },
+        updateResetSuccess(state, status) {
+            state.reset_success = true
         }
     },
     state: {
@@ -35,11 +38,15 @@ export default {
             email: null,
             password: null,
             error: null,
-        }
+        },
+        reset_success: false
     },
     getters: {
         getErrorLogin(state) {
             return state.errors
+        },
+        getResetSuccess(state) {
+            return state.reset_success
         }
     }
 }

@@ -89,7 +89,6 @@
 
                     this.errors.email = error.response.data.errors.email ? error.response.data.errors.email[0] : null
                     this.errors.explanation = error.response.data.errors.explanation ? error.response.data.errors.explanation[0] : null
-                    console.log(error.response.data)
                 })
             }
         }

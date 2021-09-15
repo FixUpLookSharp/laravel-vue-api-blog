@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExplanationBlockedUserRequest;
 use App\Http\Requests\LockedUserRequest;
+use App\Jobs\ExplanationFromUserBlockedMailJob;
+use App\Jobs\UnBlockUserJob;
 use App\Mail\ExplanationFromUserBlockedMail;
 use App\Mail\UnblockUser;
 use App\Models\User;
@@ -40,7 +42,7 @@ class LockedUserController extends Controller
             'text' => 'Вы разблокированы, при повторном нарушении вы будете заблокированы навсегда!'
         ];
 
-        Mail::later(now()->addMinutes(1), new UnblockUser($data));
+        dispatch(new UnBlockUserJob($data))->delay(now()->addMinutes(1));
 
         return response()->json('Пользователь разблокирован', 200);
 
@@ -68,8 +70,8 @@ class LockedUserController extends Controller
                 'explanation' => $explanation,
                 'user' => $user,
             ];
+        dispatch(new ExplanationFromUserBlockedMailJob($data))->delay(now()->addMinutes(1));
 
-        Mail::later(now()->addMinutes(1), new ExplanationFromUserBlockedMail($data));
         return response()->json($data);
     }
 

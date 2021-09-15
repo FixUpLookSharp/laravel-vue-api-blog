@@ -15,6 +15,11 @@ import AllUserComponent from "./views/users/AllUserComponent";
 import SettingInfoComponent from "./views/user/settings/SettingInfoComponent";
 import SettingsPasswordComponent from "./views/user/settings/SettingsPasswordComponent";
 import AllPostsUserComponent from "./views/user/posts/AllPostsUserComponent";
+import ForgotPasswordComponent from "./views/auth/ForgotPasswordComponent";
+import ResetPasswordFormComponent from "./views/auth/ResetPasswordFormComponent";
+import GamesComponent from "./views/games/GamesComponent";
+import TicTacToeComponent from "./views/games/TicTacToeComponent";
+
 export default new VueRouter({
     mode: 'history',
     routes: [
@@ -151,6 +156,59 @@ export default new VueRouter({
                     })
                 }
                 localStorage.removeItem('link')
+                next()
+            }
+        },
+
+        {
+            path: '/reset-password',
+            name: 'reset-password',
+            component: ForgotPasswordComponent,
+            beforeEnter: (to, from, next) => {
+                if (store.getters.getAuth) {
+                    return next({
+                        name: 'index'
+                    })
+                }
+                next()
+            }
+        },
+        {
+            path: '/reset-password/:token',
+            name: 'reset-password-form',
+            component: ResetPasswordFormComponent,
+            beforeEnter: (to, from, next) => {
+                if (store.getters.getAuth) {
+                    return next({
+                        name: 'index'
+                    })
+                }
+                next()
+            }
+        },
+        {
+            path: '/games',
+            name: 'games',
+            component: GamesComponent,
+            beforeEnter: (to, from, next) => {
+                if (!store.getters.getAuth) {
+                    return next({
+                        name: 'login'
+                    })
+                }
+                next()
+            }
+        },
+        {
+            path: '/games/tic-tac-toe',
+            name: 'tic-tac-toe',
+            component: TicTacToeComponent,
+            beforeEnter: (to, from, next) => {
+                if (!store.getters.getAuth) {
+                    return next({
+                        name: 'login'
+                    })
+                }
                 next()
             }
         },

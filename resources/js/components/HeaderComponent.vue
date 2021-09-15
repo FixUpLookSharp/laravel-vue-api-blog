@@ -38,7 +38,7 @@
                                 </div>
                             </li>
                             <li @click="mainActiveLink('usl')" class="nav-item">
-                                <a class="nav-link" :class="[mainLink == 'usl' ? 'active' : '']" href="#">Услуги</a>
+                                <router-link class="nav-link" :to="{name: 'games'}" :class="[mainLink == 'usl' ? 'active' : '']">Игры</router-link>
                             </li>
                             <li @click="mainActiveLink('con')" class="nav-item">
                                 <a class="nav-link" :class="[mainLink == 'con' ? 'active' : '']" href="#">Контакты</a>

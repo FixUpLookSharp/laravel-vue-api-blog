@@ -20,13 +20,9 @@ export default {
             if (data.photo) await data2.append('photo', data.photo)
             await axios.post('/api/V1/user/change-user', data2, config)
                 .then(function (res) {
-                    console.log(res.data)
                 })
                 .catch(function (err) {
-                    console.log(err.response.data)
                 });
-
-            console.log(data)
         }
     },
     mutations: {

@@ -21,7 +21,6 @@
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ errorNewPassword }}</strong>
                                     </span>
-<!--                                    <div class="complexity-password text-center mt-1" :class="[complexityPassword.status ? complexityPassword.color : '']"><span class="text-p">{{ complexityPassword.password }}</span></div>-->
                                     <div v-if="complexityPassword.status">Пароль: <span class="badge mt-1" :class="[complexityPassword.status ? complexityPassword.color : '']">{{ complexityPassword.password }}</span></div>
                                 </div>
                                 <div class="form-group">
@@ -38,10 +37,9 @@
                                 <ul class="small text-muted pl-4 mb-0">
                                     <li>Должен состоять из латинских букв, верхнего и нижниго регистра</li>
                                     <li>Минимум 8 символов</li>
-                                    <li>По крайней мере, один специальный символ</li>
                                     <li>Хотя бы одно число</li>
                                     <li>Не может быть таким же, как предыдущий пароль</li>
-                                    <li>Пример: <span class="example-password">priMeR123!</span></li>
+                                    <li>Пример: <span class="example-password">priMeR123</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -66,7 +64,7 @@
               current_password: null,
               new_password_confirmation: null,
               statusPassword: false,
-              complexityPassword: {
+              dataPasswordStatus: {
                   status: false,
                   password: '',
                   color: '',
@@ -78,7 +76,8 @@
             ...mapGetters({
                 errorCurrentPassword: 'getErrorCurrentPassword',
                 errorNewPassword: 'getErrorNewPassword',
-                errorNewPasswordConfirmation: 'getErrorNewPasswordConfirmation'
+                errorNewPasswordConfirmation: 'getErrorNewPasswordConfirmation',
+                complexityPassword: 'getComplexityPassword'
             })
         },
         watch: {
@@ -86,9 +85,7 @@
                 this.updateErrorNewPassword(null)
                 this.checkPassword(password)
                 if (!password) {
-                    this.complexityPassword.status = false
-                    this.complexityPassword.password = ''
-                    this.complexityPassword.color = ''
+                    this.updateComplexityPassword(this.dataPasswordStatus)
                 }
             },
             current_password: function (e) {
@@ -101,12 +98,13 @@
         },
         methods: {
             ...mapActions({
-
+                checkPassword: 'checkPassword'
             }),
             ...mapMutations({
                 updateErrorCurrentPassword: 'updateErrorCurrentPassword',
                 updateErrorNewPassword: 'updateErrorNewPassword',
                 updateErrorNewPasswordConfirmation: 'updateErrorNewPasswordConfirmation',
+                updateComplexityPassword: 'updateComplexityPassword'
             }),
             async changePassword(data) {
                await axios({
@@ -136,44 +134,6 @@
                     this.updateErrorNewPassword(new_password)
                     this.updateErrorNewPasswordConfirmation(new_password_confirmation)
                 })
-            },
-            checkPassword(password) {
-                let s_letters = "qwertyuiopasdfghjklzxcvbnm"
-                let b_letters = "QWERTYUIOPLKJHGFDSAZXCVBNM"
-                let digits = "0123456789"
-                let specials = "!@#$%^&*()_-+=\|/.,:;[]{}"
-
-                let is_s = false
-                let is_b = false
-                let is_d = false
-                let is_sp = false
-
-                for (let i = 0; i < password.length; i++) {
-                    if (!is_s && s_letters.indexOf(password[i]) != -1) is_s = true
-                    else if (!is_b && b_letters.indexOf(password[i]) != -1) is_b = true
-                    else if (!is_d && digits.indexOf(password[i]) != -1) is_d = true
-                    else if (!is_sp && specials.indexOf(password[i]) != -1) is_sp = true
-                }
-                let rating = 0
-                let text = ""
-                if (is_s) rating++
-                if (is_b) rating++
-                if (is_d) rating++
-                if (is_sp) rating++
-
-                if (password.length < 6 && rating < 3) text = "Простой"
-                else if (password.length < 6 && rating >= 3) text = "Средний"
-                else if (password.length >= 8 && rating < 3) text = "Средний"
-                else if (password.length >= 8 && rating >= 3) text = "Сложный"
-                else if (password.length >= 6 && rating == 1) text = "Простой"
-                else if (password.length >= 6 && rating > 1 && rating < 4) text = "Средний"
-                else if (password.length >= 6 && rating == 4) text = "Сложный"
-
-                if (text == "Простой") this.complexityPassword.color = "badge-danger"
-                else if (text == "Средний") this.complexityPassword.color = "badge-warning"
-                else if (text == "Сложный") this.complexityPassword.color = "badge-success"
-                this.complexityPassword.password = text
-                this.complexityPassword.status = true
             },
         }
 

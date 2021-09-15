@@ -51,7 +51,6 @@
         },
        async created() {
             await this.userPosts()
-           console.log(this.posts)
         },
         methods: {
             ...mapActions({

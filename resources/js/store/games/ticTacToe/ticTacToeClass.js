@@ -7,19 +7,27 @@ export class TicTacToeClass
      * property computer
      * property strategy
      * property offGame
+     * property message
      *
      * @param game
      * @param difGame
      * @param player
+     * @param countX
+     * @param countO
      */
-    constructor(game, difGame, player)
+    constructor(game, difGame, player, countX, countO)
     {
         this.game = game
         this.player = player
         this.difgame = difGame
         this.offGame = false
+        this.message = 'Начните игру или выберите игрока'
+        this.countX = countX
+        this.countO = countO
         if (player == 'o') {
             this.computer = 'x'
+            this.message = 'Ходит Х'
+
         } else if (player == 'x') {
             this.computer = 'o'
         }
@@ -37,41 +45,22 @@ export class TicTacToeClass
 
         if (str === 'computer' && column === 'computer') {
             this.game = await this.strategy.go(this.game, this.computer);
-
-            if (this.game[0][0] == this.computer && this.game[0][1] == this.computer && this.game[0][2] == this.computer
-            || this.game[1][0] == this.computer && this.game[1][1] == this.computer && this.game[1][2] == this.computer
-            || this.game[2][0] == this.computer && this.game[2][1] == this.computer && this.game[2][2] == this.computer
-            || this.game[0][0] == this.computer && this.game[1][0] == this.computer && this.game[2][0] == this.computer
-            || this.game[0][1] == this.computer && this.game[1][1] == this.computer && this.game[2][1] == this.computer
-            || this.game[0][2] == this.computer && this.game[1][2] == this.computer && this.game[2][2] == this.computer
-            || this.game[0][0] == this.computer && this.game[1][1] == this.computer && this.game[2][2] == this.computer
-            || this.game[0][2] == this.computer && this.game[1][1] == this.computer && this.game[2][0] == this.computer) {
-                this.offGame = await 'Компьютер выиграл!'
-                await this.gameIsOver()
-            }
+            this.message = 'Ходит ' + this.player
+           await this.computerWinnerLogic()
         } else {
             if (this.offGame) return;
-
+            this.message = 'Ходит ' + this.computer
             if (this.game[str][column] === null) {
                 this.game[str][column] = this.player
             }
-            if (this.game[0][0] == this.player && this.game[0][1] == this.player && this.game[0][2] == this.player
-            || this.game[1][0] == this.player && this.game[1][1] == this.player && this.game[1][2] == this.player
-            || this.game[2][0] == this.player && this.game[2][1] == this.player && this.game[2][2] == this.player
-            || this.game[0][0] == this.player && this.game[1][0] == this.player && this.game[2][0] == this.player
-            || this.game[0][1] == this.player && this.game[1][1] == this.player && this.game[2][1] == this.player
-            || this.game[0][2] == this.player && this.game[1][2] == this.player && this.game[2][2] == this.player
-            || this.game[0][0] == this.player && this.game[1][1] == this.player && this.game[2][2] == this.player
-            || this.game[0][2] == this.player && this.game[1][1] == this.player && this.game[2][0] == this.player) {
-                this.offGame = await 'Вы выиграли!'
-                await this.gameIsOver()
-            }
+            await this.playerWinnerLogic()
         }
 
         const allItemsHaveValue = await this.game.map(o => Object.values(o).every(v => v)).every(v => v);
 
-        if (allItemsHaveValue) {
-            this.offGame = await 'Ничья'
+        if (allItemsHaveValue && !this.offGame) {
+            this.message = 'Игра окончена!'
+            this.offGame = {player: this.player, computer: this.computer, win: 'НИЧЬЯ!'}
             await this.gameIsOver()
         }
     }
@@ -81,12 +70,61 @@ export class TicTacToeClass
         return await this.offGame
     }
 
-    get getGame() {
-        return this.fullGame();
+
+    countWin(win)
+    {
+        if (win == 'x') {
+            if (this.countX == '-') {
+                this.countX = 1
+            } else  {
+                this.countX += 1
+            }
+        } else {
+            if (this.countO == '-') {
+                this.countO = 1
+            } else  {
+                this.countO += 1
+            }
+        }
     }
 
-    fullGame() {
-        return this.game
+    async playerWinnerLogic()
+    {
+        if (this.game[0][0] == this.player && this.game[0][1] == this.player && this.game[0][2] == this.player
+            || this.game[1][0] == this.player && this.game[1][1] == this.player && this.game[1][2] == this.player
+            || this.game[2][0] == this.player && this.game[2][1] == this.player && this.game[2][2] == this.player
+            || this.game[0][0] == this.player && this.game[1][0] == this.player && this.game[2][0] == this.player
+            || this.game[0][1] == this.player && this.game[1][1] == this.player && this.game[2][1] == this.player
+            || this.game[0][2] == this.player && this.game[1][2] == this.player && this.game[2][2] == this.player
+            || this.game[0][0] == this.player && this.game[1][1] == this.player && this.game[2][2] == this.player
+            || this.game[0][2] == this.player && this.game[1][1] == this.player && this.game[2][0] == this.player) {
+
+
+            this.countWin(this.player)
+            this.message = 'Игра окончена!'
+            this.offGame = {player: this.player, win: 'ПОБЕДИТЕЛЬ!'}
+            await this.gameIsOver()
+        }
+    }
+
+    async computerWinnerLogic()
+    {
+        if (this.game[0][0] == this.computer && this.game[0][1] == this.computer && this.game[0][2] == this.computer
+            || this.game[1][0] == this.computer && this.game[1][1] == this.computer && this.game[1][2] == this.computer
+            || this.game[2][0] == this.computer && this.game[2][1] == this.computer && this.game[2][2] == this.computer
+            || this.game[0][0] == this.computer && this.game[1][0] == this.computer && this.game[2][0] == this.computer
+            || this.game[0][1] == this.computer && this.game[1][1] == this.computer && this.game[2][1] == this.computer
+            || this.game[0][2] == this.computer && this.game[1][2] == this.computer && this.game[2][2] == this.computer
+            || this.game[0][0] == this.computer && this.game[1][1] == this.computer && this.game[2][2] == this.computer
+            || this.game[0][2] == this.computer && this.game[1][1] == this.computer && this.game[2][0] == this.computer) {
+
+            this.countWin(this.computer)
+
+
+            this.message = 'Игра окончена!'
+            this.offGame = {player: this.computer, win: 'ПОБЕДИТЕЛЬ!'}
+            await this.gameIsOver()
+        }
     }
 
 

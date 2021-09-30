@@ -21,6 +21,8 @@ import changePassword from "./modules/user/changePassword";
 import changeUser from "./modules/user/changeUser";
 import userPosts from "./modules/user/userPosts";
 import notFound from "./modules/notFound/notFound";
+import chat from "./modules/chat/chat";
+import searchDialog from "./modules/chat/searchDialog";
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -45,6 +47,8 @@ export default new Vuex.Store({
         changePassword,
         changeUser,
         userPosts,
-        notFound
+        notFound,
+        chat,
+        searchDialog
     }
 })

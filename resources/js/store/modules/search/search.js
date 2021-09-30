@@ -14,21 +14,16 @@ export default {
                     ctx.commit('updateNotFoundSearch', false)
                 }
                 ctx.commit('updateSearchData', response.data)
-                // ctx.commit('updateSearchInput', data.searchData)
                 ctx.commit('updateSearchStatus', true)
             });
         },
         updateFetch(ctx) {
             ctx.commit('updateSearchData', null)
-            // ctx.commit('updateSearchInput', '')
             ctx.commit('updateNotFoundSearch', false)
             ctx.commit('updateSearchStatus', false)
         }
     },
     mutations: {
-        // updateSearchInput(state, input) {
-        //     state.searchInput = input
-        // },
         updateNotFoundSearch(state, status) {
             state.notFoundSearch = status
         },
@@ -41,15 +36,11 @@ export default {
     },
     strict: true,
     state: {
-        // searchInput: '',
         notFoundSearch: false,
         searchStatus: false,
         searchData: null,
     },
     getters: {
-        // getSearchInput(state) {
-        //     return state.searchInput
-        // },
         getSearchStatus(state) {
             return state.searchStatus
         },

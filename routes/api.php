@@ -84,6 +84,13 @@ Route::group(
         Route::post('user/change-user', 'UserController@changeUser');
         Route::get('user/my-posts', 'UserController@myPosts');
 
+        //chat
+        Route::post('chat/store/{user}', 'ChatController@store');
+        Route::post('chat/{chat}', 'ChatController@showMessage');
+        Route::get('chat/dialogs', 'ChatController@chatDialogs');
+        Route::get('chat/search', 'ChatController@search');
+
+
 
 
 

@@ -19,6 +19,7 @@ import ForgotPasswordComponent from "./views/auth/ForgotPasswordComponent";
 import ResetPasswordFormComponent from "./views/auth/ResetPasswordFormComponent";
 import GamesComponent from "./views/games/GamesComponent";
 import TicTacToeComponent from "./views/games/TicTacToeComponent";
+import ChatComponent from "./views/chat/ChatComponent";
 
 export default new VueRouter({
     mode: 'history',
@@ -203,6 +204,32 @@ export default new VueRouter({
             path: '/games/tic-tac-toe',
             name: 'tic-tac-toe',
             component: TicTacToeComponent,
+            beforeEnter: (to, from, next) => {
+                if (!store.getters.getAuth) {
+                    return next({
+                        name: 'login'
+                    })
+                }
+                next()
+            }
+        },
+        {
+            path: '/chat',
+            name: 'chat-all',
+            component: ChatComponent,
+            beforeEnter: (to, from, next) => {
+                if (!store.getters.getAuth) {
+                    return next({
+                        name: 'login'
+                    })
+                }
+                next()
+            }
+        },
+        {
+            path: '/chat/:chat',
+            name: 'chat',
+            component: ChatComponent,
             beforeEnter: (to, from, next) => {
                 if (!store.getters.getAuth) {
                     return next({

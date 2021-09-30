@@ -1,5 +1,5 @@
 <template>
-    <div v-if="ticTacToe" class="mb-5 mt-5 game">
+    <div v-if="ticTacToe" class="mb-5 mt-5">
         <div class="row justify-content-center">
             <h2 class="mb-5 text-center">Добро поаловать в игру <br>"крестики-нолики"</h2>
         </div>
@@ -125,11 +125,6 @@
 </script>
 
 <style scoped>
-    /*.game {*/
-    /*    border: 1px solid #c7bebe;*/
-    /*    border-radius: 2px;*/
-    /*    padding: 5px;*/
-    /*}*/
     .tic-tac-toe {
         background-color: #14bdac;
     }

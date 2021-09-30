@@ -101,7 +101,6 @@
                 updateNotFoundSearch: 'updateNotFoundSearch',
                 updateSearchData: 'updateSearchData',
                 updateSearchStatus: 'updateSearchStatus',
-
             }),
            async changePage(page = 1) {
                if (this.$route.query.page == page) {

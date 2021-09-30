@@ -1,14 +1,14 @@
-.card-body1{
+.card-body{
     height: 100%;
     margin: 0;
-    background: #7F7FD5;
-    background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
-    background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+    background: #68d95f;
+    background: -webkit-linear-gradient(to right, #91eab2, #68d95f, #22a12f);
+    background: linear-gradient(to right, #91eab2, #68d95f, #22a12f);
 }
 
 .chat{
-    margin-top: auto;
-    margin-bottom: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
     padding: 0!important;
 }
 .card{
@@ -86,7 +86,7 @@
     padding: 5px 10px;
     margin-bottom: 15px !important;
 }
-.active{
+.active-chat{
     background-color: rgba(0,0,0,0.3);
 }
 .user_img{

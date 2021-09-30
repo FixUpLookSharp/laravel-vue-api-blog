@@ -12,7 +12,7 @@
                         <div v-if="auth && user.id != auth.id">
                             <button  v-if="auth.role_id == 3 && !user.is_banned" @click="show=true" class="btn btn-outline-danger">Заблокировать</button>
                             <button v-if="auth.role_id == 3 && user.is_banned" :disabled="disabled"  @click="unBlockUser(user.id)" class="btn btn-outline-success">Разблокировать</button>
-                            <button class="btn btn-outline-primary">Начать диалог</button>
+                            <button class="btn btn-outline-primary" @click="startDialog(user.id)">Начать диалог</button>
                         </div>
                     </div>
                 </div>
@@ -110,6 +110,16 @@
                 }).then((response) => {
                     this.user.is_banned = 0
                     this.cause = null
+                })
+            },
+
+            async startDialog(user) {
+                await axios({
+                    method: 'post',
+                    url: '/api/V1/chat/store/' + user,
+                }).then((response) => {
+                    let chatId = response.data
+                    this.$router.push('/chat/' + chatId)
                 })
             }
         }

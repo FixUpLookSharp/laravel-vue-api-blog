@@ -13,7 +13,8 @@
             <div class="dropdown-menu dropdown-menu-right dropdown-info">
                 <router-link v-if="auth.role_id == 3" class="dropdown-item" to="/">Админ панель</router-link>
                 <router-link :to="{name: 'user', params: {id: auth.id}}" class="dropdown-item">Мой профиль</router-link>
-                <router-link :to="{name: 'userSettings'}" class="dropdown-item" href="#" >Мои настройки</router-link>
+                <router-link :to="{name: 'userSettings'}" class="dropdown-item">Мои настройки</router-link>
+                <router-link :to="{name: 'chat-all'}" class="dropdown-item" >Чат</router-link>
                 <a @click="logout" class="dropdown-item cursor-logout">Выйти</a>
             </div>
         </li>

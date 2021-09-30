@@ -119,8 +119,6 @@ export class TicTacToeClass
             || this.game[0][2] == this.computer && this.game[1][1] == this.computer && this.game[2][0] == this.computer) {
 
             this.countWin(this.computer)
-
-
             this.message = 'Игра окончена!'
             this.offGame = {player: this.computer, win: 'ПОБЕДИТЕЛЬ!'}
             await this.gameIsOver()

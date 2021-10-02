@@ -55,7 +55,7 @@
                 </div>
                 <input @keyup.enter="sendMessage(chat.routeSubscriber, chat.chatId)" type="text" v-model="textMessages" placeholder="Напишите сообщение"  class="form-control rounded-0 border-0 py-4 bg-light">
                 <div class="input-group-append">
-                    <button type="submit"  @click="sendMessage(chat.routeSubscriber, chat.chatId)" class="btn btn-link">
+                    <button type="submit"  @click="sendMessage" class="btn btn-link">
                         <i class="fa fa-paper-plane"></i>
                     </button>
                 </div>
@@ -74,33 +74,33 @@
         props: [
             'messages', 'chat', 'channel', 'user',
         ],
-        mounted() {
+    created() {
             // $('#scrollbar').scrollTop($('#scrollbar')[0].scrollHeight);
-            $(document).on("click", "#action_menu_btn", function() {
-                $('.action_menu').toggle();
-            });
-            console.log(this.chat)
-            // var app = this;
-            // var socket = io('http://192.168.10.10:3000');
-            //
-            // socket.on("news-action." + this.user + ":App\\Events\\PrivateMessage", function (data) {
-            //     app.messages.push(data.message);
+            // $(document).on("click", "#action_menu_btn", function() {
+            //     $('.action_menu').toggle();
             // });
+            var app = this;
+            var socket = io('http://192.168.10.10:3000');
+
+            socket.on("news-action." + this.user + ":App\\Events\\PrivateMessage", function (data) {
+                app.messages.push(data.message);
+            }.bind(this));
         },
         methods: {
-            sendMessage(url, chatId) {
-                // $('#scrollbar').scrollTop($('#scrollbar')[0].scrollHeight);
-                axios({
+            async sendMessage() {
+                $('#scrollbar').scrollTop($('#scrollbar')[0].scrollHeight);
+                await axios({
                     method: 'post',
-                    url: url,
+                    url: '/api/V1/chat/message/' + this.chat.chatSubscriberId,
                     data: {
                         message: this.textMessages,
-                        chatId: chatId,
+                        chatId: this.chat.chatId,
                         channel: this.channel,
                     }
                 }).then((response) => {
                     this.authUser = response.data.authUserId;
                     this.messages.push(response.data);
+                    console.log(response.data)
                     console.log(response.data.authUserId)
                 });
 

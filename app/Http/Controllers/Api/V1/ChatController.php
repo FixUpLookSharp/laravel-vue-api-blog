@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-//use App\Events\PrivateMessage;
+use App\Events\PrivateMessage;
 use App\Http\Controllers\Controller;
-//use App\Http\Requests\MessageRequest;
-//use App\Http\Requests\SearchRequest;
+use App\Http\Requests\MessageRequest;
 use App\Http\Requests\SearchRequest;
 use App\Models\Chat;
 use App\Models\Message;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
@@ -185,9 +183,9 @@ class ChatController extends Controller
             ],
         ];
 
-//        PrivateMessage::dispatch($req);
+        PrivateMessage::dispatch($req);
 
-        return  $req;
+        return  response()->json($req);
     }
 
     public function search(SearchRequest $request)

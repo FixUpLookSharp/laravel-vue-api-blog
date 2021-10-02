@@ -89,6 +89,7 @@ Route::group(
         Route::post('chat/{chat}', 'ChatController@showMessage');
         Route::get('chat/dialogs', 'ChatController@chatDialogs');
         Route::get('chat/search', 'ChatController@search');
+        Route::post('chat/message/{user}', 'ChatController@create');
 
 
 

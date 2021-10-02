@@ -75,10 +75,11 @@
             'messages', 'chat', 'channel', 'user',
         ],
         mounted() {
-            $('#scrollbar').scrollTop($('#scrollbar')[0].scrollHeight);
+            // $('#scrollbar').scrollTop($('#scrollbar')[0].scrollHeight);
             $(document).on("click", "#action_menu_btn", function() {
                 $('.action_menu').toggle();
             });
+            console.log(this.chat)
             // var app = this;
             // var socket = io('http://192.168.10.10:3000');
             //
@@ -87,12 +88,12 @@
             // });
         },
         methods: {
-           async sendMessage(url, chatId) {
-                $('#scrollbar').scrollTop($('#scrollbar')[0].scrollHeight);
-               await axios({
+            sendMessage(url, chatId) {
+                // $('#scrollbar').scrollTop($('#scrollbar')[0].scrollHeight);
+                axios({
                     method: 'post',
                     url: url,
-                    params: {
+                    data: {
                         message: this.textMessages,
                         chatId: chatId,
                         channel: this.channel,

@@ -158,38 +158,38 @@ class ChatController extends Controller
         return ['chat' => $arr, 'messageAll' => $messageAll ];
     }
 
-//    public function create(MessageRequest $request, User $user)
-//    {
-//        $author_id = Auth::user()->id;
-//        $recepient_id = $user->id;
-//        $messages = $request->input('message');
-//        $chat_id = $request->input('chatId');
-//        $channel = $request->input('channel');
-//
-//        $message = new Message();
-//
-//        $message->author_id = $author_id;
-//        $message->recepient_id = $recepient_id;
-//        $message->chat_id = $chat_id;
-//        $message->message = $messages;
-//        $message->save();
-//
-//        $req = [
-//            'authUserId' => $author_id,
-//            'itemAuthorPhoto' => $message->author->photo,
-//            'itemCreatedAtFormat' => $message->created_at->format('H:i'),
-//            "itemMessage" => $message->message,
-//            'itemRecepientId' => $message->recepient_id,
-//            "channels" => [
-//                0 => $channel
-//            ],
-//        ];
-//
+    public function create(MessageRequest $request, User $user)
+    {
+        $author_id = Auth::user()->id;
+        $recepient_id = $user->id;
+        $messages = $request->input('message');
+        $chat_id = $request->input('chatId');
+        $channel = $request->input('channel');
+
+        $message = new Message();
+
+        $message->author_id = $author_id;
+        $message->recepient_id = $recepient_id;
+        $message->chat_id = $chat_id;
+        $message->message = $messages;
+        $message->save();
+
+        $req = [
+            'authUserId' => $author_id,
+            'itemAuthorPhoto' => $message->author->photo,
+            'itemCreatedAtFormat' => $message->created_at->format('H:i'),
+            "itemMessage" => $message->message,
+            'itemRecepientId' => $message->recepient_id,
+            "channels" => [
+                0 => $channel
+            ],
+        ];
+
 //        PrivateMessage::dispatch($req);
-//
-//        return  $req;
-//    }
-//
+
+        return  $req;
+    }
+
     public function search(SearchRequest $request)
     {
         $saerchName = $request->input('search');

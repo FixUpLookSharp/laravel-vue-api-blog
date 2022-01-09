@@ -31,12 +31,6 @@ import i18n from './i18n'
 require('./store/subscriber')
 axios.default.baseURL = 'http://newblog.test/';
 
-//header
-// Vue.component('header-component', require('./components/HeaderComponent.vue').default);
-// //main
-// Vue.component('main-component', require('./components/MainComponent.vue').default);
-// //footer
-// Vue.component('footer-component', require('./components/FooterComponent.vue').default);
 Vue.component('global-component', require('./components/GlobalComponent').default);
 
 //pagination

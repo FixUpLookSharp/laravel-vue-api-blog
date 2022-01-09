@@ -53,9 +53,11 @@
         margin-bottom: 15px !important;
     }
     .active-chat{
-        background-color: rgba(0,0,0,0.3);
+        /*background-color: rgba(0,0,0,0.3);*/
+        background-color: rgb(18 140 126);
     }
     .user_img{
+        margin-top: 10px;
         height: 50px;
         width: 50px;
         border:1.5px solid #f5f6fa;
@@ -86,11 +88,11 @@
     }
     .user_info span{
         font-size: 15px;
-        color: white;
+        color: #313030;
     }
     .user_info p{
         font-size: 10px;
-        color: rgba(255,255,255,0.6);
+        color: #3d3b3b;
     }
     .video_cam span{
         color: white;

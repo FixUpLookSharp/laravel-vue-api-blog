@@ -1,6 +1,6 @@
 <template>
     <div class="input-group">
-        <input type="text" placeholder="Search..." v-model="searchInput" class="form-control search">
+        <input type="text" placeholder="Поиск..." v-model="searchInput" class="form-control search">
         <div class="input-group-prepend">
             <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
         </div>
@@ -63,43 +63,43 @@
         color: white !important;
         cursor: pointer;
     }
-    .contacts li{
-        width: 100% !important;
-        padding: 5px 10px;
-        margin-bottom: 15px !important;
-    }
-    .user_info span{
-        font-size: 20px;
-        color: white;
-    }
-    .user_info p{
-        font-size: 10px;
-        color: rgba(255,255,255,0.6);
-    }
-    .video_cam span{
-        color: white;
-        font-size: 20px;
-        cursor: pointer;
-        margin-right: 20px;
-    }
-    .action_menu ul{
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-    .action_menu ul li{
-        width: 100%;
-        padding: 10px 15px;
-        margin-bottom: 5px;
-    }
-    .action_menu ul li i{
-        padding-right: 10px;
+    /*.contacts li{*/
+    /*    width: 100% !important;*/
+    /*    padding: 5px 10px;*/
+    /*    margin-bottom: 15px !important;*/
+    /*}*/
+    /*.user_info span{*/
+    /*    font-size: 20px;*/
+    /*    color: white;*/
+    /*}*/
+    /*.user_info p{*/
+    /*    font-size: 10px;*/
+    /*    color: rgba(255,255,255,0.6);*/
+    /*}*/
+    /*.video_cam span{*/
+    /*    color: white;*/
+    /*    font-size: 20px;*/
+    /*    cursor: pointer;*/
+    /*    margin-right: 20px;*/
+    /*}*/
+    /*.action_menu ul{*/
+    /*    list-style: none;*/
+    /*    padding: 0;*/
+    /*    margin: 0;*/
+    /*}*/
+    /*.action_menu ul li{*/
+    /*    width: 100%;*/
+    /*    padding: 10px 15px;*/
+    /*    margin-bottom: 5px;*/
+    /*}*/
+    /*.action_menu ul li i{*/
+    /*    padding-right: 10px;*/
 
-    }
-    .action_menu ul li:hover{
-        cursor: pointer;
-        background-color: rgba(0,0,0,0.2);
-    }
+    /*}*/
+    /*.action_menu ul li:hover{*/
+    /*    cursor: pointer;*/
+    /*    background-color: rgba(0,0,0,0.2);*/
+    /*}*/
 
 
 </style>

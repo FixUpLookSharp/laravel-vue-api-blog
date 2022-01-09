@@ -11,6 +11,7 @@ use App\Models\Message;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Carbon\Carbon;
 
 class ChatController extends Controller
 {
@@ -52,19 +53,18 @@ class ChatController extends Controller
 
     public function chatDialogs()
     {
-        $dialogs = Chat::query()->where('subscriber1_id', Auth::guard()->user()->id)
-            ->orWhere('subscriber2_id', Auth::guard()->user()->id)->get();
+        $dialog = Chat::query()->where('subscriber1_id', Auth::guard()->user()->id)
+            ->orWhere('subscriber2_id', Auth::guard()->user()->id)->orderByDesc('updated_at')->get();
 
-//        $dialogs = [];
-//
-//        for ($i = 0; $i < count($dialog); $i++) {
-//            if (Message::query()->where('chat_id', $dialog[$i]->id)->exists()) {
-//                $dialogs[] = $dialog[$i];
-//            }
-//        }
+        $dialogs = [];
+
+        for ($i = 0; $i < count($dialog); $i++) {
+            if (Message::query()->where('chat_id', $dialog[$i]->id)->exists()) {
+                $dialogs[] = $dialog[$i];
+            }
+        }
 
         $newDialogs = [];
-
 
         for($i = 0; $i < count($dialogs); $i++) {
             if (Auth::user()->id == $dialogs[$i]->subscriber1->id) {
@@ -94,7 +94,6 @@ class ChatController extends Controller
         }
 
         return response()->json($newDialogs);
-//        return view('chat.testChat', compact('newDialogs'));
     }
 
 
@@ -165,6 +164,10 @@ class ChatController extends Controller
         $channel = $request->input('channel');
 
         $message = new Message();
+
+        $chat = Chat::query()->where('id', $chat_id)->first();
+        $chat->updated_at = carbon::now();
+        $chat->save();
 
         $message->author_id = $author_id;
         $message->recepient_id = $recepient_id;

@@ -1,5 +1,6 @@
 <template>
-    <div class="card card-body">
+    <div class="card">
+<!--        card-body-->
         <div class="card-header msg_head">
             <div class="d-flex bd-highlight row">
                 <div class="img_cont col-md-2">
@@ -12,7 +13,7 @@
                     <span>{{ chat.chatSubscriberName }}</span>
                     <p>Сообщений: {{ chat.chatSubscriberCountMessage }}</p>
                 </div>
-                <div v-if="!chat.chatSubscriberIsOnline" class="user_info col-md-4">
+                <div v-if="!chat.chatSubscriberIsOnline" class="user_info col-md-4 mt-4">
                     {{ chat.chatWasOnline }}
                 </div>
             </div>
@@ -74,7 +75,7 @@
         props: [
             'messages', 'chat', 'channel', 'user',
         ],
-    created() {
+       created() {
             // $('#scrollbar').scrollTop($('#scrollbar')[0].scrollHeight);
             // $(document).on("click", "#action_menu_btn", function() {
             //     $('.action_menu').toggle();
@@ -114,33 +115,36 @@
 
 
 <style scoped>
-    .card-body{
-        height: 100%;
-        margin: 0;
-        background: #68d95f;
-        background: -webkit-linear-gradient(to right, #91eab2, #68d95f, #22a12f);
-        background: linear-gradient(to right, #91eab2, #68d95f, #22a12f);
-    }
+    /*.card-body{*/
+    /*    height: 100%;*/
+    /*    margin: 0;*/
+    /*    !*background: #7F7FD5;*!*/
+    /*    !*background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);*!*/
+    /*    !*background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);*!*/
+    /*}*/
 
-    .card{
-        height: 800px;
-        border-radius: 15px !important;
-        background-color: rgba(0,0,0,0.4) !important;
-    }
+    /*.card{*/
+    /*    height: 700px;*/
+    /*    border-radius: 15px !important;*/
+    /*    background-color: rgba(0,0,0,0.4) !important;*/
+    /*}*/
     .msg_card_body{
         overflow-y: auto;
+        background: url("/images/chat/fon_message4.jpg") no-repeat;
     }
     .card-header{
         border-radius: 15px 15px 0 0 !important;
         border-bottom: 0 !important;
+        background-color: rgb(18 140 126);
     }
     .card-footer{
         border-radius: 0 0 15px 15px !important;
         border-top: 0 !important;
+        background-color: white;
     }
     .attach_btn{
         border-radius: 15px 0 0 15px !important;
-        background-color: rgba(0,0,0,0.3) !important;
+        background-color: rgb(18 140 126) !important;
         border:0 !important;
         color: white !important;
         cursor: pointer;
@@ -197,7 +201,7 @@
     }
     .user_info p{
         font-size: 10px;
-        /*color: rgba(255,255,255,0.6);*/
+        color: rgba(255,255,255,0.6);
     }
     .video_cam span{
         color: white;
@@ -277,6 +281,8 @@
         cursor: pointer;
         background-color: rgba(0,0,0,0.2);
     }
+
+
 
 
 </style>

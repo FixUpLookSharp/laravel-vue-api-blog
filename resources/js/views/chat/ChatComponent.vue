@@ -2,7 +2,8 @@
     <div class="container-fluid h-100">
         <div class="row justify-content-center h-100 ">
             <div class="col-md-4 col-xl-4 chat">
-                <div class="card card-body mb-sm-3 mb-md-0 contacts_card">
+                <div class="card mb-sm-3 mb-md-0 contacts_card">
+<!--                    card-body-->
                     <div class="card-header">
                         <search-component></search-component>
                     </div>
@@ -14,7 +15,8 @@
                 </div>
             </div>
             <div class="col-md-8 col-xl-8 chat chat-id">
-                <div id="messageCon" class="card card-body card-body-content chat-temp">
+                <div id="messageCon" class="card">
+<!--                    card-body card-body-content chat-temp-->
                     <message-component v-if="getStatus" :messages="allMessages" :chat="getChat" :channel="getChannel" :user="getUser"></message-component>
                     <greetings-component v-else></greetings-component>
                 </div>
@@ -53,9 +55,6 @@
     .card-body{
         height: 100%;
         margin: 0;
-        background: #68d95f;
-        background: -webkit-linear-gradient(to right, #91eab2, #68d95f, #22a12f);
-        background: linear-gradient(to right, #91eab2, #68d95f, #22a12f);
     }
 
     .chat{
@@ -64,20 +63,33 @@
         padding: 0!important;
     }
     .card{
-        height: 800px;
+        height: 715px;
         border-radius: 15px !important;
-        background-color: rgba(0,0,0,0.4) !important;
+        /*background-color: rgba(0,0,0,0.4) !important;*/
+        /*background-color: white!important;*/
+        /*background: url("/images/chat/fon_dialog2.jpg") no-repeat;*/
+
     }
     .contacts_body{
         padding:  0.75rem 0 !important;
         overflow-y: auto;
         white-space: nowrap;
+        background-color: whitesmoke;
+
+        /*background: url("/images/chat/fon_dialog2.jpg") no-repeat;*/
+
     }
     .card-header{
+        padding-top: 32px;
+        padding-bottom: 25px;
         border-radius: 15px 15px 0 0 !important;
         border-bottom: 0 !important;
+        /*background-color: rgb(18 140 126);*/
+
     }
     .card-footer{
+        padding-top: 35.5px;
+        padding-bottom: 35.5px;
         border-radius: 0 0 15px 15px !important;
         border-top: 0 !important;
     }
@@ -86,14 +98,14 @@
         padding: 5px 10px;
         margin-bottom: 15px !important;
     }
-    .user_info span{
-        font-size: 20px;
-        color: white;
-    }
-    .user_info p{
-        font-size: 10px;
-        color: rgba(255,255,255,0.6);
-    }
+    /*.user_info span{*/
+    /*    font-size: 20px;*/
+    /*    color: white;*/
+    /*}*/
+    /*.user_info p{*/
+    /*    font-size: 10px;*/
+    /*    color: rgba(255,255,255,0.6);*/
+    /*}*/
     .video_cam span{
         color: white;
         font-size: 20px;

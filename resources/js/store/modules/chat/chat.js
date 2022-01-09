@@ -7,6 +7,7 @@ export default {
                 method: 'get',
                 url: '/api/V1/chat/dialogs',
             }).then((response) => {
+                console.log(response.data)
                 ctx.commit('updateDialogs', response.data);
             }).catch(error => console.log(error.response.data )) ;
         },
